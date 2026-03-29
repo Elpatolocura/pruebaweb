@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comunidad - Eventia</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <!-- CSS -->
+    <link rel="stylesheet" href="./css/styles.css">
+    <style>
+        .community-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 24px;
+            margin-top: 24px;
+        }
+        .user-profile-card {
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+        .user-profile-card img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 12px;
+            border: 3px solid white;
+            box-shadow: var(--shadow-sm);
+        }
+        .user-profile-card h3 {
+            font-size: 1.1rem;
+            margin-bottom: 4px;
+        }
+        .user-profile-card p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 16px;
+        }
+        .social-stats {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        .social-stat {
+            display: flex;
+            flex-direction: column;
+        }
+        .social-stat strong { color: var(--text-main); font-size: 1.1rem;}
+        .social-stat span { color: var(--text-light); font-size: 0.75rem;}
+        
+        /* Estilos de Filtros */
+        .filter-tags-inner { 
+            display: flex; gap: 12px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 24px; 
+            min-height: 45px; align-items: center; 
+        }
+        .filter-tags-inner::-webkit-scrollbar { display: none; }
+        .filter-tag {
+            display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+            padding: 10px 20px; border-radius: 100px;
+            background: rgba(255,255,255,0.7); border: 1px solid var(--panel-border);
+            font-size: 0.95rem; font-weight: 500; cursor: pointer; transition: all 0.2s ease; 
+            white-space: nowrap; color: var(--text-main); line-height: 1.2;
+        }
+        .filter-tag i { font-size: 1.1rem; }
+        .filter-tag:hover { border-color: var(--primary-color); opacity: 0.9; }
+        .filter-tag.active { 
+            background: var(--primary-color); color: white; 
+            border-color: var(--primary-color); font-weight: 600; box-shadow: 0 4px 10px rgba(0,0,0,0.1); 
+        }
+    </style>
+</head>
+<body>
+
+    <div class="dashboard-layout">
+        
+        <!-- Sidebar -->
+        <aside class="sidebar glass-panel">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <div class="logo-icon"><i class="ph-fill ph-planet"></i></div>
+                    <h2>Eventia</h2>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <ul class="nav-list">
+                    <li class="nav-item">
+                        <a href="index.html"><i class="ph ph-squares-four"></i> Principal</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="explorar-eventos.html"><i class="ph ph-calendar-blank"></i> Explorar Eventos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="mis-entradas.html"><i class="ph ph-ticket"></i> Mis Entradas <span class="badge badge-purple">3</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="mensajes.html"><i class="ph ph-chat-circle-dots"></i> Mensajes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="estadisticas.html"><i class="ph ph-chart-line-up"></i> EstadÃ­sticas</a>
+                    </li>
+                </ul>
+
+                <h3 class="nav-title">ORGANIZACIÃ“N</h3>
+                <ul class="nav-list">
+                    <li class="nav-item active">
+                        <a href="comunidad.html"><i class="ph ph-users"></i> Comunidad</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="ajustes.html"><i class="ph ph-gear"></i> Ajustes</a>
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="create-btn-container">
+                    <a href="crear-evento.html" class="btn btn-primary w-full"><i class="ph ph-plus"></i> Crear Evento</a>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            
+            <header class="top-header">
+                <div class="search-bar glass-panel">
+                    <i class="ph ph-magnifying-glass"></i>
+                    <input type="text" placeholder="Buscar organizadores y amigos...">
+                </div>
+
+                <div class="header-actions">
+                    <button class="icon-btn"><i class="ph ph-bell"></i></button>
+                    <div class="user-profile">
+                        <img src="https://i.pravatar.cc/150?img=68" alt="Usuario" class="avatar">
+                        <div class="user-info">
+                            <span class="user-name">Alex Rivera</span>
+                            <span class="user-role">Organizador</span>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <div>
+                <h2>Conecta con tu Comunidad</h2>
+                <p style="color:var(--text-muted); font-size:0.9rem;">Descubre a los mejores creadores locales o encuentra amigos con tus mismos intereses.</p>
+            </div>
+
+            <div class="filter-tags-inner" id="community-filters" style="margin-top: 24px;">
+                <div class="filter-tag active" data-type="all">Todos</div>
+                <div class="filter-tag" data-type="organizer"><i class="ph-fill ph-crown" style="color:#f59e0b;"></i> Creadores de Eventos</div>
+                <div class="filter-tag" data-type="participant"><i class="ph-fill ph-hand-waving" style="color:#10b981;"></i> Participantes</div>
+            </div>
+
+            <div class="community-grid" id="community-container">
+                <!-- Los perfiles se generan dinámicamente aquí -->
+            </div>
+
+            <div style="text-align: center; margin: 60px 0;">
+                <button class="btn btn-outline" id="load-more-btn" style="padding: 16px 40px; border-radius: 100px; font-weight: 700;">
+                    <i class="ph ph-plus-circle"></i> Cargar más perfiles
+                </button>
+                <p id="loading-text" style="display: none; color: var(--text-muted); margin-top: 16px;">
+                    <i class="ph ph-spinner-gap ph-spin"></i> Buscando más curadores...
+                </p>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="./js/eventia.js"></script>
+    <script>
+        const names = ["Diana Walters", "Christopher L.", "Anette Simons", "Marcus V.", "Elena G.", "Julian R.", "Sophia K.", "Lucas M.", "Isabella P.", "Thomas D.", "Olivia W.", "Felipe S.", "Valentina B.", "Nicolas F.", "Camila J.", "Andres M.", "Lucia R.", "Mateo T.", "Martina C.", "Daniel B."];
+        const orgRoles = ["Curador de Arte & Diseño", "Música Local / Promotor", "Meetups de Tecnología", "Cineasta Independiente", "Chef Gourmet", "Organizador de Talleres"];
+        const partRoles = ["Entusiasta de Festivales", "Asistente Frecuente", "Amante del Teatro", "Foodie Local", "Explorador Urbano", "Apasionado del Arte"];
+        
+        let loadedCount = 0;
+        const perPage = 20;
+        let currentFilter = 'all';
+
+        function createProfileCard() {
+            const isOrganizer = Math.random() > 0.5;
+            const typeClass = isOrganizer ? 'organizer' : 'participant';
+            const targetUrl = isOrganizer ? 'perfil-organizador.html' : 'perfil.html';
+            const crownIcon = isOrganizer ? '<i class="ph-fill ph-crown" style="color: #f59e0b; position: absolute; margin-top: -15px; background: white; border-radius: 50%; padding: 4px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); font-size: 1.1rem;"></i>' : '';
+            
+            const randomName = names[Math.floor(Math.random() * names.length)];
+            const randomRole = isOrganizer ? orgRoles[Math.floor(Math.random() * orgRoles.length)] : partRoles[Math.floor(Math.random() * partRoles.length)];
+            const randomImgId = Math.floor(Math.random() * 70);
+            
+            const randomFollowers = isOrganizer ? (Math.random() * 10).toFixed(1) + "k" : Math.floor(Math.random() * 400 + 50);
+            const randomEvents = isOrganizer ? Math.floor(Math.random() * 150 + 10) : Math.floor(Math.random() * 30);
+            const eventLabel = isOrganizer ? 'Eventos Creados' : 'Eventos Asistidos';
+
+            return `
+                <div class="user-profile-card user-profile glass-panel" data-role-type="${typeClass}" data-url="${targetUrl}" style="animation: fadeInUp 0.5s ease forwards; position: relative;">
+                    ${crownIcon}
+                    <img src="https://i.pravatar.cc/150?img=${randomImgId}" alt="${isOrganizer ? 'Organizador' : 'Participante'}" style="${isOrganizer ? 'border-color: #f59e0b;' : ''}">
+                    <h3>${randomName}</h3>
+                    <p>${randomRole}</p>
+                    <div class="social-stats">
+                        <div class="social-stat"><strong>${randomFollowers}</strong><span>Seguidores</span></div>
+                        <div class="social-stat"><strong>${randomEvents}</strong><span>${eventLabel}</span></div>
+                    </div>
+                    <div style="display:flex; gap:10px; width:100%;">
+                        <button class="btn btn-primary" style="flex:1;" onclick="toggleFollow(this)">Seguir</button>
+                        <button class="icon-btn" onclick="window.location.href='mensajes.html'"><i class="ph ph-chat-circle"></i></button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function loadProfiles(count) {
+            const container = document.getElementById('community-container');
+            let html = "";
+            for (let i = 0; i < count; i++) {
+                html += createProfileCard();
+            }
+            container.innerHTML += html;
+            loadedCount += count;
+            applyFilter();
+        }
+
+        // --- Sistema de Filtrado ---
+        const filterTags = document.querySelectorAll('#community-filters .filter-tag');
+        filterTags.forEach(tag => {
+            tag.addEventListener('click', function() {
+                filterTags.forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+                currentFilter = this.getAttribute('data-type');
+                applyFilter();
+            });
+        });
+
+        function applyFilter() {
+            const cards = document.querySelectorAll('.user-profile-card');
+            cards.forEach(card => {
+                const type = card.getAttribute('data-role-type');
+                if (currentFilter === 'all' || currentFilter === type) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        function toggleFollow(btn) {
+            if (btn.textContent === 'Seguir') {
+                btn.textContent = 'Siguiendo';
+                btn.classList.replace('btn-primary', 'btn-dark');
+            } else {
+                btn.textContent = 'Seguir';
+                btn.classList.replace('btn-dark', 'btn-primary');
+            }
+        }
+
+        document.getElementById('load-more-btn').addEventListener('click', function() {
+            const btn = this;
+            const loader = document.getElementById('loading-text');
+            
+            btn.style.display = 'none';
+            loader.style.display = 'block';
+
+            setTimeout(() => {
+                loadProfiles(20);
+                loader.style.display = 'none';
+                btn.style.display = 'inline-block';
+            }, 800);
+        });
+
+        // Carga inicial de 40 perfiles
+        document.addEventListener('DOMContentLoaded', () => {
+            loadProfiles(40);
+        });
+    </script>
+    <style>
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .user-profile-card {
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .user-profile-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+        }
+    </style>
+</body>
+</html>
+
+

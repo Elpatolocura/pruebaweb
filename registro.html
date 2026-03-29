@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear Cuenta - Eventia</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <!-- CSS -->
+    <link rel="stylesheet" href="./css/styles.css">
+    <style>
+        body {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            background: radial-gradient(circle at top right, rgba(99, 102, 241, 0.15), transparent),
+                        radial-gradient(circle at bottom left, rgba(236, 72, 153, 0.1), transparent);
+        }
+
+        .auth-container {
+            width: 100%;
+            max-width: 420px;
+            padding: 20px;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        .auth-card {
+            padding: 40px;
+            text-align: center;
+        }
+
+        .auth-logo {
+            display: flex;
+            align-items: center; justify-content: center;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+        .auth-logo .logo-icon {
+            width: 40px; height: 40px;
+            background: var(--primary-color);
+            border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            color: white; font-size: 1.5rem;
+        }
+        .auth-logo h1 { font-size: 1.5rem; font-weight: 800; letter-spacing: -0.5px; }
+
+        .auth-header { margin-bottom: 24px; }
+        .auth-header h2 { font-size: 1.5rem; font-weight: 700; margin-bottom: 8px; }
+        .auth-header p { color: var(--text-muted); font-size: 0.9rem; }
+
+        .auth-form { text-align: left; }
+        .auth-form .input-group { margin-bottom: 16px; }
+        .auth-form label { display: block; margin-bottom: 6px; font-weight: 500; font-size: 0.85rem; }
+        
+        .auth-input-wrapper {
+            position: relative;
+            display: flex; align-items: center;
+        }
+        .auth-input-wrapper i {
+            position: absolute; left: 16px;
+            color: var(--text-muted);
+            font-size: 1.2rem;
+        }
+        .auth-input-wrapper .auth-input {
+            width: 100%;
+            padding: 10px 16px 10px 48px;
+            border-radius: 10px;
+            background: rgba(var(--primary-rgb), 0.03);
+            border: 1px solid var(--panel-border);
+            color: var(--text-main);
+            transition: all 0.2s;
+            outline: none;
+        }
+        .auth-input-wrapper .auth-input:focus {
+            border-color: var(--primary-color);
+            background: var(--bg-color);
+            box-shadow: 0 0 0 4px rgba(var(--primary-rgb), 0.1);
+        }
+
+        .auth-footer {
+            margin-top: 24px;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+        .auth-footer a { color: var(--primary-color); font-weight: 700; text-decoration: none; }
+
+        .terms-checkbox {
+            display: flex; gap: 10px; align-items: flex-start;
+            margin-bottom: 20px; font-size: 0.8rem; color: var(--text-muted);
+        }
+        .terms-checkbox input { margin-top: 3px; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="light-mode">
+
+    <div class="auth-container">
+        <div class="auth-card glass-panel">
+            
+            <div class="auth-logo">
+                <div class="logo-icon"><i class="ph-fill ph-planet"></i></div>
+                <h1>Eventia</h1>
+            </div>
+
+            <div class="auth-header">
+                <h2>Únete a nosotros</h2>
+                <p>Crea tu cuenta gratis hoy mismo.</p>
+            </div>
+
+            <form class="auth-form" action="onboarding.html">
+                <div class="input-group">
+                    <label>Nombre Completo</label>
+                    <div class="auth-input-wrapper">
+                        <i class="ph ph-user"></i>
+                        <input type="text" class="auth-input" placeholder="Ej: Alex Rivera" required>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label>Correo Electrónico</label>
+                    <div class="auth-input-wrapper">
+                        <i class="ph ph-envelope"></i>
+                        <input type="email" class="auth-input" placeholder="tu@email.com" required>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label>Contraseña</label>
+                    <div class="auth-input-wrapper">
+                        <i class="ph ph-lock"></i>
+                        <input type="password" class="auth-input" placeholder="Tu contraseña segura" required>
+                    </div>
+                </div>
+
+                <div class="terms-checkbox">
+                    <input type="checkbox" required id="terms">
+                    <label for="terms">Acepto los <a href="#">términos y condiciones</a> y la <a href="#">política de privacidad</a>.</label>
+                </div>
+
+                <button type="submit" class="btn btn-primary w-full" style="padding: 14px; font-weight: 700;">Crear Cuenta</button>
+
+            </form>
+
+            <div class="auth-footer">
+                ¿Ya tienes una cuenta? <a href="login.html">Inicia Sesión</a>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        const savedTheme = localStorage.getItem('eventia-theme');
+        if (savedTheme === 'dark' || (savedTheme === 'auto' && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.body.classList.add('dark-theme');
+        }
+
+        // Simular registro y resetear premium
+        document.querySelector('.auth-form').addEventListener('submit', (e) => {
+            localStorage.setItem('is-premium', 'false');
+            // La redirección ocurre por el atributo 'action' del form, 
+            // pero lo forzamos aquí para asegurar que el localStorage se guarde.
+            e.preventDefault();
+            window.location.href = 'onboarding.html';
+        });
+    </script>
+</body>
+</html>

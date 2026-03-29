@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bienvenido a Eventia - Tu Portal de Eventos Premium</title>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <!-- Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <style>
+        :root {
+            --brand-primary: #FF5A2D;
+            --brand-bg: #140705;
+            --brand-bg-alt: #1F0A07;
+            --primary-rgb: 255, 90, 45;
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body, html {
+            width: 100%; min-height: 100%;
+            background-color: var(--brand-bg);
+            color: #ffffff;
+            font-family: 'Outfit', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        /* Essential Reveal Class */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .glass-panel {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+        }
+
+        section { padding: 100px 8%; position: relative; }
+
+        /* Header */
+        .header {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 20px 8%; position: sticky; top: 0; 
+            background: rgba(20, 7, 5, 0.95);
+            backdrop-filter: blur(20px); z-index: 1000;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .logo-container { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+        .logo-icon { 
+            width: 40px; height: 40px; background: var(--brand-primary); 
+            border-radius: 10px; display: flex; align-items: center; justify-content: center;
+            color: white; font-size: 1.2rem;
+        }
+        .logo-text { font-size: 1.4rem; font-weight: 900; color: white; letter-spacing: -1px; }
+
+        .nav-menu { display: flex; gap: 30px; list-style: none; }
+        .nav-link { color: rgba(255,255,255,0.6); text-decoration: none; font-weight: 500; transition: var(--transition); }
+        .nav-link:hover { color: var(--brand-primary); }
+
+        /* Buttons */
+        .btn-universal {
+            padding: 16px 36px; border-radius: 16px; font-weight: 700; font-size: 1rem;
+            text-decoration: none; border: none; cursor: pointer; display: inline-flex;
+            align-items: center; gap: 10px; transition: var(--transition);
+        }
+
+        .btn-primary-orange {
+            background: var(--brand-primary); color: #fff;
+            box-shadow: 0 8px 25px rgba(var(--primary-rgb), 0.3);
+        }
+        .btn-primary-orange:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 12px 35px rgba(var(--primary-rgb), 0.5);
+        }
+
+        .btn-outline-white {
+            background: rgba(255,255,255,0.05); color: #fff;
+            border: 1px solid var(--glass-border);
+        }
+        .btn-outline-white:hover {
+            background: rgba(255,255,255,0.1);
+            transform: translateY(-4px);
+        }
+
+        /* Hero */
+        .hero-section {
+            min-height: 90vh; display: flex; align-items: center;
+            background: radial-gradient(circle at 70% 30%, rgba(255, 90, 45, 0.1), transparent);
+        }
+        .hero-text h1 { font-size: clamp(40px, 8vw, 75px); line-height: 0.95; font-weight: 900; margin-bottom: 24px; letter-spacing: -3px; }
+        .hero-text h1 span { color: var(--brand-primary); }
+        .hero-text p { font-size: 1.2rem; line-height: 1.6; color: rgba(255,255,255,0.6); margin-bottom: 40px; max-width: 600px; }
+
+        /* Gallery */
+        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+        .photo-card { height: 350px; border-radius: 20px; overflow: hidden; position: relative; cursor: pointer; }
+        .photo-card img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s; }
+        .photo-card:hover img { transform: scale(1.1); }
+        .photo-overlay { 
+            position: absolute; inset: 0; background: linear-gradient(transparent, rgba(0,0,0,0.8));
+            display: flex; align-items: flex-end; padding: 25px; opacity: 0; transition: 0.3s;
+        }
+        .photo-card:hover .photo-overlay { opacity: 1; }
+
+        /* Stats */
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 30px; }
+        .stat-card { padding: 40px; text-align: center; }
+        .stat-card i { font-size: 2.5rem; color: var(--brand-primary); margin-bottom: 15px; }
+
+        /* Reviews */
+        .reviews-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; }
+        .review-card { padding: 35px; }
+        .stars { color: #FFB800; margin-bottom: 15px; }
+        .review-user { display: flex; align-items: center; gap: 12px; margin-bottom: 15px; }
+        .avatar { width: 45px; height: 45px; border-radius: 50%; border: 2px solid var(--brand-primary); }
+
+        /* Partners */
+        .partners-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 50px; opacity: 0.5; }
+        .partner { font-weight: 900; font-size: 1.5rem; letter-spacing: -1px; }
+
+        /* Contact Box */
+        .contact-box { max-width: 850px; margin: 0 auto; padding: 50px; }
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .form-input { 
+            width: 100%; background: rgba(0,0,0,0.2); border: 1px solid var(--glass-border);
+            padding: 16px; border-radius: 12px; color: white; font-family: inherit;
+        }
+        .form-input:focus { border-color: var(--brand-primary); outline: none; }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <a href="#" class="logo-container">
+            <div class="logo-icon"><i class="ph-fill ph-planet"></i></div>
+            <span class="logo-text">Eventia</span>
+        </a>
+        <nav>
+            <ul class="nav-menu">
+                <li><a href="#gallery" class="nav-link">Galería</a></li>
+                <li><a href="#reviews" class="nav-link">Reseñas</a></li>
+                <li><a href="#contact" class="nav-link">Contacto</a></li>
+            </ul>
+        </nav>
+        <a href="login.html" class="btn-universal btn-outline-white" style="padding: 10px 24px;">Entrar</a>
+    </header>
+
+    <div class="landing-wrap">
+        <!-- Hero -->
+        <section class="hero-section reveal">
+            <div class="hero-text">
+                <h1>Tu portal a las <br><span>mejores historias.</span></h1>
+                <p>Descubre eventos únicos cerca de ti o crea los tuyos con nuestras herramientas de nivel profesional.</p>
+                <div style="display: flex; gap: 15px;">
+                    <button class="btn-universal btn-primary-orange" onclick="avanzar()">Comenzar Gratis</button>
+                    <a href="#gallery" class="btn-universal btn-outline-white">Explorar</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Stats -->
+        <section class="reveal">
+            <div class="stats-grid">
+                <div class="stat-card glass-panel">
+                    <i class="ph ph-users"></i>
+                    <h3>25K+</h3>
+                    <p style="opacity: 0.5; font-size: 0.8rem; text-transform: uppercase;">Usuarios</p>
+                </div>
+                <div class="stat-card glass-panel">
+                    <i class="ph ph-calendar"></i>
+                    <h3>4.8K</h3>
+                    <p style="opacity: 0.5; font-size: 0.8rem; text-transform: uppercase;">Eventos</p>
+                </div>
+                <div class="stat-card glass-panel">
+                    <i class="ph ph-handshake"></i>
+                    <h3>98%</h3>
+                    <p style="opacity: 0.5; font-size: 0.8rem; text-transform: uppercase;">Satisfacción</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Gallery -->
+        <section id="gallery" class="reveal">
+            <h2 style="font-size: 2.5rem; text-align: center; margin-bottom: 50px;">Galería de Eventos</h2>
+            <div class="gallery-grid">
+                <div class="photo-card">
+                    <img src="https://images.unsplash.com/photo-1540575861501-7ad05823c95b?w=600" alt="Ev1">
+                    <div class="photo-overlay"><h4>Tech Summit 2026</h4></div>
+                </div>
+                <div class="photo-card">
+                    <img src="https://images.unsplash.com/photo-1506157786151-b8491531f063?w=600" alt="Ev2">
+                    <div class="photo-overlay"><h4>Neon Music Nights</h4></div>
+                </div>
+                <div class="photo-card">
+                    <img src="https://images.unsplash.com/photo-1514525253361-bee8a187499b?w=600" alt="Ev3">
+                    <div class="photo-overlay"><h4>Summer Art Expo</h4></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Reviews -->
+        <section id="reviews" class="reveal" style="background: rgba(0,0,0,0.15);">
+            <h2 style="font-size: 2.5rem; text-align: center; margin-bottom: 50px;">Voces de la Comunidad</h2>
+            <div class="reviews-grid">
+                <!-- Review 1 -->
+                <div class="review-card glass-panel">
+                    <div class="stars"><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i></div>
+                    <div class="review-user">
+                        <img src="https://i.pravatar.cc/100?img=1" class="avatar" alt="User">
+                        <h4>Sofía Martí</h4>
+                    </div>
+                    <p style="opacity: 0.8; font-style: italic;">"La mejor plataforma para encontrar conciertos. Comprar el ticket fue cuestión de segundos."</p>
+                    <div style="margin-top: 10px; color: var(--brand-primary); font-size: 0.8rem;">Summer Music Fest</div>
+                </div>
+                <!-- Review 2 -->
+                <div class="review-card glass-panel">
+                    <div class="stars"><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i></div>
+                    <div class="review-user">
+                        <img src="https://i.pravatar.cc/100?img=12" class="avatar" alt="User">
+                        <h4>Carlos Ruiz</h4>
+                    </div>
+                    <p style="opacity: 0.8; font-style: italic;">"Las métricas en tiempo real son brutales. Como organizador, no cambio Eventia por nada."</p>
+                    <div style="margin-top: 10px; color: var(--brand-primary); font-size: 0.8rem;">Tech Conference 2026</div>
+                </div>
+                <!-- Review 3 -->
+                <div class="review-card glass-panel">
+                    <div class="stars"><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph ph-star"></i></div>
+                    <div class="review-user">
+                        <img src="https://i.pravatar.cc/100?img=5" class="avatar" alt="User">
+                        <h4>Lucía Pérez</h4>
+                    </div>
+                    <p style="opacity: 0.8; font-style: italic;">"Increíble comunidad. Pude chatear con otros asistentes antes del evento y hacer amigos."</p>
+                    <div style="margin-top: 10px; color: var(--brand-primary); font-size: 0.8rem;">Art Workshop Night</div>
+                </div>
+                <!-- Review 4 -->
+                <div class="review-card glass-panel">
+                    <div class="stars"><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i></div>
+                    <div class="review-user">
+                        <img src="https://i.pravatar.cc/100?img=8" class="avatar" alt="User">
+                        <h4>Andrés Gómez</h4>
+                    </div>
+                    <p style="opacity: 0.8; font-style: italic;">"El estatus Premium vale cada centavo por el acceso prioritario a los festivales más grandes."</p>
+                    <div style="margin-top: 10px; color: var(--brand-primary); font-size: 0.8rem;">Neon Nights Live</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Partners -->
+        <section class="reveal" style="text-align: center;">
+            <p style="text-transform: uppercase; letter-spacing: 4px; opacity: 0.3; font-size: 0.7rem; margin-bottom: 40px;">Socios Estratégicos</p>
+            <div class="partners-row">
+                <div class="partner">EPIC PROD.</div>
+                <div class="partner">CULTURE HUB</div>
+                <div class="partner">TECH FLOW</div>
+                <div class="partner">URBAN VIBE</div>
+            </div>
+        </section>
+
+        <!-- Contact -->
+        <section id="contact" class="reveal">
+            <div class="contact-box glass-panel">
+                <h2 style="font-size: 2.5rem; text-align: center; margin-bottom: 40px;">¿Tienes dudas?</h2>
+                <form class="form-grid" onsubmit="return false;">
+                    <input type="text" placeholder="Nombre" class="form-input">
+                    <input type="email" placeholder="Email" class="form-input">
+                    <textarea placeholder="Mensaje..." class="form-input" rows="5" style="grid-column: span 2;"></textarea>
+                    <div style="grid-column: span 2; text-align: center; margin-top: 20px;">
+                        <button type="button" class="btn-universal btn-primary-orange">Enviar Mensaje</button>
+                    </div>
+                </form>
+            </div>
+        </section>
+    </div>
+
+    <footer style="padding: 50px 8%; text-align: center; opacity: 0.4; font-size: 0.8rem;">
+        &copy; 2026 Eventia. Todos los derechos reservados.
+    </footer>
+
+    <script>
+        function avanzar() {
+            localStorage.setItem('eventia-welcome-seen', 'true');
+            window.location.href = 'login.html';
+        }
+
+        // Fix animations: Ensure elements reveal on scroll
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        // Wait for DOM to be ready
+        window.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.reveal').forEach(el => {
+                revealObserver.observe(el);
+            });
+        });
+    </script>
+</body>
+</html>

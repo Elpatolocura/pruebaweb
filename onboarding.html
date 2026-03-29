@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configura tu Perfil - Eventia</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <!-- CSS -->
+    <link rel="stylesheet" href="./css/styles.css">
+    <style>
+        body {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: radial-gradient(circle at top right, rgba(var(--primary-rgb), 0.1), transparent);
+        }
+
+        .onboarding-container {
+            width: 100%;
+            max-width: 600px;
+            padding: 24px;
+        }
+
+        .progress-bar {
+            height: 6px; width: 100%;
+            background: var(--panel-border);
+            border-radius: 3px;
+            margin-bottom: 40px;
+            overflow: hidden;
+            display: flex;
+        }
+        .progress-fill {
+            height: 100%;
+            background: var(--primary-color);
+            transition: width 0.3s ease;
+        }
+
+        .onboarding-card {
+            padding: 48px;
+            text-align: center;
+            min-height: 480px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .step-content {
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        .interest-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-top: 24px;
+        }
+        .interest-item {
+            padding: 16px;
+            border-radius: 16px;
+            border: 2px solid var(--panel-border);
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex; flex-direction: column; align-items: center; gap: 8px;
+            background: var(--panel-bg);
+        }
+        .interest-item i { font-size: 1.5rem; }
+        .interest-item:hover { border-color: var(--primary-light); transform: translateY(-4px); }
+        .interest-item.selected { border-color: var(--primary-color); background: rgba(var(--primary-rgb), 0.05); }
+
+        .ticket-pref {
+            display: flex; flex-direction: column; gap: 12px;
+            margin-top: 24px;
+        }
+        .ticket-option {
+            padding: 20px;
+            border-radius: 16px;
+            border: 2px solid var(--panel-border);
+            cursor: pointer;
+            text-align: left;
+            display: flex; align-items: center; gap: 16px;
+            transition: all 0.2s;
+        }
+        .ticket-option:hover { border-color: var(--primary-light); }
+        .ticket-option.selected { border-color: var(--primary-color); background: rgba(var(--primary-rgb), 0.05); }
+        .ticket-option i { font-size: 1.8rem; color: var(--primary-color); }
+
+        .location-search {
+            position: relative;
+            margin-top: 24px;
+        }
+        .location-search input {
+            width: 100%;
+            padding: 14px 48px;
+            border-radius: 12px;
+            border: 1px solid var(--panel-border);
+            background: var(--panel-bg);
+            font-size: 1rem;
+            outline: none;
+        }
+        .location-search i {
+            position: absolute; left: 16px; top: 50%; transform: translateY(-50%);
+            color: var(--primary-color); font-size: 1.25rem;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.98); }
+            to { opacity: 1; transform: scale(1); }
+        }
+    </style>
+</head>
+<body class="light-mode">
+
+    <div class="onboarding-container">
+        <div class="progress-bar">
+            <div class="progress-fill" id="progress-indicator" style="width: 33%;"></div>
+        </div>
+
+        <div class="onboarding-card glass-panel">
+            
+            <!-- Step 1: Gustos -->
+            <div id="step-1" class="step-content">
+                <h2 style="font-size: 1.8rem; font-weight: 800; margin-bottom: 8px;">¿Qué te mueve?</h2>
+                <p style="color: var(--text-muted);">Selecciona tus intereses para personalizar tu cartelera.</p>
+                
+                <div class="interest-grid">
+                    <div class="interest-item" onclick="toggleSelect(this)"><i class="ph ph-music-notes"></i><span>Música</span></div>
+                    <div class="interest-item" onclick="toggleSelect(this)"><i class="ph ph-paint-brush"></i><span>Arte</span></div>
+                    <div class="interest-item" onclick="toggleSelect(this)"><i class="ph ph-popcorn"></i><span>Cine</span></div>
+                    <div class="interest-item" onclick="toggleSelect(this)"><i class="ph ph-soccer-ball"></i><span>Deportes</span></div>
+                    <div class="interest-item" onclick="toggleSelect(this)"><i class="ph ph-fork-knife"></i><span>Gastronomía</span></div>
+                    <div class="interest-item" onclick="toggleSelect(this)"><i class="ph ph-monitor"></i><span>Tecnología</span></div>
+                </div>
+            </div>
+
+            <!-- Step 2: Entrada Preferida -->
+            <div id="step-2" class="step-content" style="display: none;">
+                <h2 style="font-size: 1.8rem; font-weight: 800; margin-bottom: 8px;">Preferencia de Entrada</h2>
+                <p style="color: var(--text-muted);">¿Cómo prefieres vivir las experiencias?</p>
+                
+                <div class="ticket-pref">
+                    <div class="ticket-option" onclick="selectOnly(this, 'ticket-option')">
+                        <i class="ph ph-ticket"></i>
+                        <div>
+                            <h4 style="margin:0;">General</h4>
+                            <p style="margin:2px 0 0; font-size: 0.8rem; color: var(--text-muted);">Busco las mejores ofertas y acceso estándar.</p>
+                        </div>
+                    </div>
+                    <div class="ticket-option" onclick="selectOnly(this, 'ticket-option')">
+                        <i class="ph ph-crown"></i>
+                        <div>
+                            <h4 style="margin:0;">VIP / Premium</h4>
+                            <p style="margin:2px 0 0; font-size: 0.8rem; color: var(--text-muted);">Prefiero acceso prioritario y experiencias exclusivas.</p>
+                        </div>
+                    </div>
+                    <div class="ticket-option" onclick="selectOnly(this, 'ticket-option')">
+                        <i class="ph ph-infinity"></i>
+                        <div>
+                            <h4 style="margin:0;">Ambos</h4>
+                            <p style="margin:2px 0 0; font-size: 0.8rem; color: var(--text-muted);">Me interesan todas las ofertas, desde general a VIP.</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Step 3: Ubicación -->
+            <div id="step-3" class="step-content" style="display: none;">
+                <h2 style="font-size: 1.8rem; font-weight: 800; margin-bottom: 8px;">¿Dónde estás?</h2>
+                <p style="color: var(--text-muted);">Te sugeriremos eventos cerca de ti.</p>
+                
+                <div class="location-search">
+                    <i class="ph ph-map-pin"></i>
+                    <input type="text" placeholder="Ciudad, País" id="location-input">
+                </div>
+
+                <div style="margin-top: 32px; padding: 20px; border-radius: 12px; border: 1px dashed var(--panel-border); display: flex; align-items: center; gap: 12px; cursor: pointer;" onclick="document.getElementById('location-input').value = 'Bogotá, Colombia'">
+                    <i class="ph ph-crosshair" style="color: var(--primary-color);"></i>
+                    <span style="font-size: 0.9rem; font-weight: 600;">Usar mi ubicación actual</span>
+                </div>
+            </div>
+
+            <div class="onboarding-actions" style="margin-top: 40px; display: flex; gap: 12px;">
+                <button class="btn btn-dark w-full" id="btn-back" style="display: none;" onclick="prevStep()">Anterior</button>
+                <button class="btn btn-primary w-full" id="btn-next" onclick="nextStep()">Continuar</button>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        let currentStep = 1;
+
+        function updateOnboarding() {
+            document.querySelectorAll('.step-content').forEach(s => s.style.display = 'none');
+            document.getElementById(`step-${currentStep}`).style.display = 'block';
+            
+            // Progress
+            const progress = (currentStep / 3) * 100;
+            document.getElementById('progress-indicator').style.width = `${progress}%`;
+
+            // Buttons
+            document.getElementById('btn-back').style.display = currentStep > 1 ? 'block' : 'none';
+            document.getElementById('btn-next').innerText = currentStep === 3 ? 'Finalizar' : 'Continuar';
+        }
+
+        function nextStep() {
+            if (currentStep < 3) {
+                currentStep++;
+                updateOnboarding();
+            } else {
+                window.location.href = 'index.html';
+            }
+        }
+
+        function prevStep() {
+            if (currentStep > 1) {
+                currentStep--;
+                updateOnboarding();
+            }
+        }
+
+        function toggleSelect(el) {
+            el.classList.toggle('selected');
+        }
+
+        function selectOnly(el, className) {
+            document.querySelectorAll('.' + className).forEach(item => item.classList.remove('selected'));
+            el.classList.add('selected');
+        }
+
+        const savedTheme = localStorage.getItem('eventia-theme');
+        if (savedTheme === 'dark' || (savedTheme === 'auto' && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.body.classList.add('dark-theme');
+        }
+    </script>
+</body>
+</html>

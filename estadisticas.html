@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EstadÃ­sticas - Eventia</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- CSS -->
+    <link rel="stylesheet" href="./css/styles.css">
+    <link rel="stylesheet" href="./css/stats.css">
+</head>
+<body>
+
+    <div class="dashboard-layout">
+        
+        <!-- Sidebar -->
+        <aside class="sidebar glass-panel">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <div class="logo-icon"><i class="ph-fill ph-planet"></i></div>
+                    <h2>Eventia</h2>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <ul class="nav-list">
+                    <li class="nav-item">
+                        <a href="index.html"><i class="ph ph-squares-four"></i> Principal</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="explorar-eventos.html"><i class="ph ph-calendar-blank"></i> Explorar Eventos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="mis-entradas.html"><i class="ph ph-ticket"></i> Mis Entradas <span class="badge badge-purple">3</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="mensajes.html"><i class="ph ph-chat-circle-dots"></i> Mensajes</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a href="estadisticas.html"><i class="ph ph-chart-line-up"></i> EstadÃ­sticas</a>
+                    </li>
+                </ul>
+
+                <h3 class="nav-title">ORGANIZACIÃ“N</h3>
+                <ul class="nav-list">
+                    <li class="nav-item">
+                        <a href="comunidad.html"><i class="ph ph-users"></i> Comunidad</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="ajustes.html"><i class="ph ph-gear"></i> Ajustes</a>
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="create-btn-container">
+                    <a href="crear-evento.html" class="btn btn-primary w-full"><i class="ph ph-plus"></i> Crear Evento</a>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            
+            <!-- Header Mejorado -->
+            <header class="top-header">
+                <div class="search-bar glass-panel">
+                    <i class="ph ph-magnifying-glass"></i>
+                    <input type="text" placeholder="Buscar métricas, reportes...">
+                </div>
+
+                <div class="header-actions">
+                    <button class="icon-btn"><i class="ph ph-bell"></i><span class="notification-dot"></span></button>
+                    <div class="user-profile">
+                        <img src="https://i.pravatar.cc/150?img=68" alt="Usuario" class="avatar">
+                        <div class="user-info">
+                            <span class="user-name">Alex Rivera</span>
+                            <span class="user-role">Premium <i class="ph-fill ph-crown" style="color: var(--warning-color);"></i></span>
+                        </div>
+                        <i class="ph ph-caret-down"></i>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Stats Dashboard -->
+            <div class="stats-container">
+                
+                <div class="section-header">
+                    <div>
+                        <h2>Panel de Estadísticas Pro</h2>
+                        <p style="color:var(--text-muted); font-size: 0.9rem;">Analítica avanzada, financiera y de audiencia en tiempo real.</p>
+                    </div>
+                    <div class="stats-controls">
+                        <select class="btn glass-panel" id="time-filter">
+                            <option value="7">Últimos 7 Días</option>
+                            <option value="30" selected>Últimos 30 Días</option>
+                            <option value="all">Todo el Historial</option>
+                        </select>
+                        <button class="btn btn-primary" style="font-size: 0.85rem;"><i class="ph ph-export"></i> Exportar (PDF/Excel)</button>
+                    </div>
+                </div>
+
+                <!-- 11. Resumen Automático (IA Style) -->
+                <div class="ai-summary-card glass-panel" style="background: linear-gradient(135deg, rgba(236, 72, 153, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%); border: 1px solid rgba(236, 72, 153, 0.2); margin-bottom: 24px; padding: 20px; border-radius: 20px;">
+                    <div style="display: flex; gap: 15px; align-items: flex-start;">
+                        <div style="background: var(--primary-color); color: white; padding: 10px; border-radius: 12px; font-size: 1.5rem;"><i class="ph-fill ph-sparkle"></i></div>
+                        <div>
+                            <h4 style="margin: 0 0 5px; color: var(--primary-color); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;">Resumen Inteligente de Marzo</h4>
+                            <p style="margin: 0; font-size: 1rem; line-height: 1.5; color: var(--text-main);">
+                                Tus ingresos generaron <strong>$12,450 USD</strong> con una conversión del <strong>12.5%</strong>. El pico de ventas ocurrió el <strong>Sábado a las 8:00 PM</strong>. La fuente principal de tráfico es <strong>TikTok (45%)</strong> y el evento "Festival Rock" está en tendencia con un alcance 3x mayor a la media.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 1. Métricas Generales -->
+                <div class="kpi-grid">
+                    <div class="stats-card glass-panel">
+                        <div class="s-header"><p>Ingresos Brutos</p><span class="trend positive"><i class="ph ph-trend-up"></i> 14%</span></div>
+                        <h3 class="s-value">$12,450</h3>
+                        <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: -15px;">Neto: $10,830 (Retiro pendiente)</p>
+                    </div>
+                    <div class="stats-card glass-panel">
+                        <div class="s-header"><p>Entradas Vendidas</p><span class="trend positive"><i class="ph ph-trend-up"></i> 22%</span></div>
+                        <h3 class="s-value">1,245</h3>
+                        <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: -15px;">Tasa de Conversión: 9.2%</p>
+                    </div>
+                    <div class="stats-card glass-panel">
+                        <div class="s-header"><p>Asistencia Total</p><span class="trend positive"><i class="ph ph-trend-up"></i> 95%</span></div>
+                        <h3 class="s-value">1,180</h3>
+                        <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: -15px;">No-show: 5.2% (Bajo promedio)</p>
+                    </div>
+                    <div class="stats-card glass-panel">
+                        <div class="s-header"><p>Usuarios Nuevos</p><span class="trend positive"><i class="ph ph-trend-up"></i> 30%</span></div>
+                        <h3 class="s-value">458</h3>
+                        <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: -15px;">Recurrentes: 787</p>
+                    </div>
+                </div>
+
+                <!-- 8. Alertas Inteligentes -->
+                <div class="alerts-row" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 24px;">
+                    <div class="alert-card trending">
+                        <i class="ph-fill ph-fire"></i>
+                        <span><strong>Evento en tendencia:</strong> Festival Rock Local</span>
+                    </div>
+                    <div class="alert-card warning">
+                        <i class="ph-fill ph-warning-circle"></i>
+                        <span><strong>Poca disponibilidad:</strong> Taller de Pintura (5 cupos)</span>
+                    </div>
+                    <div class="alert-card info">
+                        <i class="ph-fill ph-info"></i>
+                        <span><strong>Anuncio:</strong> Pico de ventas esperado hoy 8PM</span>
+                    </div>
+                </div>
+
+                <!-- Charts Area: Middle Row -->
+                <div class="charts-grid-3">
+                    <!-- 5. Fuentes de Tráfico -->
+                    <div class="side-chart-card glass-panel">
+                        <div class="c-header"><h3>Fuentes de Tráfico</h3></div>
+                        <div class="chart-wrapper"><canvas id="trafficSourcesChart"></canvas></div>
+                    </div>
+                    <!-- 1. Crecimiento de Ingresos -->
+                    <div class="main-chart-card glass-panel">
+                        <div class="c-header"><h3>Historial de Ventas e Ingresos</h3></div>
+                        <div class="chart-wrapper"><canvas id="revenueChart"></canvas></div>
+                    </div>
+                    <!-- 3. Distribución de Entradas -->
+                    <div class="side-chart-card glass-panel">
+                        <div class="c-header"><h3>Tipo de Tickets</h3></div>
+                        <div class="chart-wrapper donut">
+                            <canvas id="ticketsChart"></canvas>
+                            <div class="donut-center"><span>Total</span><h4>1,245</h4></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4. Análisis de Audiencia & Dispositivos -->
+                <div class="charts-grid-2" style="margin-top: 24px; display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+                    <div class="glass-panel" style="padding: 24px;">
+                        <div class="c-header"><h3>Demografía de Audiencia</h3></div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                            <div class="chart-wrapper"><canvas id="ageChart"></canvas></div>
+                            <div class="chart-wrapper"><canvas id="genderChart"></canvas></div>
+                        </div>
+                    </div>
+                    <div class="glass-panel" style="padding: 24px;">
+                        <div class="c-header"><h3>Dispositivos y Retención</h3></div>
+                        <div style="display: flex; flex-direction: column; gap: 20px;">
+                            <div class="device-stat">
+                                <div style="display:flex; justify-content:space-between; margin-bottom:8px;"><span>Móvil</span><span>85%</span></div>
+                                <div class="mini-progress"><div class="fill bg-purple" style="width: 85%;"></div></div>
+                            </div>
+                            <div class="device-stat">
+                                <div style="display:flex; justify-content:space-between; margin-bottom:8px;"><span>PC / Escritorio</span><span>15%</span></div>
+                                <div class="mini-progress"><div class="fill bg-blue" style="width: 15%;"></div></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 6. Ranking de Eventos & 7. Finanzas -->
+                <div class="dual-row" style="display: grid; grid-template-columns: 2fr 1fr; gap: 24px; margin-top: 24px;">
+                    <div class="perf-list glass-panel">
+                        <div class="c-header"><h3>Ranking y Rendimiento por Evento</h3></div>
+                        <table class="stats-table">
+                            <thead>
+                                <tr><th>Evento</th><th>Conversion</th><th>Ventas</th><th>Asistencia</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Festival Indie Rock</td><td>12.5%</td><td>$4,500</td><td><div class="mini-progress"><div class="fill bg-purple" style="width: 85%;"></div></div></td></tr>
+                                <tr><td>Taller de Pintura</td><td>8.2%</td><td>$850</td><td><div class="mini-progress"><div class="fill bg-green" style="width: 45%;"></div></div></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="finance-card glass-panel" style="padding: 24px;">
+                        <div class="c-header"><h3>Detalle Financiero</h3></div>
+                        <div class="finance-item" style="display:flex; justify-content:space-between; padding: 12px 0; border-bottom: 1px solid var(--panel-border);">
+                            <span style="color: var(--text-muted);">Ingresos Brutos</span>
+                            <span style="font-weight: 700;">$14,500.00</span>
+                        </div>
+                        <div class="finance-item" style="display:flex; justify-content:space-between; padding: 12px 0; border-bottom: 1px solid var(--panel-border);">
+                            <span style="color: var(--text-muted);">Comisiones Plat.</span>
+                            <span style="color: var(--danger-color); font-weight: 600;">-$1,450.00</span>
+                        </div>
+                        <div class="finance-item" style="display:flex; justify-content:space-between; padding: 12px 0; border-bottom: 1px solid var(--panel-border);">
+                            <span style="color: var(--text-muted);">Gastos/Marketing</span>
+                            <span style="color: var(--danger-color); font-weight: 600;">-$2,220.00</span>
+                        </div>
+                        <div class="finance-item" style="display:flex; justify-content:space-between; padding: 12px 0; margin-top: 10px;">
+                            <span style="font-weight: 700; color: var(--primary-color);">Ganancia Neta</span>
+                            <span style="font-weight: 800; color: var(--primary-color); font-size: 1.25rem;">$10,830.00</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="./js/eventia.js"></script>
+    <script src="./js/stats.js"></script>
+</body>
+</html>
+
+

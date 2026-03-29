@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear Evento - Eventia</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <!-- CSS -->
+    <link rel="stylesheet" href="./css/styles.css">
+</head>
+<body>
+
+    <div class="dashboard-layout">
+        
+        <!-- Sidebar -->
+        <aside class="sidebar glass-panel">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <div class="logo-icon"><i class="ph-fill ph-planet"></i></div>
+                    <h2>Eventia</h2>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <ul class="nav-list">
+                    <li class="nav-item">
+                        <a href="index.html"><i class="ph ph-squares-four"></i> Principal</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="explorar-eventos.html"><i class="ph ph-calendar-blank"></i> Explorar Eventos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="mis-entradas.html"><i class="ph ph-ticket"></i> Mis Entradas <span class="badge badge-purple">3</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="mensajes.html"><i class="ph ph-chat-circle-dots"></i> Mensajes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="estadisticas.html"><i class="ph ph-chart-line-up"></i> EstadÃ­sticas</a>
+                    </li>
+                </ul>
+
+                <h3 class="nav-title">ORGANIZACIÃ“N</h3>
+                <ul class="nav-list">
+                    <li class="nav-item">
+                        <a href="#"><i class="ph ph-users"></i> Comunidad</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#"><i class="ph ph-gear"></i> Ajustes</a>
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="create-btn-container">
+                    <a href="crear-evento.html" class="btn btn-primary w-full"><i class="ph ph-plus"></i> Crear Evento</a>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            
+            <!-- Header -->
+            <header class="top-header">
+                <div class="search-bar glass-panel">
+                    <i class="ph ph-magnifying-glass"></i>
+                    <input type="text" placeholder="Buscar por ciudad, categorÃ­a o nombre...">
+                </div>
+
+                <div class="header-actions">
+                    <button class="icon-btn"><i class="ph ph-bell"></i><span class="notification-dot"></span></button>
+                    <div class="user-profile">
+                        <img src="https://i.pravatar.cc/150?img=68" alt="Usuario" class="avatar">
+                        <div class="user-info">
+                            <span class="user-name">Alex Rivera</span>
+                            <span class="user-role">Organizador</span>
+                        </div>
+                        <i class="ph ph-caret-down"></i>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Contenido de Crear Evento -->
+            <div class="create-event-content">
+                
+                <div class="section-header">
+                    <div>
+                        <h1 class="page-title">Crear Nuevo Evento</h1>
+                        <p class="page-subtitle">Completa los detalles para publicar tu evento en la plataforma.</p>
+                    </div>
+                    <div class="header-actions-create">
+                        <button class="btn btn-dark"><i class="ph ph-floppy-disk"></i> Guardar Borrador</button>
+                        <button class="btn btn-primary"><i class="ph ph-rocket-launch"></i> Publicar Evento</button>
+                    </div>
+                </div>
+
+                <!-- Layout Principal de CreaciÃ³n -->
+                <div class="create-grid mt-4">
+                    
+                    <!-- Formulario de CreaciÃ³n -->
+                    <div class="create-form-section">
+                        <form class="glass-panel p-6">
+                            
+                            <!-- SecciÃ³n 1 -->
+                            <div class="form-section">
+                                <h3 class="form-section-title"><i class="ph ph-info"></i> InformaciÃ³n BÃ¡sica</h3>
+                                
+                                <div class="form-group mb-4">
+                                    <label class="form-label">Nombre del Evento <span class="text-danger">*</span></label>
+                                    <input type="text" id="event-name-input" class="form-control" placeholder="Ej: Festival Indie Rock Local" required>
+                                </div>
+
+                                <div class="form-grid mb-4">
+                                    <div class="form-group">
+                                        <label class="form-label">CategorÃ­a <span class="text-danger">*</span></label>
+                                        <div class="select-wrapper">
+                                            <select id="event-category-select" class="form-control">
+                                                <option value="" disabled selected>Selecciona una categoría</option>
+                                                <option value="musica">Música</option>
+                                                <option value="arte">Arte y Cultura</option>
+                                                <option value="tecnologia">Tecnología</option>
+                                                <option value="deportes">Deportes</option>
+                                                <option value="networking">Networking</option>
+                                            </select>
+                                            <i class="ph ph-caret-down select-icon"></i>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Tipo de Evento</label>
+                                        <div class="select-wrapper">
+                                            <select class="form-control">
+                                                <option value="publico">PÃºblico (Visible para todos)</option>
+                                                <option value="privado">Privado (Solo con invitaciÃ³n)</option>
+                                            </select>
+                                            <i class="ph ph-caret-down select-icon"></i>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label">DescripciÃ³n</label>
+                                    <textarea class="form-control" rows="4" placeholder="CuÃ©ntale a la gente de quÃ© trata el evento..."></textarea>
+                                </div>
+                            </div>
+
+                            <hr class="form-divider">
+
+                            <!-- SecciÃ³n 2 -->
+                            <div class="form-section">
+                                <h3 class="form-section-title"><i class="ph ph-calendar"></i> Fecha y UbicaciÃ³n</h3>
+                                
+                                <div class="form-grid mb-4">
+                                    <div class="form-group">
+                                        <label class="form-label">Fecha de Inicio</label>
+                                        <div class="input-with-icon">
+                                            <i class="ph ph-calendar-blank"></i>
+                                            <input type="date" class="form-control pl-10">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Hora de Inicio</label>
+                                        <div class="input-with-icon">
+                                            <i class="ph ph-clock"></i>
+                                            <input type="time" class="form-control pl-10">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label">UbicaciÃ³n</label>
+                                    <div class="input-with-icon mb-2">
+                                        <i class="ph ph-map-pin"></i>
+                                        <input type="text" class="form-control pl-10" placeholder="Ej: Teatro Central, Madrid">
+                                    </div>
+                                    <!-- Mapa pequeÃ±o tipo preview -->
+                                    <div class="location-map-preview">
+                                        <div class="map-overlay-text">Selecciona una ubicaciÃ³n en el mapa</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <hr class="form-divider">
+
+                            <!-- SecciÃ³n 3 -->
+                            <div class="form-section">
+                                <h3 class="form-section-title"><i class="ph ph-image"></i> Multimedia y Entradas</h3>
+                                
+                                <div class="form-group mb-4">
+                                    <label class="form-label">Imagen de Portada</label>
+                                    <div class="drag-drop-zone">
+                                        <div class="drag-drop-icon bg-purple-light"><i class="ph ph-upload-simple"></i></div>
+                                        <h4>Haz clic para subir o arrastra una imagen</h4>
+                                        <p>SVG, PNG, JPG o GIF (Max. 5MB)</p>
+                                    </div>
+                                </div>
+
+                                <div class="form-grid">
+                                    <div class="form-group">
+                                        <label class="form-label">Precio (Deja en 0 si es gratis)</label>
+                                        <div class="input-with-icon">
+                                            <i class="ph ph-currency-dollar"></i>
+                                            <input type="number" id="event-price-input" class="form-control pl-10" placeholder="0.00" min="0">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Aforo Máximo</label>
+                                        <div class="input-with-icon">
+                                            <i class="ph ph-users"></i>
+                                            <input type="number" id="event-capacity-input" class="form-control pl-10" placeholder="Ej: 100">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+
+                    <!-- Vista Previa lateral -->
+                    <div class="preview-section">
+                        <div class="preview-sticky">
+                            <h3 class="preview-title">Vista Previa</h3>
+                            <p class="preview-subtitle">AsÃ­ verÃ¡n tu evento los usuarios</p>
+                            
+                            <!-- Fake Event Card -->
+                            <div class="event-card glass-panel card-preview-mockup mt-4">
+                                <div class="event-cover-preview" style="background-color: var(--primary-light);">
+                                    <div class="placeholder-img-icon"><i class="ph ph-image text-primary"></i></div>
+                                    <div class="event-tags">
+                                        <span class="badge badge-purple">CategorÃ­a</span>
+                                    </div>
+                                    <button class="like-btn"><i class="ph ph-heart"></i></button>
+                                </div>
+                                <div class="event-body pt-4">
+                                    <h3 class="preview-event-name">Nombre de tu evento</h3>
+                                    <p class="event-meta mb-2"><i class="ph ph-calendar"></i> Fecha y hora</p>
+                                    <p class="event-meta"><i class="ph ph-map-pin"></i> UbicaciÃ³n</p>
+                                </div>
+                                <div class="event-footer mt-4">
+                                    <div class="attendees-empty">
+                                        <span id="preview-capacity">Capacidad: --</span>
+                                    </div>
+                                    <span class="price-tag free" id="preview-price">Gratis</span>
+                                </div>
+                            </div>
+
+                            <div class="completion-box glass-panel mt-4">
+                                <h4>Progreso del Evento</h4>
+                                <div class="progress-section mt-2">
+                                    <div class="progress-info">
+                                        <span>Completado</span>
+                                        <span>15%</span>
+                                    </div>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill fill-purple" style="width: 15%;"></div>
+                                    </div>
+                                </div>
+                                <ul class="checklist mt-3">
+                                    <li class="check-item done"><i class="ph-fill ph-check-circle"></i> Info bÃ¡sica iniciada</li>
+                                    <li class="check-item"><i class="ph ph-circle"></i> AÃ±adir fecha y hora</li>
+                                    <li class="check-item"><i class="ph ph-circle"></i> Subir imagen</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="./js/eventia.js"></script>
+    <script>
+        // Real-time Preview Logic
+        const nameInput = document.getElementById('event-name-input');
+        const categorySelect = document.getElementById('event-category-select');
+        const priceInput = document.getElementById('event-price-input');
+        const capacityInput = document.getElementById('event-capacity-input');
+
+        const previewName = document.querySelector('.preview-event-name');
+        const previewCategory = document.querySelector('.badge-purple');
+        const previewPrice = document.getElementById('preview-price');
+        const previewCapacity = document.getElementById('preview-capacity');
+
+        nameInput.addEventListener('input', (e) => {
+            previewName.textContent = e.target.value || "Nombre de tu evento";
+        });
+
+        categorySelect.addEventListener('change', (e) => {
+            const val = e.target.options[e.target.selectedIndex].text;
+            previewCategory.textContent = val;
+        });
+
+        priceInput.addEventListener('input', (e) => {
+            const val = parseFloat(e.target.value);
+            if (!val || val <= 0) {
+                previewPrice.textContent = "Gratis";
+                previewPrice.className = "price-tag free";
+            } else {
+                previewPrice.textContent = "$" + val.toFixed(2);
+                previewPrice.className = "price-tag";
+            }
+        });
+
+        capacityInput.addEventListener('input', (e) => {
+            previewCapacity.textContent = e.target.value ? `Capacidad: ${e.target.value}` : "Sin asistentes aún";
+        });
+
+        // Add visual feedback to form progress
+        const inputs = [nameInput, categorySelect, priceInput, capacityInput];
+        inputs.forEach(input => {
+            input.addEventListener('blur', updateProgress);
+        });
+
+        function updateProgress() {
+            let completed = 0;
+            if (nameInput.value) completed += 25;
+            if (categorySelect.value) completed += 25;
+            if (priceInput.value) completed += 25;
+            if (capacityInput.value) completed += 25;
+
+            const fill = document.querySelector('.progress-fill');
+            const info = document.querySelector('.progress-info span:last-child');
+            fill.style.width = completed + "%";
+            info.textContent = completed + "%";
+        }
+    </script>
+</body>
+</html>
+
+

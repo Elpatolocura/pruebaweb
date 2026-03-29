@@ -1,0 +1,56 @@
+/**
+ * sidebar.html
+ * Componente unificado para la navegación de Eventia con orden estricto.
+ */
+<aside class="sidebar glass-panel">
+    <div class="sidebar-header">
+        <div class="logo">
+            <div class="logo-icon"><i class="ph-fill ph-planet"></i></div>
+            <h2>Eventia</h2>
+        </div>
+    </div>
+
+    <nav class="sidebar-nav">
+        <ul class="nav-list">
+            <li class="nav-item" data-page="index.html">
+                <a href="index.html"><i class="ph ph-squares-four"></i> Principal</a>
+            </li>
+            <li class="nav-item" data-page="explorar-eventos.html">
+                <a href="explorar-eventos.html"><i class="ph ph-calendar-blank"></i> Explorar Eventos</a>
+            </li>
+            <li class="nav-item" id="nav-mis-eventos" data-page="mis-eventos.html">
+                <a href="mis-eventos.html"><i class="ph ph-list-bullets"></i> Mis Eventos <i class="ph-fill ph-crown" style="font-size: 0.7rem; margin-left: 4px; color: #f59e0b;"></i></a>
+            </li>
+            <li class="nav-item" data-page="mis-entradas.html">
+                <a href="mis-entradas.html"><i class="ph ph-ticket"></i> Mis Entradas <span class="badge badge-purple">3</span></a>
+            </li>
+            <li class="nav-item" data-page="mensajes.html">
+                <a href="mensajes.html"><i class="ph ph-chat-circle-dots"></i> Mensajes</a>
+            </li>
+            <li class="nav-item" data-page="estadisticas.html">
+                <a href="estadisticas.html"><i class="ph ph-chart-line-up"></i> Estadísticas</a>
+            </li>
+        </ul>
+
+        <h3 class="nav-title">ORGANIZACIÓN</h3>
+        <ul class="nav-list">
+            <li class="nav-item" data-page="comunidad.html">
+                <a href="comunidad.html"><i class="ph ph-users"></i> Comunidad</a>
+            </li>
+            <li class="nav-item" data-page="ajustes.html">
+                <a href="ajustes.html"><i class="ph ph-gear"></i> Ajustes</a>
+            </li>
+        </ul>
+    </nav>
+
+    <div class="sidebar-footer">
+        <div class="create-btn-container" style="display: flex; flex-direction: column; width: 100%; padding: 0 16px 16px;">
+            <a href="crear-evento.html" class="btn btn-primary" id="sidebar-create-btn" style="width: 100%; justify-content: center; margin-bottom: 8px;">
+                <i class="ph ph-plus"></i> Crear Evento
+            </a>
+            <a href="#" class="logout-link" id="sidebar-logout" style="color: #ef4444; display: flex; align-items: center; gap: 12px; padding: 10px 0; font-weight: 500; font-size: 0.95rem; text-decoration: none;">
+                <i class="ph ph-sign-out"></i> Cerrar Sesión
+            </a>
+        </div>
+    </div>
+</aside>

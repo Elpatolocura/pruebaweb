@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ajustes - Eventia</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <!-- CSS -->
+    <link rel="stylesheet" href="./css/styles.css">
+    <link rel="stylesheet" href="./css/ajustes.css">
+    <script>
+        // --- Redirección Splash Screen ---
+        if (!localStorage.getItem('eventia-welcome-seen')) {
+            window.location.href = 'welcome.html';
+        }
+    </script>
+</head>
+<body>
+
+    <div class="dashboard-layout">
+        
+        <!-- Sidebar -->
+        <aside class="sidebar glass-panel">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <div class="logo-icon"><i class="ph-fill ph-planet"></i></div>
+                    <h2>Eventia</h2>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <ul class="nav-list">
+                    <li class="nav-item">
+                        <a href="index.html"><i class="ph ph-squares-four"></i> Principal</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="explorar-eventos.html"><i class="ph ph-calendar-blank"></i> Explorar Eventos</a>
+                    </li>
+                    <li class="nav-item premium-only" id="nav-mis-eventos">
+                        <a href="mis-eventos.html"><i class="ph ph-list-bullets"></i> Mis Eventos <i class="ph-fill ph-crown" style="font-size: 0.7rem; margin-left: 4px; color: #f59e0b;"></i></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="mis-entradas.html"><i class="ph ph-ticket"></i> Mis Entradas <span class="badge badge-purple">3</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="mensajes.html"><i class="ph ph-chat-circle-dots"></i> Mensajes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="estadisticas.html"><i class="ph ph-chart-line-up"></i> Estadísticas</a>
+                    </li>
+                </ul>
+
+                <h3 class="nav-title">ORGANIZACIÓN</h3>
+                <ul class="nav-list">
+                    <li class="nav-item">
+                        <a href="comunidad.html"><i class="ph ph-users"></i> Comunidad</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a href="ajustes.html"><i class="ph ph-gear"></i> Ajustes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" id="sidebar-logout" style="color: #ef4444;"><i class="ph ph-sign-out"></i> Cerrar Sesión</a>
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="create-btn-container">
+                    <a href="crear-evento.html" class="btn btn-primary w-full"><i class="ph ph-plus"></i> Crear Evento</a>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            
+            <!-- Header -->
+            <header class="top-header">
+                <div class="search-bar glass-panel">
+                    <i class="ph ph-magnifying-glass"></i>
+                    <input type="text" placeholder="Buscar preferencias...">
+                </div>
+
+                <div class="header-actions">
+                    <div class="notification-container">
+                        <button class="icon-btn" id="notif-toggle">
+                            <i class="ph ph-bell"></i>
+                            <span class="notification-dot"></span>
+                        </button>
+                        
+                        <div class="notification-dropdown" id="notif-dropdown">
+                            <div class="notif-header">
+                                <h4>Notificaciones</h4>
+                                <span>Marcar como leído</span>
+                            </div>
+                            <div class="notif-list">
+                                <div class="notif-item">
+                                    <div class="notif-icon"><i class="ph ph-calendar-check"></i></div>
+                                    <div class="notif-details">
+                                        <p>Tu evento <b>"Workshop UI"</b> ha sido aprobado.</p>
+                                        <span>Hace 2 horas</span>
+                                    </div>
+                                </div>
+                                <div class="notif-item">
+                                    <div class="notif-icon" style="background:rgba(245,158,11,0.1); color:#f59e0b;"><i class="ph ph-ticket"></i></div>
+                                    <div class="notif-details">
+                                        <p>¡Nuevo ticket vendido para <b>Summer Fest</b>!</p>
+                                        <span>Hace 5 horas</span>
+                                    </div>
+                                </div>
+                                <div class="notif-item">
+                                    <div class="notif-icon" style="background:rgba(var(--primary-rgb),0.1);"><i class="ph ph-user-plus"></i></div>
+                                    <div class="notif-details">
+                                        <p><b>Maria Lopez</b> se ha unido a tu comunidad.</p>
+                                        <span>Ayer</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="user-profile premium-user">
+                        <div class="avatar-container">
+                            <img src="https://i.pravatar.cc/150?img=68" alt="Usuario" class="avatar">
+                            <div class="premium-crown"><i class="ph-fill ph-crown"></i></div>
+                        </div>
+                        <div class="user-info">
+                            <span class="user-name">Alex Rivera</span>
+                            <div class="user-role">
+                                Organizador <span class="premium-tag">• Premium</span>
+                            </div>
+                        </div>
+                        <i class="ph ph-caret-down"></i>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Settings Content -->
+            <div class="settings-container">
+                
+                <div class="section-header">
+                    <h2>Configuración y Perfil</h2>
+                    <p style="color:var(--text-muted); font-size: 0.9rem;">Administra tus datos personales y preferencias de la plataforma.</p>
+                </div>
+
+                <div class="settings-layout">
+                    
+                    <!-- Settings Subnav -->
+                    <div class="settings-nav glass-panel">
+                        <ul class="s-nav-list">
+                            <li class="s-nav-item active" data-target="section-profile">
+                                <i class="ph ph-user"></i> Mi Perfil
+                            </li>
+                            <li class="s-nav-item" data-target="section-security">
+                                <i class="ph ph-lock-key"></i> Seguridad
+                            </li>
+                            <li class="s-nav-item" data-target="section-notifications">
+                                <i class="ph ph-bell-ringing"></i> Notificaciones
+                            </li>
+                            <li class="s-nav-item" data-target="section-billing">
+                                <i class="ph ph-credit-card"></i> Facturación
+                            </li>
+                            <li class="s-nav-item" data-target="section-interests">
+                                <i class="ph ph-compass"></i> Intereses y Ubicación
+                            </li>
+                            <li class="s-nav-item" data-target="section-appearance">
+                                <i class="ph ph-palette"></i> Apariencia
+                            </li>
+                            <li class="s-nav-item" data-target="section-about">
+                                <i class="ph ph-info"></i> Acerca de
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Settings Forms Panel -->
+                    <div class="settings-forms glass-panel">
+                        
+                        <!-- Mi Perfil Section -->
+                        <div id="section-profile" class="settings-section active">
+                            <div class="form-section">
+                                <div class="subscription-status glass-panel" style="margin-bottom: 32px; padding: 24px; display: flex; align-items: center; justify-content: space-between; border-left: 4px solid #f59e0b; background: rgba(245, 158, 11, 0.05); position: relative; overflow: hidden;">
+                                    <div style="position: absolute; right: -20px; top: -20px; font-size: 100px; opacity: 0.03; color: #f59e0b; transform: rotate(15deg);"><i class="ph-fill ph-crown"></i></div>
+                                    <div style="z-index: 1;">
+                                        <h4 style="margin: 0; display: flex; align-items: center; gap: 8px;">Plan Premium <span class="badge badge-purple" style="background: #f59e0b; color: #000; font-size: 0.65rem;">ACTIVO</span></h4>
+                                        <p style="margin: 4px 0 0; font-size: 0.85rem; color: var(--text-muted);">Tienes acceso total: creación de eventos, temas VIP y más.</p>
+                                    </div>
+                                    <a href="premium.html" class="btn btn-outline btn-sm" style="border-color: #f59e0b; color: #f59e0b; z-index: 1;">Gestionar Plan</a>
+                                </div>
+
+                                <h3>Información Pública</h3>
+                                <div class="divider"></div>
+
+                                <div class="profile-upload">
+                                    <img src="https://i.pravatar.cc/150?img=68" alt="Avatar Actual" class="profile-avatar-large">
+                                    <div class="upload-actions">
+                                        <button class="btn btn-primary">Cambiar Avatar</button>
+                                        <button class="btn btn-dark">Eliminar</button>
+                                        <p class="upload-hint">Soporta JPG, PNG o GIF. Máx 2MB.</p>
+                                    </div>
+                                </div>
+
+                                <div class="form-grid">
+                                    <div class="input-group">
+                                        <label>Nombre a Mostrar</label>
+                                        <input type="text" value="Alex Rivera" class="form-input">
+                                    </div>
+                                    <div class="input-group">
+                                        <label>Nombre de Usuario (URL)</label>
+                                        <input type="text" value="alex-org" class="form-input">
+                                    </div>
+                                </div>
+
+                                <div class="input-group full-width">
+                                    <label>Biografía / Descripción del Organizador</label>
+                                    <textarea class="form-input form-textarea" rows="4">Apasionado por conectar personas a través de la música indie y eventos culturales a nivel local. Fundador de Eventia Music Connect.</textarea>
+                                </div>
+                            </div>
+
+                            <div class="form-section" style="margin-top: 40px;">
+                                <h3>Información Privada</h3>
+                                <div class="divider"></div>
+
+                                <div class="form-grid">
+                                    <div class="input-group">
+                                        <label>Correo Electrónico</label>
+                                        <input type="email" value="alex.rivera@example.com" class="form-input">
+                                    </div>
+                                    <div class="input-group">
+                                        <label>Número de Teléfono</label>
+                                        <input type="tel" value="+34 600 000 000" class="form-input">
+                                    </div>
+                                    <div class="input-group">
+                                        <label>País / Región</label>
+                                        <select class="form-input">
+                                            <option>España</option>
+                                            <option>México</option>
+                                            <option>Colombia</option>
+                                            <option>Argentina</option>
+                                        </select>
+                                    </div>
+                                    <div class="input-group">
+                                        <label>Moneda por defecto</label>
+                                        <select class="form-input">
+                                            <option>EUR (€)</option>
+                                            <option>USD ($)</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Seguridad Section -->
+                        <div id="section-security" class="settings-section">
+                            <div class="form-section">
+                                <h3>Seguridad de la Cuenta</h3>
+                                <p style="color:var(--text-muted); font-size: 0.85rem; margin-bottom: 20px;">Actualiza tu contraseña y gestiona la seguridad de acceso.</p>
+                                <div class="divider"></div>
+
+                                <div class="form-grid">
+                                    <div class="input-group full-width">
+                                        <label>Contraseña Actual</label>
+                                        <input type="password" class="form-input" placeholder="••••••••">
+                                    </div>
+                                    <div class="input-group">
+                                        <label>Nueva Contraseña</label>
+                                        <input type="password" class="form-input" placeholder="Min. 8 caracteres">
+                                    </div>
+                                    <div class="input-group">
+                                        <label>Confirmar Nueva Contraseña</label>
+                                        <input type="password" class="form-input" placeholder="Repite la contraseña">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-section" style="margin-top: 40px;">
+                                <h3>Autenticación en dos pasos (2FA)</h3>
+                                <div class="divider"></div>
+                                <div style="display: flex; justify-content: space-between; align-items: center; background: rgba(var(--primary-rgb), 0.05); padding: 16px; border-radius: var(--radius-md); border: 1px dashed var(--primary-color);">
+                                    <div>
+                                        <h4 style="margin:0; font-size: 0.95rem;">2FA no está activado</h4>
+                                        <p style="margin: 4px 0 0; font-size: 0.8rem; color: var(--text-muted);">Añade una capa extra de seguridad a tu cuenta.</p>
+                                    </div>
+                                    <button class="btn btn-primary btn-sm">Activar</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Notificaciones Section -->
+                        <div id="section-notifications" class="settings-section">
+                            <div class="form-section">
+                                <h3>Preferencias de Notificación</h3>
+                                <p style="color:var(--text-muted); font-size: 0.85rem; margin-bottom: 20px;">Elige cómo quieres recibir las actualizaciones y alertas.</p>
+                                <div class="divider"></div>
+
+                                <style>
+                                    .notif-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--panel-border); }
+                                    .notif-item:last-child { border-bottom: none; }
+                                    .switch { position: relative; display: inline-block; width: 44px; height: 24px; }
+                                    .switch input { opacity: 0; width: 0; height: 0; }
+                                    .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; transition: .4s; border-radius: 24px; }
+                                    .slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 3px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%; }
+                                    input:checked + .slider { background-color: var(--primary-color); }
+                                    input:checked + .slider:before { transform: translateX(20px); }
+                                </style>
+
+                                <div class="notif-list">
+                                    <div class="notif-item">
+                                        <div>
+                                            <h4 style="margin:0; font-size: 0.95rem;">Correos Electrónicos</h4>
+                                            <p style="margin: 4px 0 0; font-size: 0.8rem; color: var(--text-muted);">Recibe resúmenes semanales y alertas de seguridad.</p>
+                                        </div>
+                                        <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
+                                    </div>
+                                    <div class="notif-item">
+                                        <div>
+                                            <h4 style="margin:0; font-size: 0.95rem;">Notificaciones Push</h4>
+                                            <p style="margin: 4px 0 0; font-size: 0.8rem; color: var(--text-muted);">Alertas en tiempo real sobre nuevos eventos y mensajes.</p>
+                                        </div>
+                                        <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
+                                    </div>
+                                    <div class="notif-item">
+                                        <div>
+                                            <h4 style="margin:0; font-size: 0.95rem;">Mensajes SMS</h4>
+                                            <p style="margin: 4px 0 0; font-size: 0.8rem; color: var(--text-muted);">Solo para avisos urgentes de entradas compradas.</p>
+                                        </div>
+                                        <label class="switch"><input type="checkbox"><span class="slider"></span></label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-section premium-only" style="margin-top: 40px; display: none;">
+                                <h3>Privacidad de Mensajes (Premium)</h3>
+                                <p style="color:var(--text-muted); font-size: 0.85rem; margin-bottom: 20px;">Controla quién puede iniciar una conversación contigo.</p>
+                                <div class="divider"></div>
+                                
+                                <div class="notif-list">
+                                    <div class="notif-item">
+                                        <div>
+                                            <h4 style="margin:0; font-size: 0.95rem;">Recibir mensajes de todo el mundo</h4>
+                                            <p style="margin: 4px 0 0; font-size: 0.8rem; color: var(--text-muted);">Cualquier usuario podrá enviarte un mensaje directo.</p>
+                                        </div>
+                                        <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
+                                    </div>
+                                    <div class="notif-item">
+                                        <div>
+                                            <h4 style="margin:0; font-size: 0.95rem;">Restringir a personas que sigo</h4>
+                                            <p style="margin: 4px 0 0; font-size: 0.8rem; color: var(--text-muted);">Solo los usuarios que sigues podrán escribirte primero.</p>
+                                        </div>
+                                        <label class="switch"><input type="checkbox"><span class="slider"></span></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Facturación Section -->
+                        <div id="section-billing" class="settings-section">
+                            <div class="form-section">
+                                <h3>M&eacute;todos de Pago</h3>
+                                <div class="divider"></div>
+                                
+                                <div class="billing-card glass-panel" style="background: rgba(var(--primary-rgb), 0.05); border: 1px solid var(--panel-border); border-radius: var(--radius-md); padding: 16px; display: flex; align-items: center; gap: 16px;">
+                                    <div class="card-icon" style="width: 48px; height: 32px; background: white; border-radius: 4px; display: flex; align-items: center; justify-content: center; border: 1px solid #e2e8f0;">
+                                        <i class="ph ph-credit-card" style="font-size: 1.5rem; color: var(--primary-color);"></i>
+                                    </div>
+                                    <div style="flex: 1;">
+                                        <p style="margin:0; font-weight: 600;">Visa acabada en 4242</p>
+                                        <p style="margin:2px 0 0; font-size: 0.8rem; color: var(--text-muted);">Expira en 12/2026</p>
+                                    </div>
+                                    <button class="btn btn-dark btn-sm" id="btn-edit-card">Editar</button>
+                                </div>
+
+                                <button class="btn w-full" id="btn-add-card" style="margin-top: 20px; border: 2px dashed var(--primary-color); background: transparent; color: var(--primary-color); padding: 20px; border-radius: var(--radius-md); font-weight: 500; height: auto; transition: var(--transition);">
+                                    <i class="ph ph-plus-circle"></i> A&ntilde;adir nuevo m&eacute;todo de pago
+                                </button>
+                                <style>
+                                    #btn-add-card:hover { background: rgba(var(--primary-rgb, 99, 102, 241), 0.05); transform: translateY(-2px); }
+                                </style>
+                            </div>
+
+
+                            <div class="form-section" style="margin-top: 40px;">
+                                <h3>Historial de Pagos</h3>
+                                <div class="divider"></div>
+                                <table style="width: 100%; border-collapse: collapse; font-size: 0.9rem;">
+                                    <thead>
+                                        <tr style="text-align: left; border-bottom: 1px solid var(--panel-border);">
+                                            <th style="padding: 12px 0;">Fecha</th>
+                                            <th>Concepto</th>
+                                            <th>Importe</th>
+                                            <th>Estado</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr style="border-bottom: 1px solid var(--panel-border);">
+                                            <td style="padding: 12px 0;">24 Mar, 2026</td>
+                                            <td>Entrada: Summer Festival</td>
+                                            <td>45.00 €</td>
+                                            <td><span class="badge badge-purple" style="background:#dcfce7; color:#166534;">Completado</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding: 12px 0;">10 Feb, 2026</td>
+                                            <td>Suscripción Premium</td>
+                                            <td>9.99 €</td>
+                                            <td><span class="badge badge-purple" style="background:#dcfce7; color:#166534;">Completado</span></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Intereses y Ubicación Section -->
+                        <div id="section-interests" class="settings-section">
+                            <div class="form-section">
+                                <h3>Tus Gustos en Eventos</h3>
+                                <p style="color:var(--text-muted); font-size: 0.85rem; margin-bottom: 20px;">Sugeriremos eventos basados en estas categorías.</p>
+                                <div class="divider"></div>
+                                
+                                <div class="interest-grid">
+                                    <div class="interest-item selected" onclick="this.classList.toggle('selected')"><i class="ph ph-music-notes"></i><span>Música</span></div>
+                                    <div class="interest-item" onclick="this.classList.toggle('selected')"><i class="ph ph-paint-brush"></i><span>Arte</span></div>
+                                    <div class="interest-item selected" onclick="this.classList.toggle('selected')"><i class="ph ph-popcorn"></i><span>Cine</span></div>
+                                    <div class="interest-item" onclick="this.classList.toggle('selected')"><i class="ph ph-soccer-ball"></i><span>Deportes</span></div>
+                                    <div class="interest-item" onclick="this.classList.toggle('selected')"><i class="ph ph-fork-knife"></i><span>Gastronomía</span></div>
+                                    <div class="interest-item" onclick="this.classList.toggle('selected')"><i class="ph ph-monitor"></i><span>Tecnología</span></div>
+                                </div>
+                            </div>
+
+                            <div class="form-section" style="margin-top: 40px;">
+                                <h3>Preferencia de Búsqueda</h3>
+                                <div class="divider"></div>
+                                
+                                <div class="ticket-pref">
+                                    <div class="ticket-option" onclick="selectOnly(this, 'ticket-option')">
+                                        <i class="ph ph-ticket"></i>
+                                        <div>
+                                            <h4>General</h4>
+                                            <p>Busco las mejores ofertas y acceso estándar.</p>
+                                        </div>
+                                    </div>
+                                    <div class="ticket-option" onclick="selectOnly(this, 'ticket-option')">
+                                        <i class="ph ph-crown"></i>
+                                        <div>
+                                            <h4>VIP / Premium</h4>
+                                            <p>Prefiero acceso prioritario y experiencias exclusivas.</p>
+                                        </div>
+                                    </div>
+                                    <div class="ticket-option selected" onclick="selectOnly(this, 'ticket-option')">
+                                        <i class="ph ph-infinity"></i>
+                                        <div>
+                                            <h4>Ambos</h4>
+                                            <p>Me interesan todas las ofertas, desde general a VIP.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-section" style="margin-top: 40px;">
+                                <h3>Ubicación Base</h3>
+                                <div class="divider"></div>
+                                <div class="input-group full-width">
+                                    <label>Tu Ciudad Actual</label>
+                                    <div style="position: relative;">
+                                        <input type="text" class="form-input" value="Bogotá, Colombia" style="padding-left: 44px;">
+                                        <i class="ph ph-map-pin" style="position: absolute; left: 16px; top: 12px; color: var(--primary-color); font-size: 1.25rem;"></i>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <script>
+                                function selectOnly(el, className) {
+                                    document.querySelectorAll('.' + className).forEach(item => item.classList.remove('selected'));
+                                    el.classList.add('selected');
+                                }
+                            </script>
+                        </div>
+
+                        <!-- Acerca de Section -->
+                        <div id="section-about" class="settings-section">
+                            <div class="form-section">
+                                <div style="text-align: center; margin-bottom: 40px;">
+                                    <div style="width: 80px; height: 80px; background: var(--primary-color); border-radius: 24px; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; color: white; font-size: 40px; box-shadow: var(--shadow-colored);">
+                                        <i class="ph-fill ph-planet"></i>
+                                    </div>
+                                    <h2 style="margin-bottom: 8px;">Eventia</h2>
+                                    <p style="color: var(--text-muted);">Versión 2.4.0 (Pro Build)</p>
+                                </div>
+
+                                <h3>Nuestra Misión</h3>
+                                <p style="color: var(--text-muted); line-height: 1.8; margin-bottom: 32px;">
+                                    Eventia nació con el objetivo de democratizar el acceso a la cultura local y empoderar a los curadores de experiencias. Creemos que cada ciudad tiene un latido único, y nuestra misión es ayudarte a encontrarlo a través de eventos auténticos y comunidades vibrantes.
+                                </p>
+
+                                <h3>Documentación Legal</h3>
+                                <div class="divider"></div>
+                                <div class="notif-list">
+                                    <a href="#" class="notif-item" style="text-decoration: none; color: inherit;">
+                                        <div>
+                                            <h4 style="margin:0; font-size: 0.95rem;">Términos y Condiciones</h4>
+                                            <p style="margin: 4px 0 0; font-size: 0.8rem; color: var(--text-muted);">Acuerdos de uso de la plataforma y servicios.</p>
+                                        </div>
+                                        <i class="ph ph-caret-right" style="color: var(--text-light);"></i>
+                                    </a>
+                                    <a href="#" class="notif-item" style="text-decoration: none; color: inherit;">
+                                        <div>
+                                            <h4 style="margin:0; font-size: 0.95rem;">Política de Privacidad</h4>
+                                            <p style="margin: 4px 0 0; font-size: 0.8rem; color: var(--text-muted);">Cómo protegemos y gestionamos tus datos personales.</p>
+                                        </div>
+                                        <i class="ph ph-caret-right" style="color: var(--text-light);"></i>
+                                    </a>
+                                    <a href="#" class="notif-item" style="text-decoration: none; color: inherit;">
+                                        <div>
+                                            <h4 style="margin:0; font-size: 0.95rem;">Política de Cookies</h4>
+                                            <p style="margin: 4px 0 0; font-size: 0.8rem; color: var(--text-muted);">Información sobre el almacenamiento local y preferencias.</p>
+                                        </div>
+                                        <i class="ph ph-caret-right" style="color: var(--text-light);"></i>
+                                    </a>
+                                </div>
+
+                                <div style="margin-top: 40px; padding: 24px; background: rgba(var(--primary-rgb), 0.05); border-radius: 20px; border: 1px solid var(--panel-border); text-align: center;">
+                                    <p style="margin: 0; font-size: 0.85rem; color: var(--text-muted);">
+                                        Desarrollado con ❤️ para amantes de las experiencias únicas.<br>
+                                        © 2026 Eventia Global S.L. Todos los derechos reservados.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Apariencia Section -->
+                        <div id="section-appearance" class="settings-section">
+                            <div class="form-section">
+                                <h3>Personalización del Tema</h3>
+                                <div class="divider"></div>
+
+                                <div class="form-grid">
+                                    <div class="input-group">
+                                        <label>Tema del Sistema</label>
+                                        <select id="theme-selector" class="form-input">
+                                            <option value="light">Claro</option>
+                                            <option value="dark">Oscuro</option>
+                                            <option value="auto">Automático</option>
+                                        </select>
+                                    </div>
+                                    <div class="input-group">
+
+                                        <label>Color de Acento</label>
+                                        <div class="color-picker-grid" style="display: flex; flex-wrap: wrap; gap: 12px; margin-top: 8px;">
+                                            <div class="color-option active" data-primary="#6366f1" data-light="rgba(99, 102, 241, 0.15)" data-dark="#4f46e5" style="width: 32px; height: 32px; border-radius: 50%; background: #6366f1; border: 3px solid white; box-shadow: 0 0 0 2px #6366f1; cursor: pointer; transition: all 0.2s;"></div>
+                                            <div class="color-option" data-primary="#ec4899" data-light="rgba(236, 72, 153, 0.15)" data-dark="#db2777" style="width: 32px; height: 32px; border-radius: 50%; background: #ec4899; border: 3px solid white; cursor: pointer; transition: all 0.2s;"></div>
+                                            <div class="color-option" data-primary="#22c55e" data-light="rgba(34, 197, 94, 0.15)" data-dark="#16a34a" style="width: 32px; height: 32px; border-radius: 50%; background: #22c55e; border: 3px solid white; cursor: pointer; transition: all 0.2s;"></div>
+                                            <div class="color-option" data-primary="#3b82f6" data-light="rgba(59, 130, 246, 0.15)" data-dark="#2563eb" style="width: 32px; height: 32px; border-radius: 50%; background: #3b82f6; border: 3px solid white; cursor: pointer; transition: all 0.2s;"></div>
+                                            <div class="color-option premium-only" data-primary="#f59e0b" data-light="rgba(245, 158, 11, 0.15)" data-dark="#d97706" style="width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, #f59e0b, #fbbf24); border: 3px solid white; cursor: pointer; transition: all 0.2s; position: relative; display: flex; align-items: center; justify-content: center;">
+                                                <i class="ph-fill ph-crown" style="font-size: 0.7rem; color: white;"></i>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <script>
+                                        document.querySelectorAll('.color-option').forEach(option => {
+                                            option.addEventListener('click', () => {
+                                                // UI Update
+                                                document.querySelectorAll('.color-option').forEach(opt => {
+                                                    opt.classList.remove('active');
+                                                    opt.style.boxShadow = 'none';
+                                                });
+                                                option.classList.add('active');
+                                                option.style.boxShadow = `0 0 0 2px ${option.dataset.primary}`;
+
+                                                // Theme Update
+                                                const primary = option.dataset.primary;
+                                                const light = option.dataset.light;
+                                                const dark = option.dataset.dark;
+
+                                                document.documentElement.style.setProperty('--primary-color', primary);
+                                                document.documentElement.style.setProperty('--primary-light', light);
+                                                document.documentElement.style.setProperty('--primary-dark', dark);
+                                                
+                                                // Update shadow variable if it exists
+                                                const rgb = hexToRgb(primary);
+                                                document.documentElement.style.setProperty('--shadow-colored', `0 10px 25px -5px rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, 0.4)`);
+
+                                                // Save to localStorage
+                                                localStorage.setItem('eventia-primary-color', primary);
+                                                localStorage.setItem('eventia-primary-light', light);
+                                                localStorage.setItem('eventia-primary-dark', dark);
+                                            });
+                                        });
+
+                                        function hexToRgb(hex) {
+                                            const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+                                            return result ? {
+                                                r: parseInt(result[1], 16),
+                                                g: parseInt(result[2], 16),
+                                                b: parseInt(result[3], 16)
+                                            } : null;
+                                        }
+
+                                        // Theme Selector Logic
+                                        const themeSelector = document.getElementById('theme-selector');
+                                        themeSelector.addEventListener('change', (e) => {
+                                            const theme = e.target.value;
+                                            applyThemeMode(theme);
+                                            localStorage.setItem('eventia-theme', theme);
+                                        });
+
+                                        function applyThemeMode(theme) {
+                                            if (theme === 'dark') {
+                                                document.body.classList.add('dark-theme');
+                                            } else if (theme === 'light') {
+                                                document.body.classList.remove('dark-theme');
+                                            } else {
+                                                if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                                                    document.body.classList.add('dark-theme');
+                                                } else {
+                                                    document.body.classList.remove('dark-theme');
+                                                }
+                                            }
+                                        }
+
+                                        // Premium Mode Logic
+                                        const isPremium = true; // Simulación de estado premium
+                                        if (isPremium) {
+                                            document.body.classList.add('premium-mode');
+                                        }
+
+                                        // Apply on Load
+                                        const savedColor = localStorage.getItem('eventia-primary-color');
+                                        if (savedColor) {
+                                            document.querySelectorAll('.color-option').forEach(opt => {
+                                                if (opt.dataset.primary === savedColor) opt.click();
+                                            });
+                                        }
+
+                                        const savedTheme = localStorage.getItem('eventia-theme');
+                                        if (savedTheme) {
+                                            themeSelector.value = savedTheme;
+                                            applyThemeMode(savedTheme);
+                                        }
+                                    </script>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-actions">
+                            <button class="btn btn-dark" style="background-color: transparent; color: var(--text-muted);">Cancelar</button>
+                            <button class="btn btn-primary"><i class="ph ph-floppy-disk"></i> Guardar Cambios</button>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </main>
+    </div>
+
+    <!-- Modal de Facturación -->
+    <div id="payment-modal" class="modal-overlay">
+        <div class="modal-content glass-panel">
+            <i class="ph ph-x modal-close" id="close-modal"></i>
+            <div class="modal-header">
+                <h2 id="modal-title">Añadir Método de Pago</h2>
+                <p id="modal-desc">Introduce los detalles de tu nueva tarjeta de crédito o débito.</p>
+            </div>
+            <form id="payment-form">
+                <div class="input-group full-width" style="margin-bottom: 20px;">
+                    <label>Nombre en la Tarjeta</label>
+                    <input type="text" class="form-input" placeholder="Ej: ALEX RIVERA" required id="card-name">
+                </div>
+                <div class="input-group full-width" style="margin-bottom: 20px;">
+                    <label>Número de Tarjeta</label>
+                    <div style="position: relative;">
+                        <input type="text" class="form-input" placeholder="0000 0000 0000 0000" required id="card-number" maxlength="19">
+                        <i class="ph ph-credit-card" style="position: absolute; right: 16px; top: 12px; color: var(--text-light); font-size: 1.2rem;"></i>
+                    </div>
+                </div>
+                <div class="form-grid" style="margin-bottom: 20px;">
+                    <div class="input-group">
+                        <label>Fecha de Expiración</label>
+                        <input type="text" class="form-input" placeholder="MM/YY" required id="card-exp" maxlength="5">
+                    </div>
+                    <div class="input-group">
+                        <label>CVV / CVC</label>
+                        <input type="text" class="form-input" placeholder="123" required id="card-cvv" maxlength="3">
+                    </div>
+                </div>
+                <div style="display: flex; gap: 12px; align-items: center; margin-bottom: 24px;">
+                    <input type="checkbox" id="card-default" style="width: 18px; height: 18px; cursor: pointer;">
+                    <label for="card-default" style="font-size: 0.9rem; cursor: pointer;">Establecer como método predeterminado</label>
+                </div>
+                <div class="form-actions" style="margin: 0; padding-top: 24px;">
+                    <button type="button" class="btn btn-dark" id="btn-cancel-modal" style="background: transparent; color: var(--text-muted);">Cancelar</button>
+                    <button type="submit" class="btn btn-primary" id="btn-save-card">Guardar Tarjeta</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const navItems = document.querySelectorAll('.s-nav-item');
+            const sections = document.querySelectorAll('.settings-section');
+
+            // --- Lógica de Estado Premium (NUEVO) ---
+            const checkPremium = () => {
+                const isPremium = localStorage.getItem('is-premium') === 'true';
+                
+                // Mostrar opciones de menú premium
+                const premiumItems = document.querySelectorAll('.premium-only');
+                premiumItems.forEach(item => {
+                    item.style.display = isPremium ? 'block' : 'none';
+                });
+
+                // 1. Cabecera y Perfil
+                const userProfile = document.querySelector('.user-profile');
+                const crown = document.querySelector('.premium-crown');
+                const premiumTag = document.querySelector('.premium-tag');
+                const userRole = document.querySelector('.user-role');
+
+                if (!isPremium) {
+                    userProfile.classList.remove('premium-user');
+                    if (crown) crown.style.display = 'none';
+                    if (premiumTag) premiumTag.style.display = 'none';
+                    if (userRole) userRole.innerHTML = 'Usuario Estándar';
+                } else {
+                    userProfile.classList.add('premium-user');
+                    if (crown) crown.style.display = 'flex';
+                    if (premiumTag) premiumTag.style.display = 'inline';
+                    if (userRole) userRole.innerHTML = 'Organizador <span class="premium-tag">• Premium</span>';
+                }
+
+                // 2. Tarjeta de Suscripción en Ajustes
+                const subCard = document.querySelector('.subscription-status');
+                if (subCard) {
+                    const subTitle = subCard.querySelector('h4');
+                    const subDesc = subCard.querySelector('p');
+                    const subBtn = subCard.querySelector('a');
+                    const subIcon = subCard.querySelector('div[style*="ph-crown"]');
+
+                    if (!isPremium) {
+                        subTitle.innerHTML = 'Plan Estándar';
+                        subDesc.innerHTML = 'Pásate a Premium para crear eventos y personalizar tu experiencia.';
+                        subBtn.innerHTML = 'Obtener Premium';
+                        subBtn.href = 'premium.html';
+                        subBtn.classList.remove('btn-outline');
+                        subBtn.classList.add('btn-primary');
+                        if (subIcon) subIcon.style.opacity = '0';
+                        subCard.style.borderLeftColor = 'var(--panel-border)';
+                        subCard.style.background = 'rgba(148, 163, 184, 0.05)';
+                    }
+                }
+
+                // 3. Botón de Crear Evento (Sidebar)
+                const createBtn = document.querySelector('.create-btn-container a');
+                if (createBtn && !isPremium) {
+                    createBtn.style.opacity = '0.6';
+                    createBtn.style.filter = 'grayscale(0.5)';
+                    createBtn.innerHTML = '<i class="ph ph-lock-key"></i> Crear Evento';
+                    createBtn.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        if(confirm('La creación de eventos es exclusiva para usuarios Premium. ¿Quieres ver los planes?')) {
+                            window.location.href = 'premium.html';
+                        }
+                    });
+                }
+
+                // 4. Bloquear Color Oro si no es Premium
+                const goldColor = document.querySelector('.color-option[data-color="#f59e0b"]');
+                if (goldColor && !isPremium) {
+                    goldColor.style.position = 'relative';
+                    goldColor.style.cursor = 'not-allowed';
+                    goldColor.innerHTML = '<i class="ph ph-lock-key" style="font-size: 10px; color: white;"></i>';
+                    goldColor.onclick = (e) => {
+                        e.stopPropagation();
+                        alert('Este color es exclusivo para usuarios Premium. ¡Sube de nivel para usarlo!');
+                    };
+                }
+            };
+
+            checkPremium();
+
+            navItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    const targetId = item.getAttribute('data-target');
+                    navItems.forEach(nav => nav.classList.remove('active'));
+                    item.classList.add('active');
+                    sections.forEach(section => {
+                        section.classList.remove('active');
+                        if (section.id === targetId) section.classList.add('active');
+                    });
+                });
+            });
+
+            // --- Lógica de Notificaciones ---
+            const notifToggle = document.getElementById('notif-toggle');
+            const notifDropdown = document.getElementById('notif-dropdown');
+
+            if (notifToggle && notifDropdown) {
+                notifToggle.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    notifDropdown.classList.toggle('active');
+                });
+
+                document.addEventListener('click', (e) => {
+                    if (!notifDropdown.contains(e.target) && !notifToggle.contains(e.target)) {
+                        notifDropdown.classList.remove('active');
+                    }
+                });
+            }
+
+            // --- Lógica del Modal ---
+            const modal = document.getElementById('payment-modal');
+            const btnAdd = document.getElementById('btn-add-card');
+            const btnEdit = document.getElementById('btn-edit-card');
+            const btnCancel = document.getElementById('btn-cancel-modal');
+            const btnClose = document.getElementById('close-modal');
+            const modalTitle = document.getElementById('modal-title');
+            const modalDesc = document.getElementById('modal-desc');
+
+            const openModal = (mode = 'add') => {
+                if (mode === 'edit') {
+                    modalTitle.innerText = 'Editar Método de Pago';
+                    modalDesc.innerText = 'Actualiza los detalles de tu tarjeta actual.';
+                    document.getElementById('card-number').value = '4242 4242 4242 4242';
+                    document.getElementById('card-name').value = 'ALEX RIVERA';
+                    document.getElementById('card-exp').value = '12/26';
+                    document.getElementById('card-cvv').value = '***';
+                } else {
+                    modalTitle.innerText = 'Añadir Método de Pago';
+                    modalDesc.innerText = 'Introduce los detalles de tu nueva tarjeta de crédito o débito.';
+                    document.getElementById('payment-form').reset();
+                }
+                modal.classList.add('active');
+            };
+
+            const closeModal = () => modal.classList.remove('active');
+
+            if (btnAdd) btnAdd.addEventListener('click', () => openModal('add'));
+            if (btnEdit) btnEdit.addEventListener('click', () => openModal('edit'));
+            if (btnCancel) btnCancel.addEventListener('click', closeModal);
+            if (btnClose) btnClose.addEventListener('click', closeModal);
+
+            // Cerrar al clickear fuera
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) closeModal();
+            });
+
+            // Form Submit (Mockup)
+            document.getElementById('payment-form').addEventListener('submit', (e) => {
+                e.preventDefault();
+                const saveBtn = document.getElementById('btn-save-card');
+                const originalText = saveBtn.innerHTML;
+                saveBtn.innerHTML = '<i class="ph ph-spinner-gap ph-spin"></i> Guardando...';
+                saveBtn.disabled = true;
+
+                setTimeout(() => {
+                    alert('Tarjeta guardada con éxito (Simulación)');
+                    saveBtn.innerHTML = originalText;
+                    saveBtn.disabled = false;
+                    closeModal();
+                }, 1500);
+            });
+
+            // --- Lógica de Logout ---
+            const logoutBtns = document.querySelectorAll('#sidebar-logout');
+            logoutBtns.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    if (confirm('¿Estás seguro de que deseas cerrar sesión?')) {
+                        localStorage.clear();
+                        window.location.href = 'login.html';
+                    }
+                });
+            });
+        });
+
+    </script>
+    <script src="./js/eventia.js"></script>
+</body>
+</html>

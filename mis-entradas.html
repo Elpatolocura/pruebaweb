@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis Entradas - Eventia</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <!-- CSS -->
+    <link rel="stylesheet" href="./css/styles.css">
+    <link rel="stylesheet" href="./css/tickets.css">
+</head>
+<body>
+
+    <div class="dashboard-layout">
+        
+        <!-- Sidebar -->
+        <aside class="sidebar glass-panel">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <div class="logo-icon"><i class="ph-fill ph-planet"></i></div>
+                    <h2>Eventia</h2>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <ul class="nav-list">
+                    <li class="nav-item">
+                        <a href="index.html"><i class="ph ph-squares-four"></i> Principal</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="explorar-eventos.html"><i class="ph ph-calendar-blank"></i> Explorar Eventos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="mis-entradas.html"><i class="ph ph-ticket"></i> Mis Entradas <span class="badge badge-purple">3</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="mensajes.html"><i class="ph ph-chat-circle-dots"></i> Mensajes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="estadisticas.html"><i class="ph ph-chart-line-up"></i> Estadísticas</a>
+                    </li>
+                </ul>
+
+                <h3 class="nav-title">ORGANIZACIÓN</h3>
+                <ul class="nav-list">
+                    <li class="nav-item">
+                        <a href="comunidad.html"><i class="ph ph-users"></i> Comunidad</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="ajustes.html"><i class="ph ph-gear"></i> Ajustes</a>
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="create-btn-container">
+                    <a href="crear-evento.html" class="btn btn-primary w-full"><i class="ph ph-plus"></i> Crear Evento</a>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            
+            <!-- Header -->
+            <header class="top-header">
+                <div class="search-bar glass-panel">
+                    <i class="ph ph-magnifying-glass"></i>
+                    <input type="text" placeholder="Buscar eventos, organizadores...">
+                </div>
+
+                <div class="header-actions">
+                    <button class="icon-btn"><i class="ph ph-bell"></i><span class="notification-dot"></span></button>
+                    <div class="user-profile">
+                        <img src="https://i.pravatar.cc/150?img=68" alt="Usuario" class="avatar">
+                        <div class="user-info">
+                            <span class="user-name">Alex Rivera</span>
+                            <span class="user-role">Organizador</span>
+                        </div>
+                        <i class="ph ph-caret-down"></i>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Tickets Content -->
+            <div class="tickets-container">
+                
+                <div class="tickets-header">
+                    <div class="tickets-title">
+                        <h1>Mis Entradas</h1>
+                        <p>Administra los pases para tus eventos activos e históricos.</p>
+                    </div>
+                    <div class="tickets-filters glass-panel">
+                        <button class="filter-btn active" data-tab="upcoming">Próximos (<span id="count-upcoming">3</span>)</button>
+                        <button class="filter-btn" data-tab="past">Pasados (<span id="count-past">2</span>)</button>
+                    </div>
+                </div>
+
+                <div class="tickets-grid" id="tickets-display-grid">
+                    <!-- Generado dinámicamente -->
+                </div>
+
+            </div>
+
+        </main>
+    </div>
+
+
+    <!-- Modal Visor de Entradas -->
+    <div id="ticket-modal" class="modal-overlay">
+        <div class="modal-content glass-panel" style="max-width: 400px; padding: 0; overflow: hidden; border-radius: 24px;">
+            <i class="ph ph-x modal-close" id="close-ticket" style="right: 16px; top: 16px; z-index: 10; color: white; background: rgba(0,0,0,0.3); border-radius: 50%; padding: 4px;"></i>
+            
+            <div class="pass-header" style="background: var(--primary-color); padding: 32px 24px; text-align: center; color: white;">
+                <div class="logo" style="justify-content: center; margin-bottom: 16px;">
+                    <div class="logo-icon" style="background: white; color: var(--primary-color);"><i class="ph-fill ph-planet"></i></div>
+                    <h2 style="color: white; font-size: 1.2rem;">Eventia</h2>
+                </div>
+                <h3 id="modal-event-name" style="margin: 0; font-size: 1.4rem;">Festival Rock Local</h3>
+                <p id="modal-event-type" style="margin: 4px 0 0; opacity: 0.8; font-size: 0.85rem; text-transform: uppercase; font-weight: 700;">Entrada VIP</p>
+            </div>
+
+            <div class="pass-body" style="padding: 24px; background: var(--panel-bg);">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 24px;">
+                    <div>
+                        <label style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase;">Fecha</label>
+                        <p id="modal-event-date" style="margin: 4px 0 0; font-weight: 600;">14 Agosto, 2026</p>
+                    </div>
+                    <div>
+                        <label style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase;">Hora</label>
+                        <p id="modal-event-time" style="margin: 4px 0 0; font-weight: 600;">20:00</p>
+                    </div>
+                    <div>
+                        <label style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase;">Ubicación</label>
+                        <p id="modal-event-loc" style="margin: 4px 0 0; font-weight: 600;">Teatro Central</p>
+                    </div>
+                    <div>
+                        <label style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase;">Asiento</label>
+                        <p style="margin: 4px 0 0; font-weight: 600;">General B12</p>
+                    </div>
+                </div>
+
+                <div style="border-top: 2px dashed var(--panel-border); padding-top: 24px; text-align: center;">
+                    <img id="modal-qr" src="https://upload.wikimedia.org/wikipedia/commons/d/d0/QR_code_for_mobile_English_Wikipedia.svg" style="width: 180px; height: 180px; margin-bottom: 12px;">
+                    <p style="font-family: monospace; font-weight: 700; letter-spacing: 2px;" id="modal-ticket-id">#4A9B23</p>
+                </div>
+            </div>
+
+            <div class="pass-footer" style="padding: 16px; background: var(--bg-color); display: flex; gap: 12px;">
+                <button class="btn btn-dark w-full" style="font-size: 0.85rem;"><i class="ph ph-calendar-plus"></i> Calendario</button>
+                <button class="btn btn-primary w-full" style="font-size: 0.85rem;"><i class="ph ph-download-simple"></i> Guardar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        const myTickets = [
+            { id: "#4A9B23", name: "Festival Indie Rock Local", date: "14 Ago", loc: "Teatro Central", time: "20:00 - 02:00", badge: "Entrada VIP", status: "upcoming", color: "bg-purple-light" },
+            { id: "#9F821C", name: "Taller de Pintura Urbana", date: "20 Ago", loc: "Estudio Creativo D7", time: "10:00 - 14:00", badge: "General", status: "upcoming", color: "bg-green-light" },
+            { id: "#2B7H99", name: "Networking Tech Startups", date: "05 Sep", loc: "Coworking Hub", time: "18:30 - 21:00", badge: "Invitación Especial", status: "upcoming", color: "bg-blue-light" },
+            { id: "#8X2P44", name: "Concierto Jazz Nocturno", date: "15 Jul", loc: "Blue Note Club", time: "21:30 - 23:30", badge: "General", status: "past", color: "bg-dark-light" },
+            { id: "#1Y9K66", name: "Expo Arte Moderno", date: "02 Jul", loc: "Museo Nacional", time: "09:00 - 18:00", badge: "Acreditación", status: "past", color: "bg-dark-light" }
+        ];
+
+        let currentTab = "upcoming";
+        let searchText = "";
+
+        function renderTickets() {
+            const grid = document.getElementById('tickets-display-grid');
+            grid.innerHTML = "";
+            
+            const filtered = myTickets.filter(t => 
+                t.status === currentTab && 
+                t.name.toLowerCase().includes(searchText.toLowerCase())
+            );
+
+            filtered.forEach(t => {
+                const card = document.createElement('div');
+                card.className = `ticket-card glass-panel ${t.status === 'past' ? 'past-event' : ''}`;
+                card.innerHTML = `
+                    <div class="ticket-date-sidebar">
+                        <span class="t-month">${t.date.split(' ')[1]}</span>
+                        <span class="t-day">${t.date.split(' ')[0]}</span>
+                    </div>
+                    <div class="ticket-body">
+                        <div class="t-badge ${t.color}">${t.badge}</div>
+                        <h3 class="t-title">${t.name}</h3>
+                        <div class="t-details">
+                            <div class="t-detail"><i class="ph ph-map-pin"></i> ${t.loc}</div>
+                            <div class="t-detail"><i class="ph ph-clock"></i> ${t.time}</div>
+                        </div>
+                        <div class="t-actions">
+                            ${t.status === 'upcoming' ? '<button class="btn btn-primary"><i class="ph ph-download-simple"></i> Descargar PDF</button>' : '<button class="btn btn-dark" disabled>Evento Finalizado</button>'}
+                            <button class="icon-btn"><i class="ph ph-share-network"></i></button>
+                        </div>
+                    </div>
+                    <div class="ticket-qr">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/d/d0/QR_code_for_mobile_English_Wikipedia.svg" alt="QR Code" style="${t.status === 'past' ? 'opacity: 0.3' : ''}">
+                        <span>ID: ${t.id}</span>
+                    </div>
+                `;
+
+                card.onclick = (e) => {
+                    if (e.target.tagName !== 'BUTTON' && t.status === 'upcoming') {
+                        openTicketModal(t);
+                    }
+                };
+                grid.appendChild(card);
+            });
+
+            // Update counts
+            document.getElementById('count-upcoming').innerText = myTickets.filter(t => t.status === 'upcoming').length;
+            document.getElementById('count-past').innerText = myTickets.filter(t => t.status === 'past').length;
+        }
+
+        function openTicketModal(t) {
+            const ticketModal = document.getElementById('ticket-modal');
+            document.getElementById('modal-event-name').innerText = t.name;
+            document.getElementById('modal-event-type').innerText = t.badge;
+            document.getElementById('modal-event-date').innerText = t.date + ", 2026";
+            document.getElementById('modal-event-time').innerText = t.time.split(' - ')[0];
+            document.getElementById('modal-event-loc').innerText = t.loc;
+            document.getElementById('modal-ticket-id').innerText = t.id;
+            ticketModal.classList.add('active');
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderTickets();
+
+            // Search Header Bind
+            const searchInput = document.querySelector('.search-bar input');
+            searchInput.addEventListener('input', (e) => {
+                searchText = e.target.value;
+                renderTickets();
+            });
+
+            // Tab Filters Bind
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    currentTab = this.getAttribute('data-tab');
+                    renderTickets();
+                });
+            });
+
+            // Modal Close
+            const ticketModal = document.getElementById('ticket-modal');
+            document.getElementById('close-ticket').addEventListener('click', () => ticketModal.classList.remove('active'));
+            ticketModal.addEventListener('click', (e) => { if (e.target === ticketModal) ticketModal.classList.remove('active'); });
+        });
+    </script>
+    <script src="./js/eventia.js"></script>
+
+</body>
+</html>
+
+

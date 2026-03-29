@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sesión - Eventia</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <!-- CSS -->
+    <link rel="stylesheet" href="./css/styles.css">
+    <style>
+        body {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            background: radial-gradient(circle at top right, rgba(99, 102, 241, 0.15), transparent),
+                        radial-gradient(circle at bottom left, rgba(236, 72, 153, 0.1), transparent);
+        }
+
+        .auth-container {
+            width: 100%;
+            max-width: 420px;
+            padding: 20px;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        .auth-card {
+            padding: 40px;
+            text-align: center;
+        }
+
+        .auth-logo {
+            display: flex;
+            align-items: center; justify-content: center;
+            gap: 12px;
+            margin-bottom: 32px;
+        }
+        .auth-logo .logo-icon {
+            width: 48px; height: 48px;
+            background: var(--primary-color);
+            border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            color: white; font-size: 1.8rem;
+            box-shadow: 0 8px 16px rgba(var(--primary-rgb), 0.3);
+        }
+        .auth-logo h1 { font-size: 1.8rem; font-weight: 800; letter-spacing: -0.5px; }
+
+        .auth-header { margin-bottom: 32px; }
+        .auth-header h2 { font-size: 1.5rem; font-weight: 700; margin-bottom: 8px; }
+        .auth-header p { color: var(--text-muted); font-size: 0.9rem; }
+
+        .auth-form { text-align: left; }
+        .auth-form .input-group { margin-bottom: 20px; }
+        .auth-form label { display: block; margin-bottom: 8px; font-weight: 500; font-size: 0.85rem; }
+        
+        .auth-input-wrapper {
+            position: relative;
+            display: flex; align-items: center;
+        }
+        .auth-input-wrapper i {
+            position: absolute; left: 16px;
+            color: var(--text-muted);
+            font-size: 1.2rem;
+        }
+        .auth-input-wrapper .auth-input {
+            width: 100%;
+            padding: 12px 16px 12px 48px;
+            border-radius: 12px;
+            background: rgba(var(--primary-rgb), 0.03);
+            border: 1px solid var(--panel-border);
+            color: var(--text-main);
+            transition: all 0.2s;
+            outline: none;
+        }
+        .auth-input-wrapper .auth-input:focus {
+            border-color: var(--primary-color);
+            background: var(--bg-color);
+            box-shadow: 0 0 0 4px rgba(var(--primary-rgb), 0.1);
+        }
+
+        .forgot-link {
+            display: block; text-align: right;
+            font-size: 0.8rem; font-weight: 600;
+            color: var(--primary-color);
+            text-decoration: none;
+            margin-top: -12px; margin-bottom: 24px;
+        }
+
+        .auth-footer {
+            margin-top: 32px;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+        .auth-footer a { color: var(--primary-color); font-weight: 700; text-decoration: none; }
+
+        .social-auth { margin-top: 24px; display: flex; gap: 12px; }
+        .btn-social {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid var(--panel-border);
+            border-radius: 12px;
+            background: var(--bg-color);
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+            font-size: 0.9rem; font-weight: 500;
+        }
+        .btn-social:hover { background: rgba(0,0,0,0.02); transform: translateY(-2px); }
+
+        .divider-text {
+            display: flex; align-items: center;
+            margin: 24px 0;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+        }
+        .divider-text::before, .divider-text::after {
+            content: ''; flex: 1; height: 1px; background: var(--panel-border);
+        }
+        .divider-text span { padding: 0 12px; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="light-mode">
+
+    <div class="auth-container">
+        <div class="auth-card glass-panel">
+            
+            <div class="auth-logo">
+                <div class="logo-icon"><i class="ph-fill ph-planet"></i></div>
+                <h1>Eventia</h1>
+            </div>
+
+            <div class="auth-header">
+                <h2>¡Hola de nuevo!</h2>
+                <p>Ingresa tus datos para acceder a tu comunidad de eventos.</p>
+            </div>
+
+            <form class="auth-form" action="index.html">
+                <div class="input-group">
+                    <label>Correo Electrónico</label>
+                    <div class="auth-input-wrapper">
+                        <i class="ph ph-envelope"></i>
+                        <input type="email" class="auth-input" placeholder="tu@email.com" required>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label>Contraseña</label>
+                    <div class="auth-input-wrapper">
+                        <i class="ph ph-lock"></i>
+                        <input type="password" class="auth-input" placeholder="••••••••" required>
+                    </div>
+                </div>
+
+                <a href="recuperar-clave.html" class="forgot-link">¿Olvidaste la contraseña?</a>
+
+                <button type="submit" class="btn btn-primary w-full" style="padding: 14px; font-weight: 700;">Iniciar Sesión</button>
+
+                <div class="divider-text"><span>O continúa con</span></div>
+
+                <div class="social-auth">
+                    <button type="button" class="btn-social"><i class="ph ph-google-logo"></i> Google</button>
+                    <button type="button" class="btn-social"><i class="ph ph-apple-logo"></i> Apple</button>
+                </div>
+            </form>
+
+            <div class="auth-footer">
+                ¿No tienes una cuenta? <a href="registro.html">Regístrate gratis</a>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // Aplicar tema inicial desde localStorage
+        const savedTheme = localStorage.getItem('eventia-theme');
+        if (savedTheme === 'dark' || (savedTheme === 'auto' && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.body.classList.add('dark-theme');
+        }
+    </script>
+</body>
+</html>

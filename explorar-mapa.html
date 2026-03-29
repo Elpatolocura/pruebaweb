@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mapa de Eventos - Eventia</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <!-- MapLibre GL JS -->
+    <script src="https://unpkg.com/maplibre-gl@latest/dist/maplibre-gl.js"></script>
+    <link href="https://unpkg.com/maplibre-gl@latest/dist/maplibre-gl.css" rel="stylesheet" />
+    <!-- CSS -->
+    <link rel="stylesheet" href="./css/styles.css">
+    <style>
+        .map-wrapper {
+            position: relative;
+            width: 100%;
+            height: calc(100vh - 100px);
+            border-radius: 32px;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+            background: #e5e7eb;
+            margin-top: 20px;
+        }
+        #map {
+            width: 100%;
+            height: 100%;
+        }
+        .map-overlay-ui {
+            position: absolute;
+            top: 24px;
+            left: 24px;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            pointer-events: none;
+        }
+        .map-overlay-ui > * {
+            pointer-events: auto;
+        }
+        .search-on-map {
+            width: 320px;
+            background: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            border: 1px solid var(--panel-border);
+        }
+        .search-on-map input {
+            border: none;
+            outline: none;
+            width: 100%;
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+        .map-category-filters {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            max-width: calc(100vw - 400px);
+            padding-bottom: 8px;
+        }
+        .map-category-filters::-webkit-scrollbar { display: none; }
+        
+        .map-tag {
+            background: white;
+            padding: 10px 18px;
+            border-radius: 14px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            white-space: nowrap;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 1px solid var(--panel-border);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .map-tag.active {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+
+        /* Marcadores Personalizados */
+        .marker-event {
+            width: 44px;
+            height: 44px;
+            background: var(--primary-color);
+            border-radius: 50% 50% 50% 0;
+            transform: rotate(-45deg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 3px solid white;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .marker-event i {
+            transform: rotate(45deg);
+            color: white;
+            font-size: 1.2rem;
+        }
+        .marker-event:hover {
+            transform: rotate(-45deg) scale(1.1);
+            background: var(--primary-dark);
+        }
+
+        /* Popup Estilizado */
+        .maplibregl-popup-content {
+            border-radius: 20px;
+            padding: 0;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            border: none;
+            width: 240px;
+        }
+        .popup-card {
+            display: flex;
+            flex-direction: column;
+        }
+        .popup-img {
+            height: 120px;
+            background: var(--primary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: white;
+        }
+        .popup-info {
+            padding: 16px;
+        }
+        .popup-info h4 {
+            margin: 0 0 6px 0;
+            font-size: 1.1rem;
+            color: var(--text-main);
+        }
+        .popup-info p {
+            margin: 0;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+        .popup-btn {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            width: 100%;
+            padding: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .popup-btn:hover { background: var(--primary-dark); }
+
+        /* Controles Flotantes Derecha */
+        .map-controls-right {
+            position: absolute;
+            right: 24px;
+            top: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            z-index: 10;
+        }
+        .map-btn {
+            width: 48px; height: 48px;
+            border-radius: 14px;
+            background: white;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.3rem;
+            color: var(--text-main);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: 0.2s;
+            border: 1px solid var(--panel-border);
+        }
+        .map-btn:hover { color: var(--primary-color); transform: scale(1.05); }
+        .map-btn.active { background: var(--primary-color); color: white; border-color: var(--primary-color); }
+    </style>
+</head>
+<body>
+
+    <div class="dashboard-layout">
+        
+        <div id="sidebar-container"></div>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            
+            <!-- Header -->
+            <header class="top-header">
+                <div class="header-left">
+                    <h2 style="font-size: 1.6rem; font-weight: 700;">Explorador de Mapas</h2>
+                    <p style="color: var(--text-muted); font-size: 0.9rem;">Descubre eventos activos en tiempo real a tu alrededor.</p>
+                </div>
+
+                <div class="header-actions">
+                    <button class="icon-btn"><i class="ph ph-bell"></i></button>
+                    <div class="user-profile">
+                        <img src="https://i.pravatar.cc/150?img=68" alt="Usuario" class="avatar">
+                        <div class="user-info">
+                            <span class="user-name">Alex Rivera</span>
+                            <span class="user-role">Organizador</span>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <div class="map-wrapper">
+                <div id="map"></div>
+
+                <!-- Interfaz sobre el mapa -->
+                <div class="map-overlay-ui">
+                    <div class="search-on-map">
+                        <i class="ph ph-magnifying-glass" style="color: var(--primary-color);"></i>
+                        <input type="text" placeholder="Buscar en esta zona...">
+                    </div>
+
+                    <div class="map-category-filters">
+                        <div class="map-tag active"><i class="ph ph-squares-four"></i> Todos</div>
+                        <div class="map-tag"><i class="ph ph-music-notes"></i> Música</div>
+                        <div class="map-tag"><i class="ph ph-palette"></i> Arte</div>
+                        <div class="map-tag"><i class="ph ph-code"></i> Workshop</div>
+                        <div class="map-tag"><i class="ph ph-pizza"></i> Comida</div>
+                    </div>
+                </div>
+
+                <div class="map-controls-right">
+                    <div class="map-btn" title="Mi Ubicación"><i class="ph ph-navigation-arrow"></i></div>
+                    <div class="map-btn" title="Aumentar Zoom"><i class="ph ph-plus"></i></div>
+                    <div class="map-btn" title="Disminuir Zoom"><i class="ph ph-minus"></i></div>
+                    <div class="map-btn active" title="Ver Lista" onclick="window.location='explorar-eventos.html'"><i class="ph ph-list"></i></div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="./js/eventia.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Inicializar Mapa (MapLibre con estilo OpenStreetMap gratuito)
+            const map = new maplibregl.Map({
+                container: 'map',
+                style: 'https://demotiles.maplibre.org/style.json', // Estilo demo básico
+                center: [-74.0721, 4.6097], // Bogotá
+                zoom: 12,
+                pitch: 45
+            });
+
+            // Añadir Controles de Navegación
+            map.addControl(new maplibregl.NavigationControl(), 'bottom-right');
+
+            // Simular Eventos en el Mapa
+            const events = [
+                { id: 1, name: "Festival Indie Rock", coords: [-74.068, 4.620], icon: "ph-music-notes", color: "#6366f1" },
+                { id: 2, name: "Taller Acuarela", coords: [-74.085, 4.600], icon: "ph-palette", color: "#10b981" },
+                { id: 3, name: "Gastro Fest", coords: [-74.055, 4.630], icon: "ph-pizza", color: "#ef4444" },
+                { id: 4, name: "Tech Meetup", coords: [-74.075, 4.645], icon: "ph-code", color: "#3b82f6" },
+                { id: 5, name: "Yoga Park", coords: [-74.090, 4.615], icon: "ph-person-running", color: "#f59e0b" }
+            ];
+
+            events.forEach(event => {
+                // Crear Marcador Personalizado
+                const el = document.createElement('div');
+                el.className = 'marker-event';
+                el.style.backgroundColor = event.color;
+                el.innerHTML = `<i class="ph-fill ${event.icon}"></i>`;
+
+                // Crear Popup
+                const popup = new maplibregl.Popup({ offset: 25 }).setHTML(`
+                    <div class="popup-card">
+                        <div class="popup-img" style="background: ${event.color}">
+                            <i class="ph-fill ${event.icon}"></i>
+                        </div>
+                        <div class="popup-info">
+                            <h4>${event.name}</h4>
+                            <p><i class="ph ph-clock"></i> Hoy, 19:00 PM</p>
+                            <p><i class="ph ph-map-pin"></i> A 2.4 km de ti</p>
+                        </div>
+                        <button class="popup-btn" onclick="window.location='detalle-evento.html'">Ver Detalles</button>
+                    </div>
+                `);
+
+                // Añadir al Mapa
+                new maplibregl.Marker(el)
+                    .setLngLat(event.coords)
+                    .setPopup(popup)
+                    .addTo(map);
+            });
+
+            // Interactividad de Tags
+            document.querySelectorAll('.map-tag').forEach(tag => {
+                tag.addEventListener('click', function() {
+                    document.querySelectorAll('.map-tag').forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    // Aquí iría la lógica de filtrado real del mapa
+                });
+            });
+        });
+    </script>
+</body>
+</html>

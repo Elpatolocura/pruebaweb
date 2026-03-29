@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explorar Eventos - Eventia</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <!-- CSS -->
+    <link rel="stylesheet" href="./css/styles.css">
+    <style>
+        .explore-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+        .filter-tags {
+            display: flex;
+            gap: 12px;
+            overflow-x: auto;
+            padding-bottom: 8px;
+        }
+        .filter-tag {
+            padding: 8px 16px;
+            border-radius: var(--radius-full);
+            background: rgba(255,255,255,0.6);
+            border: 1px solid var(--panel-border);
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: var(--transition);
+            white-space: nowrap;
+        }
+        .filter-tag:hover, .filter-tag.active {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        /* Barra de Filtros Sticky */
+        .filter-tags-sticky {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: var(--bg-color);
+            padding: 16px 0;
+            margin-bottom: 24px;
+            border-bottom: 1px solid var(--panel-border);
+        }
+        .filter-tags-inner {
+            display: flex;
+            gap: 12px;
+            overflow-x: auto;
+            padding: 4px;
+        }
+        .filter-tags-inner::-webkit-scrollbar { display: none; }
+
+        /* Controles Flotantes */
+        .floating-layout-controls {
+            position: fixed;
+            right: 32px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            z-index: 1000;
+        }
+        .float-btn {
+            width: 56px; height: 56px;
+            border-radius: 50%;
+            background: white;
+            border: 1px solid var(--panel-border);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.4rem;
+            color: var(--text-main);
+            cursor: pointer;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .float-btn:hover { transform: scale(1.1); box-shadow: 0 12px 24px rgba(0,0,0,0.15); color: var(--primary-color); }
+        .float-btn.active { background: var(--primary-color); color: white; border-color: var(--primary-color); }
+
+        .show-count-wrapper {
+            display: flex; align-items: center; gap: 10px;
+            font-size: 0.9rem; color: var(--text-muted);
+            background: rgba(255,255,255,0.5);
+            padding: 4px 12px; border-radius: 12px;
+            border: 1px solid var(--panel-border);
+        }
+        .show-count-wrapper select {
+            background: transparent; border: none; font-weight: 700; color: var(--text-main); cursor: pointer; outline: none;
+        }
+
+        /* Estilos de Tarjeta con Imagen */
+        .event-card {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            padding: 16px;
+            border-radius: 24px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .event-card:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
+        
+        .event-image-container {
+            width: 100%;
+            height: 180px;
+            border-radius: 20px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            background: linear-gradient(45deg, var(--primary-color), var(--info-color));
+        }
+        .event-image-container .event-icon {
+            width: 60px; height: 60px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 2rem;
+            color: white;
+        }
+        .event-image-container .badge {
+            position: absolute;
+            top: 12px; right: 12px;
+            padding: 6px 14px;
+            border-radius: var(--radius-full);
+            font-size: 0.75rem;
+            font-weight: 700;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .event-body h3 { font-size: 1.2rem; font-weight: 700; margin-bottom: 8px; color: var(--text-main); }
+        .event-meta { display: flex; align-items: center; gap: 6px; color: var(--text-muted); font-size: 0.9rem; }
+        
+        .event-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 8px;
+            padding-top: 16px;
+            border-top: 1px solid var(--panel-border);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="dashboard-layout">
+        
+        <div id="sidebar-container"></div>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            
+            <!-- Header -->
+            <header class="top-header">
+                <div class="search-bar glass-panel">
+                    <i class="ph ph-magnifying-glass"></i>
+                    <input type="text" id="search-input" placeholder="Buscar música, teatro, talleres...">
+                </div>
+
+                <div class="header-actions">
+                    <button class="icon-btn"><i class="ph ph-bell"></i></button>
+                    <div class="user-profile">
+                        <img src="https://i.pravatar.cc/150?img=68" alt="Usuario" class="avatar">
+                        <div class="user-info">
+                            <span class="user-name">Alex Rivera</span>
+                            <span class="user-role">Organizador</span>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <div class="explore-header">
+                <h2>Descubre eventos cerca de ti</h2>
+            </div>
+
+            <div class="floating-layout-controls">
+                <button class="float-btn active" title="Vista Cuadrícula" onclick="window.location='explorar-eventos.html'"><i class="ph ph-squares-four"></i></button>
+                <button class="float-btn" title="Vista Mapa" onclick="window.location='explorar-mapa.html'"><i class="ph ph-map-pin"></i></button>
+            </div>
+
+            <div class="filter-tags-sticky">
+                <div class="filter-tags-inner" id="category-filters">
+                    <div class="filter-tag active" data-category="all">Todos</div>
+                    <div class="filter-tag" data-category="musica">🎸 Música</div>
+                    <div class="filter-tag" data-category="arte">🎨 Arte & Diseño</div>
+                    <div class="filter-tag" data-category="tecnologia">💻 Tecnología</div>
+                    <div class="filter-tag" data-category="gastronomia">🍕 Gastronomía</div>
+                    <div class="filter-tag" data-category="deportes">🏃 Deportes</div>
+                </div>
+                <!-- Filtro de tipo de entrada -->
+                <div class="filter-tags-inner" id="ticket-type-filters" style="margin-top: 12px; border-top: 1px dashed var(--panel-border); padding-top: 12px;">
+                    <span style="font-size: 0.8rem; font-weight: 600; color: var(--text-muted); align-self: center; margin-right: 8px;">ENTRADA:</span>
+                    <div class="filter-tag active" data-type="free">🎟️ Gratis</div>
+                    <div class="filter-tag active" data-type="paid">💳 De Pago</div>
+                </div>
+            </div>
+
+            <div class="events-grid" id="events-display-grid" style="grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 24px;">
+                <!-- Dinámicamente generado por JS -->
+            </div>
+
+            <div id="pagination-container" style="display: flex; justify-content: center; margin-top: 40px; padding-bottom: 50px;">
+                <button class="btn btn-dark" id="btn-load-more" style="padding: 14px 40px; font-weight: 700; border-radius: 20px;">Cargar más eventos <i class="ph ph-plus"></i></button>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="./js/eventia.js"></script>
+    <script>
+        // Real-time Search & Filter
+        const grid = document.getElementById('events-display-grid');
+        const loadMoreBtn = document.getElementById('btn-load-more');
+        const searchInput = document.getElementById('search-input');
+        const categoryTags = document.querySelectorAll('.filter-tag');
+
+        const eventDataTemplates = [
+            { name: "Festival Indie Rock", cat: "musica", icon: "ph-music-notes", price: "$15", color: "linear-gradient(135deg, #818cf8, #c084fc)" },
+            { name: "Taller Acuarela", cat: "arte", icon: "ph-palette", price: "$30", color: "linear-gradient(135deg, #34d399, #10b981)" },
+            { name: "Hackathon 2026", cat: "tecnologia", icon: "ph-code", price: "Gratis", color: "linear-gradient(135deg, #38bdf8, #0ea5e9)" },
+            { name: "Gastro Fest", cat: "gastronomia", icon: "ph-pizza", price: "$10", color: "linear-gradient(135deg, #f87171, #ef4444)" },
+            { name: "Maratón Local", cat: "deportes", icon: "ph-person-running", price: "$5", color: "linear-gradient(135deg, #fbbf24, #f59e0b)" }
+        ];
+
+        let currentSearch = "";
+        let selectedCategories = ["all"];
+        let selectedTicketTypes = ["free", "paid"]; 
+        let itemsShown = 0;
+
+        function generateEvents(count = 40) {
+            for(let i = 0; i < count; i++) {
+                const template = eventDataTemplates[Math.floor(Math.random() * eventDataTemplates.length)];
+                const card = document.createElement('div');
+                card.className = "event-card glass-panel";
+                
+                const isFree = template.price === "Gratis";
+                card.setAttribute('data-name', template.name.toLowerCase());
+                card.setAttribute('data-category', template.cat);
+                card.setAttribute('data-ticket-type', isFree ? 'free' : 'paid');
+                
+                card.onclick = () => window.location='detalle-evento.html';
+                
+                card.innerHTML = `
+                    <div class="event-image-container" style="background: ${template.color};">
+                        <div class="event-icon"><i class="ph-fill ${template.icon}"></i></div>
+                        <span class="badge" style="background: rgba(255,255,255,0.2); color: white;">${Math.random() > 0.5 ? 'Hoy' : 'Pronto'}</span>
+                    </div>
+                    <div class="event-body">
+                        <h3>${template.name} #${itemsShown + i + 1}</h3>
+                        <p class="event-meta"><i class="ph ph-map-pin"></i> Ciudad Centro (A ${ (Math.random()*5).toFixed(1) } km)</p>
+                    </div>
+                    <div class="event-footer">
+                        <span style="font-weight: 700; font-size: 1.1rem; color: ${isFree ? 'var(--success-color)' : 'var(--text-main)'};">${template.price}</span>
+                        <button class="btn btn-primary" style="padding: 10px 20px; border-radius: 12px;">Ver Detalles</button>
+                    </div>
+                `;
+                grid.appendChild(card);
+            }
+            itemsShown += count;
+            applyFilters();
+        }
+
+        // Filters logic
+        // Filters logic
+        searchInput.addEventListener('input', (e) => {
+            currentSearch = e.target.value.toLowerCase();
+            applyFilters();
+        });
+
+        loadMoreBtn.addEventListener('click', () => {
+            generateEvents(20); 
+        });
+
+        categoryTags.forEach(tag => {
+            tag.addEventListener('click', function() {
+                const cat = this.getAttribute('data-category');
+                
+                if (cat === "all") {
+                    selectedCategories = ["all"];
+                    categoryTags.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                } else {
+                    if (selectedCategories.includes("all")) {
+                        selectedCategories = [];
+                        document.querySelector('[data-category="all"]').classList.remove('active');
+                    }
+                    
+                    if (this.classList.contains('active')) {
+                        this.classList.remove('active');
+                        selectedCategories = selectedCategories.filter(c => c !== cat);
+                        if (selectedCategories.length === 0) {
+                            selectedCategories = ["all"];
+                            document.querySelector('[data-category="all"]').classList.add('active');
+                        }
+                    } else {
+                        this.classList.add('active');
+                        selectedCategories.push(cat);
+                    }
+                }
+                applyFilters();
+            });
+        });
+
+        const ticketTags = document.querySelectorAll('#ticket-type-filters .filter-tag');
+        ticketTags.forEach(tag => {
+            tag.addEventListener('click', function() {
+                const type = this.getAttribute('data-type');
+                
+                if (this.classList.contains('active')) {
+                    this.classList.remove('active');
+                    selectedTicketTypes = selectedTicketTypes.filter(t => t !== type);
+                    
+                    if (selectedTicketTypes.length === 0) {
+                        ticketTags.forEach(t => t.classList.add('active'));
+                        selectedTicketTypes = ["free", "paid"];
+                    }
+                } else {
+                    this.classList.add('active');
+                    selectedTicketTypes.push(type);
+                }
+                applyFilters();
+            });
+        });
+
+        function applyFilters() {
+            const cards = grid.querySelectorAll('.event-card');
+            cards.forEach(card => {
+                const name = card.getAttribute('data-name');
+                const cat = card.getAttribute('data-category');
+                const tType = card.getAttribute('data-ticket-type');
+                
+                const matchesSearch = name.includes(currentSearch);
+                const matchesCategory = selectedCategories.includes("all") || selectedCategories.includes(cat);
+                const matchesTicket = selectedTicketTypes.includes(tType);
+                
+                card.style.display = (matchesSearch && matchesCategory && matchesTicket) ? 'flex' : 'none';
+            });
+        }
+
+        // Inicialización única
+        generateEvents(40);
+    </script>
+</body>
+</html>
+
+

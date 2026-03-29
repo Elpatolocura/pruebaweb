@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil Organizador - Orbital Collectiv</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <!-- Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <!-- CSS -->
+    <link rel="stylesheet" href="./css/styles.css">
+    <style>
+        :root {
+            --org-primary: #6366f1;
+            --org-bg: #f8fafc;
+            --card-radius: 40px;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--org-bg);
+        }
+
+        /* Unified Header Background */
+        .profile-header-wrapper {
+            position: relative;
+            margin-bottom: 250px;
+            /* Offset for floating info box */
+        }
+
+        .profile-cover {
+            height: 400px;
+            width: 100%;
+            background: linear-gradient(135deg, #1e1b4b 0%, #4338ca 100%);
+            border-radius: 0 0 var(--card-radius) var(--card-radius);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .profile-cover img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.4;
+            filter: grayscale(100%) contrast(1.2);
+        }
+
+        /* Floating Profile Info Card */
+        .profile-floating-card {
+            position: absolute;
+            left: 50%;
+            bottom: -220px;
+            transform: translateX(-50%);
+            width: 92%;
+            max-width: 1000px;
+            background: white;
+            border-radius: var(--card-radius);
+            padding: 0 40px 40px 40px;
+            box-shadow: 0 40px 100px -20px rgba(0, 0, 0, 0.12);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            border: 1px solid rgba(0, 0, 0, 0.02);
+            z-index: 10;
+        }
+
+        .floating-avatar {
+            width: 140px;
+            height: 140px;
+            border-radius: 40px;
+            margin-top: -70px;
+            border: 6px solid white;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            background: white;
+            overflow: hidden;
+            margin-bottom: 24px;
+            z-index: 100 !important;
+            /* Forced prominence */
+            position: relative;
+        }
+
+        .floating-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .org-badge-pro {
+            background: #fef3c7;
+            color: #d97706;
+            padding: 6px 16px;
+            border-radius: 100px;
+            font-size: 0.8rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 16px;
+        }
+
+        .profile-floating-card h1 {
+            font-size: 2.8rem;
+            font-weight: 800;
+            margin-bottom: 8px;
+            letter-spacing: -0.03em;
+            color: #1e293b;
+        }
+
+        .profile-floating-card p.location {
+            color: #64748b;
+            font-size: 1.1rem;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .profile-actions-row {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            width: 100%;
+            max-width: 800px;
+            margin-bottom: 24px;
+            /* Reduced for bottom actions */
+        }
+
+        .action-btn-large {
+            height: 64px;
+            padding: 0 40px;
+            border-radius: 20px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            cursor: pointer;
+            transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            width: 100%;
+        }
+
+        .btn-follow {
+            background: var(--org-primary);
+            color: white;
+            border: none;
+            box-shadow: 0 10px 25px rgba(99, 102, 241, 0.3);
+        }
+
+        .btn-follow:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(99, 102, 241, 0.4);
+        }
+
+        .btn-message-outline {
+            background: white;
+            color: var(--org-primary);
+            border: 2px solid #e2e8f0;
+        }
+
+        /* Secondary Profile Actions */
+        .profile-secondary-actions {
+            display: flex;
+            gap: 16px;
+            width: 100%;
+            max-width: 800px;
+            justify-content: center;
+            margin-bottom: 40px;
+        }
+
+        .btn-mini-action {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: #64748b;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            border-radius: 12px;
+            transition: 0.2s;
+        }
+
+        .btn-report {
+            color: #f87171 !important;
+            cursor: pointer !important;
+        }
+
+        .btn-report:hover {
+            background: #fef2f2 !important;
+            color: #ef4444 !important;
+        }
+
+        /* Report Modal Layout */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(8px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+        }
+
+        .modal-overlay.show {
+            display: flex;
+        }
+
+        .report-modal {
+            background: white;
+            width: 90%;
+            max-width: 500px;
+            border-radius: 32px;
+            padding: 40px;
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+
+        .report-modal h3 {
+            font-size: 1.6rem;
+            font-weight: 800;
+            margin-bottom: 12px;
+        }
+
+        .report-modal p {
+            color: #64748b;
+            margin-bottom: 24px;
+        }
+
+        .report-options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .report-opt {
+            padding: 16px;
+            border: 2px solid #f1f5f9;
+            border-radius: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 600;
+        }
+
+        .report-opt:hover {
+            border-color: #6366f1;
+            background: #f8fafc;
+        }
+
+        .report-opt.active {
+            border-color: #f87171;
+            background: #fef2f2;
+            color: #ef4444;
+        }
+
+        /* Stats Grid */
+        .stats-marquee {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 32px;
+            margin-top: 40px;
+            width: 100%;
+            padding-top: 32px;
+            border-top: 1px solid #f1f5f9;
+        }
+
+        .marquee-stat h3 {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #1e293b;
+            margin-bottom: 4px;
+        }
+
+        .marquee-stat span {
+            font-size: 0.85rem;
+            color: #94a3b8;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        /* Main Content Grid */
+        .profile-content-grid {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding-bottom: 100px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 32px;
+            margin-top: 64px;
+        }
+
+        .section-header h2 {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #1e293b;
+        }
+
+        /* Event Cards Grid */
+        .org-events-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 32px;
+        }
+
+        .org-event-card {
+            background: white;
+            border-radius: 32px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+            border: 1px solid rgba(0, 0, 0, 0.03);
+            transition: 0.3s;
+            cursor: pointer;
+        }
+
+        .org-event-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1);
+        }
+
+        .event-card-img {
+            height: 200px;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .event-card-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .event-card-body {
+            padding: 24px;
+        }
+
+        .event-card-body h4 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: #1e293b;
+        }
+
+        .event-card-body p {
+            color: #64748b;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Review Cards */
+        .reviews-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 24px;
+            margin-top: 32px;
+        }
+
+        .review-card {
+            background: white;
+            border-radius: 24px;
+            padding: 24px;
+            border: 1px solid rgba(0, 0, 0, 0.03);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
+        }
+
+        .review-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .review-header img {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+        }
+
+        .review-header h5 {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin: 0;
+        }
+
+        .review-stars {
+            color: #f59e0b;
+            font-size: 0.8rem;
+            margin-top: 2px;
+        }
+
+        .review-content {
+            font-size: 0.95rem;
+            color: #64748b;
+            line-height: 1.6;
+        }
+
+        /* Hidden Elements with Transition */
+        #more-events,
+        #more-reviews {
+            display: none;
+            margin-top: 32px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: 0.5s ease;
+        }
+
+        #more-events.show,
+        #more-reviews.show {
+            display: grid;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .stats-marquee {
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+
+        .profile-floating-card h1 {
+            font-size: 2rem;
+        }
+
+        .profile-actions-row {
+            flex-direction: column;
+            width: 100%;
+        }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="dashboard-layout">
+
+        <div id="sidebar-container"></div>
+
+        <main class="main-content">
+
+            <!-- Floating Hero Section -->
+            <div class="profile-header-wrapper">
+                <div class="profile-cover">
+                    <img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80"
+                        alt="Cover">
+                </div>
+
+                <div class="profile-floating-card">
+                    <div class="floating-avatar">
+                        <img src="https://i.pravatar.cc/150?img=11" alt="Orbital Collectiv">
+                    </div>
+
+                    <span class="org-badge-pro">Top Organizador Premium</span>
+                    <h1>Orbital Collectiv</h1>
+                    <p class="location"><i class="ph-fill ph-map-pin"></i> Madrid, España · Curadores de Experiencias
+                    </p>
+
+                    <div class="profile-actions-row">
+                        <button class="action-btn-large btn-follow" id="follow-toggle">
+                            <i class="ph ph-user-plus"></i> <span>Seguir</span>
+                        </button>
+                        <button class="action-btn-large btn-message-outline"
+                            onclick="window.location.href='mensajes.html'">
+                            <i class="ph ph-chat-circle-dots"></i> Mensaje
+                        </button>
+                    </div>
+
+                    <div class="profile-secondary-actions">
+                        <button class="btn-mini-action" id="share-profile"
+                            style="background:none; border:none; cursor:pointer; font-family:inherit;"
+                            onclick="shareProfile()">
+                            <i class="ph ph-share-network"></i> Compartir Perfil
+                        </button>
+                        <button class="btn-mini-action btn-report" id="report-profile"
+                            style="background:none; border:none; cursor:pointer; font-family:inherit;"
+                            onclick="openReportModal()">
+                            <i class="ph ph-warning-octagon"></i> Denunciar
+                        </button>
+                    </div>
+
+                    <div class="stats-marquee">
+                        <div class="marquee-stat">
+                            <h3>32</h3>
+                            <span>Eventos</span>
+                        </div>
+                        <div class="marquee-stat">
+                            <h3>4.9</h3>
+                            <span>Calificación</span>
+                        </div>
+                        <div class="marquee-stat">
+                            <h3>12.4k</h3>
+                            <span>Seguidores</span>
+                        </div>
+                        <div class="marquee-stat">
+                            <h3>98%</h3>
+                            <span>Respuesta</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Content Area -->
+            <div class="profile-content-grid">
+
+                <div class="content-block"
+                    style="background:transparent; padding:0; box-shadow:none; border:none; margin-top: 40px;">
+                    <h3 style="font-size:1.5rem; font-weight:800; margin-bottom:16px;">Nuestra Visión</h3>
+                    <p style="font-size: 1.1rem; line-height: 1.8; color: #64748b;">
+                        En <strong>Orbital Collectiv</strong> no solo organizamos reuniones; diseñamos ecosistemas
+                        culturales. Con más de una década en la escena europea, nuestro enfoque combina la tecnología de
+                        vanguardia con la calidez del talento local emergente. Cada evento es una oportunidad para
+                        conectar almas e ideas.
+                    </p>
+                </div>
+
+                <div class="section-header">
+                    <h2>Próximos Eventos</h2>
+                    <a href="#" id="view-all-events"
+                        style="color:var(--org-primary); font-weight:700; text-decoration:none;">Ver todos</a>
+                </div>
+
+                <div class="org-events-grid">
+                    <!-- Event 1 -->
+                    <div class="org-event-card" onclick="window.location.href='detalle-evento.html'">
+                        <div class="event-card-img">
+                            <img src="https://images.unsplash.com/photo-1459749411177-042180ce673c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60"
+                                alt="Indie Rock">
+                        </div>
+                        <div class="event-card-body">
+                            <h4>Festival Indie Rock 2026</h4>
+                            <p><i class="ph ph-calendar"></i> 30 Mar · Teatro Central</p>
+                            <div
+                                style="margin-top:16px; display:flex; justify-content:space-between; align-items:center;">
+                                <span style="font-weight:800; color:var(--org-primary);">$15.00</span>
+                                <span
+                                    style="font-size:0.8rem; background:#f1f5f9; padding:4px 10px; border-radius:100px; font-weight:700;">85%
+                                    Vendido</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Event 2 -->
+                    <div class="org-event-card">
+                        <div class="event-card-img">
+                            <img src="https://images.unsplash.com/photo-1514525253361-bee8d48800d0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60"
+                                alt="Electronic">
+                        </div>
+                        <div class="event-card-body">
+                            <h4>Neon Genesis: Night Beats</h4>
+                            <p><i class="ph ph-calendar"></i> 12 Abr · Warehouse 7</p>
+                            <div
+                                style="margin-top:16px; display:flex; justify-content:space-between; align-items:center;">
+                                <span style="font-weight:800; color:var(--org-primary);">$25.00</span>
+                                <span
+                                    style="font-size:0.8rem; background:#f1f5f9; padding:4px 10px; border-radius:100px; font-weight:700;">Preventa</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hidden Row -->
+                <div class="org-events-grid" id="more-events">
+                    <div class="org-event-card">
+                        <div class="event-card-img"><img
+                                src="https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?auto=format&fit=crop&w=600&q=60">
+                        </div>
+                        <div class="event-card-body">
+                            <h4>Sun & Bass: Pool Party</h4>
+                            <p><i class="ph ph-calendar"></i> 05 May · Sunset Club</p>
+                        </div>
+                    </div>
+                    <div class="org-event-card">
+                        <div class="event-card-img"><img
+                                src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=600&q=60">
+                        </div>
+                        <div class="event-card-body">
+                            <h4>Jazz in the Park</h4>
+                            <p><i class="ph ph-calendar"></i> 20 May · Parque Retiro</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section-header">
+                    <h2>Reseñas destacadas</h2>
+                    <a href="#" id="view-all-reviews"
+                        style="color:var(--org-primary); font-weight:700; text-decoration:none;">Ver todas</a>
+                </div>
+
+                <div class="reviews-grid">
+                    <div class="review-card">
+                        <div class="review-header">
+                            <img src="https://i.pravatar.cc/100?img=32" alt="Sarah">
+                            <div>
+                                <h5>Sarah L.</h5>
+                                <div class="review-stars"><i class="ph-fill ph-star"></i><i
+                                        class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i
+                                        class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i></div>
+                            </div>
+                        </div>
+                        <p class="review-content">"Orbital Collectiv siempre organiza experiencias increíbles. La
+                            atención al detalle en el Festival Indie fue insuperable."</p>
+                    </div>
+
+                    <div class="review-card">
+                        <div class="review-header">
+                            <img src="https://i.pravatar.cc/100?img=44" alt="Mike">
+                            <div>
+                                <h5>Mike Torres</h5>
+                                <div class="review-stars"><i class="ph-fill ph-star"></i><i
+                                        class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i
+                                        class="ph-fill ph-star"></i><i class="ph-light ph-star"></i></div>
+                            </div>
+                        </div>
+                        <p class="review-content">"Muy buena organización. El sistema de entrada con QR fue súper
+                            rápido. ¡Esperando el siguiente!"</p>
+                    </div>
+
+                    <div class="review-card">
+                        <div class="review-header">
+                            <img src="https://i.pravatar.cc/100?img=21" alt="Elena">
+                            <div>
+                                <h5>Elena G.</h5>
+                                <div class="review-stars"><i class="ph-fill ph-star"></i><i
+                                        class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i
+                                        class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i></div>
+                            </div>
+                        </div>
+                        <p class="review-content">"Experiencias inmersivas de verdad. El sonido en el Teatro Central fue
+                            una locura."</p>
+                    </div>
+                </div>
+
+                <!-- More Reviews (Hidden) -->
+                <div class="reviews-grid" id="more-reviews">
+                    <div class="review-card">
+                        <div class="review-header">
+                            <img src="https://i.pravatar.cc/100?img=12" alt="Carlos">
+                            <div>
+                                <h5>Carlos R.</h5>
+                                <div class="review-stars"><i class="ph-fill ph-star"></i><i
+                                        class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i
+                                        class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i></div>
+                            </div>
+                        </div>
+                        <p class="review-content">"Increíble gestión de multitudes. Nunca me sentí agobiado a pesar de
+                            la cantidad de gente."</p>
+                    </div>
+
+                    <div class="review-card">
+                        <div class="review-header">
+                            <img src="https://i.pravatar.cc/100?img=26" alt="Ana">
+                            <div>
+                                <h5>Ana Belén</h5>
+                                <div class="review-stars"><i class="ph-fill ph-star"></i><i
+                                        class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i
+                                        class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i></div>
+                            </div>
+                        </div>
+                        <p class="review-content">"La calidad de los visuales generativos me dejó sin palabras.
+                            Repetiría sin pensarlo."</p>
+                    </div>
+                </div>
+
+            </div>
+
+        </main>
+    </div>
+
+    <!-- Report Modal Structure -->
+    <div class="modal-overlay" id="report-modal-overlay">
+        <div class="report-modal">
+            <h3 style="color:#ef4444;"><i class="ph ph-warning-octagon"></i> Denunciar Perfil</h3>
+            <p>Por favor, selecciona el motivo de tu denuncia. Revisaremos esta información con seriedad.</p>
+
+            <div class="report-options">
+                <div class="report-opt" onclick="this.classList.toggle('active')">Contenido Inapropiado</div>
+                <div class="report-opt" onclick="this.classList.toggle('active')">Spam o Engaño</div>
+                <div class="report-opt" onclick="this.classList.toggle('active')">Suplantación de identidad</div>
+                <div class="report-opt" onclick="this.classList.toggle('active')">Actividad Inusual</div>
+            </div>
+
+            <textarea placeholder="Cuéntanos más detalles (opcional)..."
+                style="width: 100%; border-radius: 16px; border: 2px solid #f1f5f9; padding: 16px; font-family: inherit; margin-bottom: 24px; height: 100px; outline: none; transition: 0.3s;"></textarea>
+
+            <div style="display:flex; gap:12px;">
+                <button class="btn btn-dark" style="flex:1; border-radius:14px;" id="close-report">Cancelar</button>
+                <button class="btn btn-primary" style="flex:2; border-radius:14px; background:#ef4444; border:none;"
+                    id="submit-report">Enviar Denuncia</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="./js/eventia.js"></script>
+    <script>
+        // Global Functions for Direct Clicks
+        function openReportModal() {
+            console.log('Opening Modal');
+            const modal = document.getElementById('report-modal-overlay');
+            if (modal) modal.style.display = 'flex';
+        }
+
+        function closeReportModal() {
+            const modal = document.getElementById('report-modal-overlay');
+            if (modal) modal.style.display = 'none';
+        }
+
+        function shareProfile() {
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Perfil de Orbital Collectiv en Eventia',
+                    url: window.location.href
+                }).catch(err => console.log(err));
+            } else {
+                navigator.clipboard.writeText(window.location.href);
+                alert('¡Enlace copiado al portapapeles!');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            // Follow Toggle
+            const followBtn = document.getElementById('follow-toggle');
+            if (followBtn) {
+                followBtn.addEventListener('click', function () {
+                    const span = this.querySelector('span');
+                    const icon = this.querySelector('i');
+                    if (span.textContent === 'Seguir') {
+                        span.textContent = 'Siguiendo';
+                        icon.className = 'ph-fill ph-user-check';
+                        this.style.background = '#22c55e';
+                    } else {
+                        span.textContent = 'Seguir';
+                        icon.className = 'ph ph-user-plus';
+                        this.style.background = '';
+                    }
+                });
+            }
+
+            // View All Events
+            const viewAllBtn = document.getElementById('view-all-events');
+            if (viewAllBtn) {
+                viewAllBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    document.getElementById('more-events').classList.toggle('show');
+                    viewAllBtn.textContent = document.getElementById('more-events').classList.contains('show') ? 'Ver menos' : 'Ver todos';
+                });
+            }
+
+            // Modal Controls
+            document.getElementById('close-report').addEventListener('click', closeReportModal);
+
+            document.getElementById('submit-report').addEventListener('click', () => {
+                alert('Denuncia enviada exitosamente.');
+                closeReportModal();
+            });
+
+            document.getElementById('report-modal-overlay').addEventListener('click', function (e) {
+                if (e.target === this) closeReportModal();
+            });
+        });
+    </script>
+</body>
+
+</html>

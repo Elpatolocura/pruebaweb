@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis Eventos - Eventia</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <!-- CSS -->
+    <link rel="stylesheet" href="./css/styles.css">
+    <script>
+        // --- Bloqueo Premium de Seguridad ---
+        const isPremium = localStorage.getItem('is-premium') === 'true';
+        if (!isPremium) {
+            window.location.href = 'index.html?error=premium_required';
+        }
+    </script>
+</head>
+<body>
+
+    <div class="dashboard-layout">
+        
+        <!-- Sidebar Identico al Principal -->
+        <aside class="sidebar glass-panel">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <div class="logo-icon"><i class="ph-fill ph-planet"></i></div>
+                    <h2>Eventia</h2>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <ul class="nav-list">
+                    <li class="nav-item">
+                        <a href="index.html"><i class="ph ph-squares-four"></i> Principal</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="explorar-eventos.html"><i class="ph ph-calendar-blank"></i> Explorar Eventos</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a href="mis-eventos.html" style="color: var(--primary-color); font-weight: 700;"><i class="ph-fill ph-list-bullets"></i> Mis Eventos <i class="ph-fill ph-crown" style="font-size: 0.7rem; margin-left: 4px; color: #f59e0b;"></i></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="mis-entradas.html"><i class="ph ph-ticket"></i> Mis Entradas <span class="badge badge-purple">3</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="mensajes.html"><i class="ph ph-chat-circle-dots"></i> Mensajes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="estadisticas.html"><i class="ph ph-chart-line-up"></i> Estadísticas</a>
+                    </li>
+                    <li class="nav-item logout-item">
+                        <a href="#" id="sidebar-logout" style="color: #ef4444;"><i class="ph ph-sign-out"></i> Cerrar Sesión</a>
+                    </li>
+                </ul>
+
+                <h3 class="nav-title">ORGANIZACIÓN</h3>
+                <ul class="nav-list">
+                    <li class="nav-item">
+                        <a href="comunidad.html"><i class="ph ph-users"></i> Comunidad</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="ajustes.html"><i class="ph ph-gear"></i> Ajustes</a>
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="create-btn-container">
+                    <a href="crear-evento.html" class="btn btn-primary w-full"><i class="ph ph-plus"></i> Crear Evento</a>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            
+            <header class="top-header">
+                <div class="header-left">
+                    <h1 style="font-size: 1.8rem; letter-spacing: -1.2px; margin-bottom: 4px;">Gestión de Mis Eventos</h1>
+                    <p style="color: var(--text-muted); font-size: 0.95rem;">Administra y supervisa todos tus eventos creados.</p>
+                </div>
+
+                <div class="header-actions">
+                    <div class="user-profile premium-user">
+                        <div class="avatar-container">
+                            <img src="https://i.pravatar.cc/150?img=68" alt="Usuario" class="avatar">
+                            <div class="premium-crown"><i class="ph-fill ph-crown"></i></div>
+                        </div>
+                        <div class="user-info">
+                            <span class="user-name">Alex Rivera</span>
+                            <div class="user-role">Organizador <span class="premium-tag">• Premium</span></div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <div class="dashboard-grid" style="display: grid; grid-template-columns: repeat(12, 1fr); gap: 24px; padding: 24px 0;">
+                
+                <!-- Filtros Dinámicos -->
+                <div style="grid-column: span 12; display: flex; gap: 12px; margin-bottom: 8px;">
+                    <button class="btn btn-primary btn-sm btn-filter" data-status="all" style="border-radius: 12px; padding: 10px 20px;">Todos (12)</button>
+                    <button class="btn glass-panel btn-sm btn-filter" data-status="published" style="border-radius: 12px; padding: 10px 20px;">Publicados (8)</button>
+                    <button class="btn glass-panel btn-sm btn-filter" data-status="draft" style="border-radius: 12px; padding: 10px 20px;">Borradores (2)</button>
+                    <button class="btn glass-panel btn-sm btn-filter" data-status="ended" style="border-radius: 12px; padding: 10px 20px;">Finalizados (2)</button>
+                </div>
+
+                <!-- Evento 1 -->
+                <div class="event-card glass-panel" data-status="published" style="grid-column: span 4; padding: 24px; display: flex; flex-direction: column; justify-content: space-between; min-height: 380px;">
+                    <div>
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 15px;">
+                            <span class="badge" style="background: rgba(16, 185, 129, 0.1); color: #10b981; padding: 6px 14px; border-radius: 20px; font-weight: 700; font-size: 0.75rem;">PUBLICADO</span>
+                            <div style="width: 44px; height: 44px; background: var(--primary-light); color: var(--primary-color); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem;"><i class="ph-fill ph-music-notes"></i></div>
+                        </div>
+                        <h3 style="font-size: 1.3rem; margin-bottom: 8px;">Festival Indie Rock Local</h3>
+                        <p style="color: var(--text-muted); font-size: 0.9rem;"><i class="ph ph-calendar"></i> 14 de Agosto • 20:00 PM</p>
+                        <p style="color: var(--text-muted); font-size: 0.9rem;"><i class="ph ph-map-pin"></i> Teatro Central, Bogotá</p>
+                        
+                        <div style="margin-top: 24px; display: grid; grid-template-columns: 1fr 1fr; gap: 15px; background: rgba(0,0,0,0.03); padding: 16px; border-radius: 16px;">
+                            <div>
+                                <span style="font-size: 0.7rem; color: var(--text-light); text-transform: uppercase; font-weight: 700;">Vendidos</span>
+                                <p style="font-weight: 700; margin: 4px 0 0; font-size: 1.1rem;">425 / 500</p>
+                            </div>
+                            <div>
+                                <span style="font-size: 0.7rem; color: var(--text-light); text-transform: uppercase; font-weight: 700;">Ingresos</span>
+                                <p style="font-weight: 700; color: #16a34a; margin: 4px 0 0; font-size: 1.1rem;">$8,500</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="display: flex; gap: 10px; margin-top: 20px;">
+                        <button class="btn btn-primary btn-edit-event" data-id="1" style="flex: 1; height: 44px; font-size: 0.9rem;"><i class="ph ph-pencil-simple"></i> Editar</button>
+                        <button class="btn btn-outline btn-analytics" data-id="1" style="flex: 1; height: 44px; font-size: 0.9rem;"><i class="ph ph-chart-bar"></i> Analítica</button>
+                    </div>
+                </div>
+
+                <!-- Evento 2 -->
+                <div class="event-card glass-panel" data-status="published" style="grid-column: span 4; padding: 24px; display: flex; flex-direction: column; justify-content: space-between; min-height: 380px;">
+                    <div>
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 15px;">
+                            <span class="badge" style="background: rgba(16, 185, 129, 0.1); color: #10b981; padding: 6px 14px; border-radius: 20px; font-weight: 700; font-size: 0.75rem;">PUBLICADO</span>
+                            <div style="width: 44px; height: 44px; background: rgba(16, 185, 129, 0.1); color: #10b981; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem;"><i class="ph-fill ph-palette"></i></div>
+                        </div>
+                        <h3 style="font-size: 1.3rem; margin-bottom: 8px;">Taller de Pintura Urbana</h3>
+                        <p style="color: var(--text-muted); font-size: 0.9rem;"><i class="ph ph-calendar"></i> 20 de Agosto • 10:00 AM</p>
+                        <p style="color: var(--text-muted); font-size: 0.9rem;"><i class="ph ph-map-pin"></i> Galería Artística, Bogotá</p>
+                        
+                        <div style="margin-top: 24px; display: grid; grid-template-columns: 1fr 1fr; gap: 15px; background: rgba(0,0,0,0.03); padding: 16px; border-radius: 16px;">
+                            <div>
+                                <span style="font-size: 0.7rem; color: var(--text-light); text-transform: uppercase; font-weight: 700;">Inscritos</span>
+                                <p style="font-weight: 700; margin: 4px 0 0; font-size: 1.1rem;">22 / 50</p>
+                            </div>
+                            <div>
+                                <span style="font-size: 0.7rem; color: var(--text-light); text-transform: uppercase; font-weight: 700;">Ingresos</span>
+                                <p style="font-weight: 700; color: #16a34a; margin: 4px 0 0; font-size: 1.1rem;">$440</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="display: flex; gap: 10px; margin-top: 20px;">
+                        <button class="btn btn-primary btn-edit-event" data-id="2" style="flex: 1; height: 44px; font-size: 0.9rem;"><i class="ph ph-pencil-simple"></i> Editar</button>
+                        <button class="btn btn-outline btn-analytics" data-id="2" style="flex: 1; height: 44px; font-size: 0.9rem;"><i class="ph ph-chart-bar"></i> Analítica</button>
+                    </div>
+                </div>
+
+                <!-- Evento 3 (Borrador) -->
+                <div class="event-card glass-panel" data-status="draft" style="grid-column: span 4; padding: 24px; display: flex; flex-direction: column; justify-content: space-between; min-height: 380px;">
+                    <div>
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 15px;">
+                            <span class="badge" style="background: rgba(148, 163, 184, 0.1); color: #64748b; padding: 6px 14px; border-radius: 20px; font-weight: 700; font-size: 0.75rem;">BORRADOR</span>
+                            <div style="width: 44px; height: 44px; background: rgba(148, 163, 184, 0.1); color: #64748b; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem;"><i class="ph-fill ph-code"></i></div>
+                        </div>
+                        <h3 style="font-size: 1.3rem; margin-bottom: 8px;">Networking Tech Vol. 2</h3>
+                        <p style="color: var(--text-muted); font-size: 0.9rem;"><i class="ph ph-calendar"></i> Sin Fecha Definida</p>
+                        <p style="color: var(--text-muted); font-size: 0.9rem;"><i class="ph ph-map-pin"></i> Por definir</p>
+                        
+                        <div style="margin-top: 24px; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.03); height: 80px; border-radius: 16px; border: 1px dashed var(--text-light);">
+                            <p style="color: var(--text-light); font-size: 0.85rem; margin: 0;">Evento incompleto. Termina los detalles.</p>
+                        </div>
+                    </div>
+
+                    <div style="display: flex; gap: 10px; margin-top: 20px;">
+                        <button class="btn btn-primary btn-publish" data-id="3" style="flex: 1; height: 44px; font-size: 0.9rem;"><i class="ph ph-rocket"></i> Publicar</button>
+                        <button class="btn btn-outline btn-delete" data-id="3" style="flex: 1; height: 44px; font-size: 0.9rem; color: #ef4444;"><i class="ph ph-trash"></i> Eliminar</button>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="./js/eventia.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const filterButtons = document.querySelectorAll('.btn-filter');
+            const eventCards = document.querySelectorAll('.event-card');
+
+            filterButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const status = btn.getAttribute('data-status');
+
+                    // Actualizar estilos de botones
+                    filterButtons.forEach(b => {
+                        b.classList.remove('btn-primary');
+                        b.classList.add('glass-panel');
+                    });
+                    btn.classList.add('btn-primary');
+                    btn.classList.remove('glass-panel');
+
+                    // Filtrar tarjetas
+                    eventCards.forEach(card => {
+                        card.style.transition = 'opacity 0.3s, transform 0.3s';
+                        if (status === 'all' || card.getAttribute('data-status') === status) {
+                            card.style.display = 'flex';
+                            setTimeout(() => {
+                                card.style.opacity = '1';
+                                card.style.transform = 'translateY(0)';
+                            }, 10);
+                        } else {
+                            card.style.opacity = '0';
+                            card.style.transform = 'translateY(10px)';
+                            setTimeout(() => {
+                                card.style.display = 'none';
+                            }, 300);
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+    <style>
+        .event-card {
+            transition: opacity 0.3s, transform 0.3s;
+        }
+        .btn-filter {
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+    </style>
+</body>
+</html>

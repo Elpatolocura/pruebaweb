@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eventia Premium - Sube de Nivel</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <!-- CSS -->
+    <link rel="stylesheet" href="./css/styles.css">
+    <style>
+        body {
+            background: radial-gradient(circle at top left, #2c1a4d, #0f172a);
+            min-height: 100vh;
+            color: white;
+            overflow-x: hidden;
+        }
+
+        .premium-hero {
+            text-align: center;
+            padding: 100px 24px 60px;
+            position: relative;
+        }
+
+        .premium-hero::before {
+            content: '';
+            position: absolute; top: -50px; left: 50%; transform: translateX(-50%);
+            width: 300px; height: 300px;
+            background: var(--primary-color);
+            filter: blur(120px);
+            opacity: 0.2;
+            z-index: -1;
+        }
+
+        .premium-title {
+            font-size: clamp(2.5rem, 8vw, 4rem);
+            font-weight: 800;
+            margin-bottom: 16px;
+            background: linear-gradient(to bottom, #fff, #94a3b8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .premium-subtitle {
+            font-size: 1.1rem;
+            color: #94a3b8;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .pricing-cards {
+            display: flex;
+            justify-content: center;
+            gap: 32px;
+            padding: 40px 24px;
+            flex-wrap: wrap;
+        }
+
+        .pricing-card {
+            width: 360px;
+            padding: 48px 32px;
+            border-radius: 32px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(20px);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+        }
+
+        .pricing-card:hover { transform: translateY(-12px); border-color: rgba(255, 255, 255, 0.2); background: rgba(255, 255, 255, 0.05); }
+
+        .pricing-card.popular {
+            border: 2px solid #f59e0b;
+            box-shadow: 0 0 30px rgba(245, 158, 11, 0.15);
+        }
+
+        .popular-badge {
+            position: absolute; top: -14px; left: 50%; transform: translateX(-50%);
+            background: linear-gradient(to right, #f59e0b, #d97706);
+            color: #000; font-size: 0.75rem; font-weight: 800;
+            padding: 6px 16px; border-radius: 20px; text-transform: uppercase;
+        }
+
+        .plan-name { font-size: 1.4rem; font-weight: 700; margin-bottom: 8px; }
+        .plan-price { font-size: 3rem; font-weight: 800; margin-bottom: 24px; display: flex; align-items: baseline; gap: 4px; }
+        .plan-price span { font-size: 1rem; color: #94a3b8; font-weight: 400; }
+
+        .plan-benefits {
+            list-style: none; padding: 0; margin: 32px 0;
+            display: flex; flex-direction: column; gap: 16px;
+        }
+        .benefit-item { display: flex; align-items: center; gap: 12px; font-size: 0.95rem; color: #cbd5e1; }
+        .benefit-item i { color: #f59e0b; font-size: 1.25rem; }
+
+        .btn-premium {
+            width: 100%;
+            padding: 16px;
+            border-radius: 12px;
+            border: none;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 1rem;
+        }
+
+        .btn-gold { background: linear-gradient(to right, #f59e0b, #d97706); color: #000; }
+        .btn-gold:hover { transform: scale(1.02); box-shadow: 0 10px 20px rgba(245, 158, 11, 0.3); }
+
+        .advantage-grid {
+            max-width: 1000px; margin: 80px auto;
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
+            padding: 0 24px;
+        }
+        .adv-card {
+            padding: 32px; border-radius: 24px; background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            text-align: center;
+        }
+        .adv-card i { font-size: 2.5rem; color: #f59e0b; margin-bottom: 16px; display: block; }
+        .adv-card h4 { font-size: 1.1rem; margin-bottom: 8px; font-weight: 700; }
+        .adv-card p { font-size: 0.85rem; color: #94a3b8; line-height: 1.5; }
+
+        .back-link {
+            position: fixed; top: 40px; left: 40px;
+            display: flex; align-items: center; gap: 10px;
+            color: #94a3b8; text-decoration: none; font-weight: 600;
+            padding: 10px 20px; border-radius: 12px; background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.2s;
+            z-index: 9999;
+        }
+        .back-link:hover { color: white; background: rgba(255, 255, 255, 0.08); }
+
+        @media (max-width: 900px) {
+            .advantage-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <a href="ajustes.html" class="back-link" id="back-to-settings"><i class="ph ph-arrow-left"></i> Volver a Ajustes</a>
+
+    <div class="premium-hero">
+        <h1 class="premium-title">Eventia Premium</h1>
+        <p class="premium-subtitle">Desbloquea el poder absoluto de la comunidad. Crea eventos, personaliza tu marca y destaca entre los demás.</p>
+    </div>
+
+    <div class="pricing-cards">
+        <div class="pricing-card">
+            <h3 class="plan-name">Invitado</h3>
+            <div class="plan-price">0€<span>/mes</span></div>
+            <ul class="plan-benefits">
+                <li class="benefit-item"><i class="ph ph-check-circle"></i> Explorar eventos ilimitados</li>
+                <li class="benefit-item"><i class="ph ph-check-circle"></i> Comprar entradas</li>
+                <li class="benefit-item" style="opacity: 0.4;"><i class="ph ph-x-circle"></i> Crear tus propios eventos</li>
+                <li class="benefit-item" style="opacity: 0.4;"><i class="ph ph-x-circle"></i> Personalización VIP</li>
+            </ul>
+            <button class="btn-premium" style="background: rgba(255,255,255,0.08); color: white; cursor: default;">Plan Actual</button>
+        </div>
+
+        <div class="pricing-card popular">
+            <div class="popular-badge">Recomendado</div>
+            <h3 class="plan-name">Organizador Premium</h3>
+            <div class="plan-price">9.99€<span>/mes</span></div>
+            <ul class="plan-benefits">
+                <li class="benefit-item"><i class="ph ph-sparkle"></i> <b>Crea eventos ilimitados</b></li>
+                <li class="benefit-item"><i class="ph ph-sparkle"></i> Estatus Premium y Corona</li>
+                <li class="benefit-item"><i class="ph ph-sparkle"></i> Colores de acento exclusivos</li>
+                <li class="benefit-item"><i class="ph ph-sparkle"></i> Sin anuncios de plataforma</li>
+                <li class="benefit-item"><i class="ph ph-sparkle"></i> Soporte prioritario 24/7</li>
+            </ul>
+            <button class="btn-premium btn-gold" id="buy-premium">Obtener Premium</button>
+        </div>
+    </div>
+
+    <div class="advantage-grid">
+        <div class="adv-card">
+            <i class="ph ph-megaphone"></i>
+            <h4>Crea tus Eventos</h4>
+            <p>Convierte tus ideas en realidad. Organiza conciertos, fiestas o talleres directamente desde la app.</p>
+        </div>
+        <div class="adv-card">
+            <i class="ph ph-palette"></i>
+            <h4>Identidad Única</h4>
+            <p>Accede a temas dorados y personalización de perfil avanzada para atraer a más asistentes.</p>
+        </div>
+        <div class="adv-card">
+            <i class="ph ph-chart-bar"></i>
+            <h4>Analíticas VIP</h4>
+            <p>Mira quién visita tus eventos y optimiza tus ventas con datos en tiempo real.</p>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('buy-premium').addEventListener('click', () => {
+            localStorage.setItem('is-premium', 'true');
+            alert('¡Felicidades! Ahora eres usuario Premium de Eventia.');
+            window.location.href = 'ajustes.html';
+        });
+    </script>
+</body>
+</html>

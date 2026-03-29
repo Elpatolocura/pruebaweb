@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mensajes - Eventia</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <!-- CSS -->
+    <link rel="stylesheet" href="./css/styles.css">
+    <link rel="stylesheet" href="./css/chat.css">
+</head>
+<body>
+
+    <div class="dashboard-layout">
+        
+        <!-- Sidebar -->
+        <aside class="sidebar glass-panel">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <div class="logo-icon"><i class="ph-fill ph-planet"></i></div>
+                    <h2>Eventia</h2>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <ul class="nav-list">
+                    <li class="nav-item">
+                        <a href="index.html"><i class="ph ph-squares-four"></i> Principal</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="explorar-eventos.html"><i class="ph ph-calendar-blank"></i> Explorar Eventos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="mis-entradas.html"><i class="ph ph-ticket"></i> Mis Entradas <span class="badge badge-purple">3</span></a>
+                    </li>
+                    <li class="nav-item active">
+                        <a href="mensajes.html"><i class="ph ph-chat-circle-dots"></i> Mensajes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="estadisticas.html"><i class="ph ph-chart-line-up"></i> Estadísticas</a>
+                    </li>
+                </ul>
+
+                <h3 class="nav-title">ORGANIZACIÓN</h3>
+                <ul class="nav-list">
+                    <li class="nav-item">
+                        <a href="comunidad.html"><i class="ph ph-users"></i> Comunidad</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="ajustes.html"><i class="ph ph-gear"></i> Ajustes</a>
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="create-btn-container">
+                    <a href="crear-evento.html" class="btn btn-primary w-full"><i class="ph ph-plus"></i> Crear Evento</a>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            
+            <!-- Header -->
+            <header class="top-header">
+                <div class="search-bar glass-panel">
+                    <i class="ph ph-magnifying-glass"></i>
+                    <input type="text" placeholder="Buscar mensajes, contactos...">
+                </div>
+
+                <div class="header-actions">
+                    <button class="icon-btn"><i class="ph ph-bell"></i><span class="notification-dot"></span></button>
+                    <div class="user-profile">
+                        <img src="https://i.pravatar.cc/150?img=68" alt="Usuario" class="avatar">
+                        <div class="user-info">
+                            <span class="user-name">Alex Rivera</span>
+                            <span class="user-role">Organizador</span>
+                        </div>
+                        <i class="ph ph-caret-down"></i>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Chat Container -->
+            <div class="chat-wrapper glass-panel">
+                
+                <!-- Chat List Sidebar -->
+                <div class="chat-sidebar">
+                    <div class="chat-sidebar-header">
+                        <h2>Chats</h2>
+                        <button class="icon-btn"><i class="ph ph-pencil-simple"></i></button>
+                    </div>
+                    
+                    <div class="chat-list">
+                        
+                        <!-- CATEGORÃA: GRUPOS DE EVENTO -->
+                        <h3 class="nav-title" style="padding-left: 20px; font-size: 0.70rem;">Chats Comunitarios (Eventos)</h3>
+
+                        <!-- Contact Group Item -->
+                        <div class="contact-item active">
+                            <div class="contact-group-icon bg-purple-light"><i class="ph-fill ph-users-three"></i></div>
+                            <div class="contact-info">
+                                <div class="c-top">
+                                    <h4>Festival Indie Rock</h4>
+                                    <span class="c-time">10:45</span>
+                                </div>
+                                <div class="c-bottom">
+                                    <p class="c-message"><strong>Alex R.:</strong> Â¡Bienvenidos todos! El escenario principal ya estÃ¡ listo.</p>
+                                    <span class="badge badge-purple">12</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Contact Group Item 2 -->
+                        <div class="contact-item">
+                            <div class="contact-group-icon bg-green-light"><i class="ph-fill ph-palette"></i></div>
+                            <div class="contact-info">
+                                <div class="c-top">
+                                    <h4>Taller de Pintura Urbana</h4>
+                                    <span class="c-time">Ayer</span>
+                                </div>
+                                <div class="c-bottom">
+                                    <p class="c-message"><strong>Mike T.:</strong> Â¿Llevo mis propios pinceles?</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- CATEGORÃA: ORGANIZADORES (DIRECTOS) -->
+                        <h3 class="nav-title" style="padding-left: 20px; margin-top: 16px; font-size: 0.70rem;">Mensajes Privados (Organizadores)</h3>
+
+                        <!-- Contact Item -->
+                        <div class="contact-item">
+                            <img src="https://i.pravatar.cc/100?img=33" alt="User" class="contact-avatar">
+                            <div class="contact-info">
+                                <div class="c-top">
+                                    <h4>Diana Walters <span class="badge" style="background:var(--success-light);color:var(--success-color);font-size:0.6rem;padding:2px 4px;margin-left:4px;">Org</span></h4>
+                                    <span class="c-time">Lun</span>
+                                </div>
+                                <div class="c-bottom">
+                                    <p class="c-message text-read"><i class="ph ph-checks"></i> Todo listo para tu acceso TheVIP.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Contact Item -->
+                        <div class="contact-item">
+                            <img src="https://i.pravatar.cc/100?img=11" alt="User" class="contact-avatar">
+                            <div class="contact-info">
+                                <div class="c-top">
+                                    <h4>Christopher <span class="badge" style="background:var(--success-light);color:var(--success-color);font-size:0.6rem;padding:2px 4px;margin-left:4px;">Org</span></h4>
+                                    <span class="c-time">Dom</span>
+                                </div>
+                                <div class="c-bottom">
+                                    <p class="c-message">Te he mandado la propuesta de colaboraciÃ³n, Â¿la logras ver?</p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Chat Active View (Hidden by default) -->
+                <div class="chat-main" id="chat-window" style="display: none;">
+                    
+                    <div class="chat-main-header">
+                        <div class="active-contact-info">
+                            <div class="contact-group-icon bg-purple-light" style="width: 40px; height: 40px;" id="active-chat-icon"><i class="ph-fill ph-users-three"></i></div>
+                            <div>
+                                <h3 id="active-chat-name">Festival Indie Rock (Grupo)</h3>
+                                <p class="online-status" style="color: var(--primary-color); font-weight: 500;" id="active-chat-status"><span class="ph ph-users"></span> 42 Participantes</p>
+                            </div>
+                        </div>
+                        <div class="chat-header-actions">
+                            <button class="icon-btn" title="Detalles del Evento"><i class="ph ph-calendar-plus"></i></button>
+                            <button class="icon-btn" title="Silenciar Notificaciones"><i class="ph ph-bell-slash"></i></button>
+                            <button class="icon-btn" title="Ajustes de Grupo"><i class="ph ph-gear"></i></button>
+                        </div>
+                    </div>
+
+                    <div class="chat-messages-area">
+                        <div class="date-divider"><span>Hoy, 10:00</span></div>
+
+                        <div class="date-divider" style="margin-bottom:20px;">
+                            <span style="background: var(--primary-light); color: var(--primary-dark);"><i class="ph ph-info"></i> El Organizador ha abierto el Chat</span>
+                        </div>
+
+                        <div class="message-bubble received">
+                            <img src="https://i.pravatar.cc/100?img=8" alt="Participante" class="msg-avatar">
+                            <div class="msg-content">
+                                <p style="font-weight: 700; font-size: 0.8rem; color: var(--warning-color); margin-bottom: 2px;">Anette Simons</p>
+                                <p>¡Qué emoción! Tengo unas dudas, ¿hay zona de parqueadero público ahí mismo?</p>
+                                <span class="msg-time">10:30</span>
+                            </div>
+                        </div>
+
+                        <div class="message-bubble sent">
+                            <div class="msg-content">
+                                <p>¡Hola Anette! Sí, en la entrada oeste habilitamos una extensa cuadra que funciona de parqueadero seguro con nuestro equipo de logística.</p>
+                                <span class="msg-time">10:32 <i class="ph ph-checks"></i></span>
+                            </div>
+                        </div>
+
+                        <div class="message-bubble received">
+                            <img src="https://i.pravatar.cc/100?img=12" alt="Participante 2" class="msg-avatar">
+                            <div class="msg-content">
+                                <p style="font-weight: 700; font-size: 0.8rem; color: var(--success-color); margin-bottom: 2px;">Mike Loke</p>
+                                <p>Genial, nos vemos ahí. 🥳</p>
+                                <span class="msg-time">10:41</span>
+                            </div>
+                        </div>
+                        
+                        <div class="message-bubble sent" style="margin-top: 10px;">
+                            <div class="msg-content" style="background: var(--primary-dark);">
+                                <p>¡Bienvenidos todos! El escenario principal ya está listo.</p>
+                                <span class="msg-time">10:45 <i class="ph ph-checks"></i></span>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="chat-input-area">
+                        <button class="icon-btn"><i class="ph ph-paperclip"></i></button>
+                        <input type="text" placeholder="Escribe un mensaje..." class="chat-input" autofocus>
+                        <button class="icon-btn"><i class="ph ph-smiley"></i></button>
+                        <button class="btn btn-primary send-btn"><i class="ph ph-paper-plane-right"></i></button>
+                    </div>
+
+                </div>
+
+                <!-- Chat Empty State (Shown by default) -->
+                <div class="chat-main" id="chat-empty-state" style="display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 40px; background: rgba(var(--primary-rgb, 99, 102, 241), 0.02);">
+                    <div style="width: 120px; height: 120px; border-radius: 50%; background: var(--panel-bg); display: flex; align-items: center; justify-content: center; margin-bottom: 24px; box-shadow: var(--shadow-md);">
+                        <i class="ph ph-chat-circle-dots" style="font-size: 4rem; color: var(--primary-color); opacity: 0.5;"></i>
+                    </div>
+                    <h2 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 12px;">Tus Mensajes</h2>
+                    <p style="color: var(--text-muted); max-width: 300px; line-height: 1.6;">Selecciona un chat del grupo de eventos o un organizador para empezar a hablar.</p>
+                </div>
+
+            </div>
+
+
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const contacts = document.querySelectorAll('.contact-item');
+            const chatWindow = document.getElementById('chat-window');
+            const emptyState = document.getElementById('chat-empty-state');
+            
+            const activeName = document.getElementById('active-chat-name');
+            const activeIcon = document.getElementById('active-chat-icon');
+            const activeStatus = document.getElementById('active-chat-status');
+
+            contacts.forEach(contact => {
+                // Quitar active por defecto para el estado inicial solicitado
+                contact.classList.remove('active');
+
+                contact.addEventListener('click', () => {
+                    // UI Update List
+                    contacts.forEach(c => c.classList.remove('active'));
+                    contact.classList.add('active');
+
+                    // Show Chat, Hide Empty
+                    emptyState.style.display = 'none';
+                    chatWindow.style.display = 'flex';
+
+                    // Update Chat Header (Dynamic Feel)
+                    const name = contact.querySelector('h4').textContent;
+                    activeName.innerText = name;
+                    
+                    // Icon logic
+                    const groupIcon = contact.querySelector('.contact-group-icon');
+                    const userAvatar = contact.querySelector('.contact-avatar');
+
+                    if (groupIcon) {
+                        activeIcon.innerHTML = groupIcon.innerHTML;
+                        activeIcon.className = groupIcon.className;
+                        activeIcon.style.width = '40px';
+                        activeStatus.innerHTML = '<i class="ph ph-users"></i> Grupo de Evento';
+                    } else if (userAvatar) {
+                        activeIcon.innerHTML = `<img src="${userAvatar.src}" style="width:100%; height:100%; border-radius:50%; object-fit:cover;">`;
+                        activeIcon.className = '';
+                        activeIcon.style.width = '40px';
+                        activeIcon.style.height = '40px';
+                        activeStatus.innerHTML = '<i class="ph ph-circle-fill" style="color:var(--success-color); font-size:0.6rem;"></i> En línea';
+                    }
+                });
+            });
+        });
+    </script>
+    <script src="./js/eventia.js"></script>
+</body>
+</html>
+
+
