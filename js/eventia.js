@@ -126,6 +126,39 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     initializeNotifications();
 
+    // ─── 2.6 SOPORTE MOBILE (Hamburguesa y Overlay) ──────────────
+    const setupMobileMenu = () => {
+        // Inyectar Overlay si no existe
+        if (!document.querySelector('.sidebar-overlay')) {
+            const overlay = document.createElement('div');
+            overlay.className = 'sidebar-overlay';
+            document.body.appendChild(overlay);
+        }
+
+        // Inyectar Botón Hamburguesa en el Header si no existe
+        const header = document.querySelector('.top-header');
+        if (header && !document.querySelector('.mobile-menu-btn')) {
+            const menuBtn = document.createElement('button');
+            menuBtn.className = 'mobile-menu-btn';
+            menuBtn.innerHTML = '<i class="ph ph-list"></i>';
+            header.prepend(menuBtn);
+
+            menuBtn.onclick = () => {
+                const sidebar = document.querySelector('.sidebar');
+                const overlay = document.querySelector('.sidebar-overlay');
+                if (sidebar) sidebar.classList.toggle('active');
+                if (overlay) overlay.classList.toggle('active');
+            };
+        }
+
+        // Cerrar al clickear overlay
+        document.querySelector('.sidebar-overlay').onclick = () => {
+            document.querySelector('.sidebar')?.classList.remove('active');
+            document.querySelector('.sidebar-overlay')?.classList.remove('active');
+        };
+    };
+    setupMobileMenu();
+
     // ─── 3. CARGA DEL SIDEBAR (Rediseño Moderno Orange) ───────────
 
     const loadSidebar = () => {
@@ -159,93 +192,96 @@ document.addEventListener('DOMContentLoaded', () => {
                 <div class="logo">
                     <div class="logo-icon"><i class="ph-fill ph-planet"></i></div>
                     <h2>Eventia</h2>
+                    <button class="mobile-close-btn" style="display:none; margin-left:auto; font-size:1.5rem; color:var(--text-muted);"><i class="ph ph-x"></i></button>
                 </div>
             </div>
             
             <nav class="sidebar-nav">
-                <!-- SECCIÓN GENERAL -->
                 <h3 class="nav-title">GENERAL</h3>
                 <ul class="nav-list">
-                    <li class="nav-item ${isLocked('index.html') ? 'locked' : ''} ${currentPage === 'index.html' ? 'active' : ''}" 
-                        ${isLocked('index.html') ? 'data-tooltip="Disponible solo para usuarios Premium. Actualiza tu plan para desbloquear esta función."' : ''}>
+                    <li class="nav-item ${isLocked('index.html') ? 'locked' : ''} ${currentPage === 'index.html' ? 'active' : ''}">
                         <a href="${isLocked('index.html') ? '#' : 'index.html'}">
                             <i class="ph ph-squares-four${currentPage === 'index.html' ? '-fill' : ''}"></i> 
-                            Principal ${isLocked('index.html') ? '<i class="ph-fill ph-crown" style="font-size: 0.85rem; color: var(--primary-color); margin-left: 4px;"></i>' : ''}
+                            <span>Principal</span> ${isLocked('index.html') ? '<i class="ph-fill ph-crown" style="color:var(--primary-color);"></i>' : ''}
                         </a>
                     </li>
                     <li class="nav-item ${(currentPage === 'explorar-eventos.html' || currentPage === 'explorar-mapa.html') ? 'active' : ''}">
                         <a href="explorar-eventos.html">
                             <i class="ph ph-compass${(currentPage === 'explorar-eventos.html' || currentPage === 'explorar-mapa.html') ? '-fill' : ''}"></i> 
-                            Explorar Eventos
+                            <span>Explorar Eventos</span>
                         </a>
                     </li>
                 </ul>
 
-                <!-- SECCIÓN ORGANIZACIÓN -->
                 <h3 class="nav-title">ORGANIZACIÓN</h3>
                 <ul class="nav-list">
-                    <li class="nav-item ${isLocked('mis-eventos.html') ? 'locked' : ''} ${currentPage === 'mis-eventos.html' ? 'active' : ''}"
-                        ${isLocked('mis-eventos.html') ? 'data-tooltip="Disponible solo para usuarios Premium. Actualiza tu plan para desbloquear esta función."' : ''}>
+                    <li class="nav-item ${isLocked('mis-eventos.html') ? 'locked' : ''} ${currentPage === 'mis-eventos.html' ? 'active' : ''}">
                         <a href="${isLocked('mis-eventos.html') ? '#' : 'mis-eventos.html'}">
                             <i class="ph ph-calendar-blank${currentPage === 'mis-eventos.html' ? '-fill' : ''}"></i> 
-                            Mis Eventos ${isLocked('mis-eventos.html') ? '<i class="ph-fill ph-crown" style="font-size: 0.85rem; color: var(--primary-color); margin-left: 4px;"></i>' : ''}
+                            <span>Mis Eventos</span> ${isLocked('mis-eventos.html') ? '<i class="ph-fill ph-crown" style="color:var(--primary-color);"></i>' : ''}
                         </a>
                     </li>
                     <li class="nav-item ${currentPage === 'mis-entradas.html' ? 'active' : ''}">
                         <a href="mis-entradas.html">
                             <i class="ph ph-ticket${currentPage === 'mis-entradas.html' ? '-fill' : ''}"></i> 
-                            Mis Entradas 
-                            <span class="badge-purple">3</span>
+                            <span>Mis Entradas</span>
                         </a>
                     </li>
                     <li class="nav-item ${currentPage === 'mensajes.html' ? 'active' : ''}">
                         <a href="mensajes.html">
                             <i class="ph ph-chat-circle-dots${currentPage === 'mensajes.html' ? '-fill' : ''}"></i> 
-                            Mensajes
+                            <span>Mensajes</span>
                         </a>
                     </li>
-                    <li class="nav-item ${isLocked('estadisticas.html') ? 'locked' : ''} ${currentPage === 'estadisticas.html' ? 'active' : ''}"
-                        ${isLocked('estadisticas.html') ? 'data-tooltip="Disponible solo para usuarios Premium. Actualiza tu plan para desbloquear esta función."' : ''}>
+                    <li class="nav-item ${isLocked('estadisticas.html') ? 'locked' : ''} ${currentPage === 'estadisticas.html' ? 'active' : ''}">
                         <a href="${isLocked('estadisticas.html') ? '#' : 'estadisticas.html'}">
                             <i class="ph ph-chart-line-up${currentPage === 'estadisticas.html' ? '-fill' : ''}"></i> 
-                            Estadísticas ${isLocked('estadisticas.html') ? '<i class="ph-fill ph-crown" style="font-size: 0.85rem; color: var(--primary-color); margin-left: 4px;"></i>' : ''}
+                            <span>Estadísticas</span> ${isLocked('estadisticas.html') ? '<i class="ph-fill ph-crown" style="color:var(--primary-color);"></i>' : ''}
                         </a>
                     </li>
                     <li class="nav-item ${currentPage === 'comunidad.html' ? 'active' : ''}">
                         <a href="comunidad.html">
                             <i class="ph ph-users${currentPage === 'comunidad.html' ? '-fill' : ''}"></i> 
-                            Comunidad
+                            <span>Comunidad</span>
                         </a>
                     </li>
                 </ul>
 
-                <!-- SECCIÓN CONFIGURACIÓN -->
                 <h3 class="nav-title">SISTEMA</h3>
                 <ul class="nav-list">
                     <li class="nav-item ${currentPage === 'ajustes.html' ? 'active' : ''}">
                         <a href="ajustes.html">
                             <i class="ph ph-gear${currentPage === 'ajustes.html' ? '-fill' : ''}"></i> 
-                            Ajustes
+                            <span>Ajustes</span>
                         </a>
                     </li>
                 </ul>
             </nav>
 
             <div class="sidebar-footer">
-                <div class="tooltip-container" ${isLocked('crear-evento.html') ? 'data-tooltip="Disponible solo para usuarios Premium. Actualiza tu plan para desbloquear esta función."' : (currentPage !== 'index.html' ? 'data-tooltip="Disponible solo en Principal"' : '')}>
-                    <button class="btn-create-event ${isLocked('crear-evento.html') ? 'locked' : ''}" 
-                            ${(currentPage !== 'index.html' && !isLocked('crear-evento.html')) ? 'disabled' : ''}>
-                        <i class="ph ph-plus-circle"></i> Crear Evento ${isLocked('crear-evento.html') ? '<i class="ph-fill ph-crown" style="font-size: 1rem; color: var(--primary-color); margin-left: 6px;"></i>' : ''}
-                    </button>
-                </div>
-                
-                <a href="#" class="logout-link" id="sidebar-logout" style="margin-top: 16px; display: flex; align-items: center; gap: 12px; padding: 10px 14px; border-radius: 12px; color: #94a3b8; font-weight: 500; font-size: 0.9rem; transition: background 0.2s;">
-                    <i class="ph ph-sign-out"></i> Cerrar Sesión
+                <button class="btn-create-event ${isLocked('crear-evento.html') ? 'locked' : ''}">
+                    <i class="ph ph-plus-circle"></i> <span>Crear Evento</span>
+                </button>
+                <a href="#" class="logout-link" id="sidebar-logout">
+                    <i class="ph ph-sign-out"></i> <span>Cerrar Sesión</span>
                 </a>
             </div>
         </aside>`;
 
         container.innerHTML = sidebarHTML;
+
+        // Configurar botones de cierre en mobile
+        const sidebar = container.querySelector('.sidebar');
+        const overlay = document.querySelector('.sidebar-overlay');
+        const closeBtn = container.querySelector('.mobile-close-btn');
+
+        if (closeBtn) {
+            closeBtn.style.display = window.innerWidth <= 768 ? 'block' : 'none';
+            closeBtn.onclick = () => {
+                sidebar.classList.remove('active');
+                if (overlay) overlay.classList.remove('active');
+            };
+        }
     };
     loadSidebar();
 
