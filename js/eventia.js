@@ -4,14 +4,35 @@ document.addEventListener('DOMContentLoaded', () => {
     // ─── 1. GESTIÓN DE TEMAS Y APARIENCIA ──────────────────────────
     const applyGlobalTheme = () => {
         const root = document.documentElement;
-        root.style.setProperty('--primary-color', localStorage.getItem('eventia-primary-color') || '#6366f1');
-        root.style.setProperty('--primary-light', localStorage.getItem('eventia-primary-light') || 'rgba(99, 102, 241, 0.1)');
-        root.style.setProperty('--primary-dark', localStorage.getItem('eventia-primary-dark') || '#4f46e5');
+        root.style.setProperty('--primary-color', localStorage.getItem('eventia-primary-color') || '#ff6b00');
+        root.style.setProperty('--primary-light', localStorage.getItem('eventia-primary-light') || '#fff7ed');
+        root.style.setProperty('--primary-dark', localStorage.getItem('eventia-primary-dark') || '#ea580c');
 
         const savedTheme = localStorage.getItem('eventia-theme') || 'light';
         document.body.classList.toggle('dark-theme', savedTheme === 'dark' || (savedTheme === 'auto' && window.matchMedia('(prefers-color-scheme: dark)').matches));
     };
     applyGlobalTheme();
+
+    const isPremium = localStorage.getItem('is-premium') === 'true';
+    const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+
+    // ─── 1.5 PROTECCIÓN DE NAVEGACIÓN SEGÚN PLAN ─────────────────
+    // Asegurar que el flag de "bienvenida vista" esté presente si el usuario está en el dashboard
+    if (currentPage !== 'welcome.html' && currentPage !== 'login.html' && currentPage !== 'registro.html' && currentPage !== 'onboarding.html') {
+        localStorage.setItem('eventia-welcome-seen', 'true');
+    }
+
+    // Si un usuario NO es premium e intenta entrar a Principal (index.html), redirigir
+    if (!isPremium && (currentPage === 'index.html' || currentPage === '')) {
+        window.location.replace('explorar-eventos.html');
+        return;
+    }
+
+    // Función global para redirección inicial post-login/onboarding
+    window.redirectToStart = () => {
+        const premium = localStorage.getItem('is-premium') === 'true';
+        window.location.href = premium ? 'index.html' : 'explorar-eventos.html';
+    };
 
     // ─── 2. INYECCIÓN DE ESTILOS GLOBALES ──────────────────────────
     const injectGlobalStyles = () => {
@@ -55,116 +76,246 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     injectGlobalStyles();
 
-    // ─── 3. CARGA DEL SIDEBAR ─────────────────────────────────────
-    const currentPage = window.location.pathname.split('/').pop() || 'index.html';
-    const isPremium = localStorage.getItem('is-premium') === 'true';
+    // ─── 2.5 INICIALIZACIÓN DE NOTIFICACIONES ──────────────────────
+    let dropdown;
+    const initializeNotifications = () => {
+        if (document.getElementById('notif-dropdown-global')) {
+            dropdown = document.getElementById('notif-dropdown-global');
+            return;
+        }
 
-    const loadSidebar = () => {
-        const sidebarContainer = document.getElementById('sidebar-container');
-        if (!sidebarContainer) return;
-        
-        sidebarContainer.innerHTML = `
-        <aside class="sidebar glass-panel">
-            <div class="sidebar-header"><div class="logo"><div class="logo-icon"><i class="ph-fill ph-planet"></i></div><h2>Eventia</h2></div></div>
-            <nav class="sidebar-nav">
-                <ul class="nav-list">
-                    <li class="nav-item ${currentPage === 'index.html' ? 'active' : ''}" data-page="index.html"><a href="index.html"><i class="ph ph-squares-four"></i> Principal</a></li>
-                    <li class="nav-item ${currentPage === 'explorar-eventos.html' ? 'active' : ''}" data-page="explorar-eventos.html"><a href="explorar-eventos.html"><i class="ph ph-calendar-blank"></i> Explorar Eventos</a></li>
-                    <li class="nav-item premium-feature ${currentPage === 'mis-eventos.html' ? 'active' : ''}" data-page="mis-eventos.html"><a href="#"><i class="ph ph-list-bullets"></i> Mis Eventos <i class="ph-fill ph-crown" style="font-size: 0.75rem; margin-left: auto; color: #f59e0b;"></i></a></li>
-                    <li class="nav-item ${currentPage === 'mis-entradas.html' ? 'active' : ''}" data-page="mis-entradas.html"><a href="mis-entradas.html"><i class="ph ph-ticket"></i> Mis Entradas <span class="badge badge-purple">3</span></a></li>
-                    <li class="nav-item ${currentPage === 'mensajes.html' ? 'active' : ''}" data-page="mensajes.html"><a href="mensajes.html"><i class="ph ph-chat-circle-dots"></i> Mensajes</a></li>
-                    <li class="nav-item premium-feature ${currentPage === 'estadisticas.html' ? 'active' : ''}" data-page="estadisticas.html"><a href="#"><i class="ph ph-chart-line-up"></i> Estadísticas <i class="ph-fill ph-crown" style="font-size: 0.75rem; margin-left: auto; color: #f59e0b;"></i></a></li>
-                </ul>
-                <h3 class="nav-title">ORGANIZACIÓN</h3>
-                <ul class="nav-list">
-                    <li class="nav-item ${currentPage === 'comunidad.html' ? 'active' : ''}" data-page="comunidad.html"><a href="comunidad.html"><i class="ph ph-users"></i> Comunidad</a></li>
-                    <li class="nav-item ${currentPage === 'ajustes.html' ? 'active' : ''}" data-page="ajustes.html"><a href="ajustes.html"><i class="ph ph-gear"></i> Ajustes</a></li>
-                </ul>
-            </nav>
-            <div class="sidebar-footer">
-                <div class="create-btn-container" style="display: flex; flex-direction: column; width: 100%; padding: 0 16px 16px;">
-                    <a href="#" class="btn btn-primary premium-feature" id="sidebar-create-btn" data-page="crear-evento.html" style="width: 100%; justify-content: center; margin-bottom: 8px; position: relative;">
-                        <i class="ph ph-plus"></i> Crear Evento
-                        <i class="ph-fill ph-crown" style="position: absolute; top: -5px; right: -5px; font-size: 0.9rem; color: #f59e0b; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));"></i>
-                    </a>
-                    <a href="#" class="logout-link" id="sidebar-logout" style="color: #ef4444; display: flex; align-items: center; gap: 12px; padding: 10px 0; font-weight: 500; font-size: 0.95rem; text-decoration: none;"><i class="ph ph-sign-out"></i> Cerrar Sesión</a>
+        dropdown = document.createElement('div');
+        dropdown.id = 'notif-dropdown-global';
+        dropdown.className = 'notif-dropdown-global';
+        dropdown.innerHTML = `
+            <div class="notif-header">
+                <h3>Notificaciones</h3>
+                <span onclick="this.closest('.notif-dropdown-global').classList.remove('active')">Cerrar</span>
+            </div>
+            <div class="notif-list-global">
+                <div class="notif-item-global">
+                    <div class="notif-icon-global" style="background: rgba(255, 107, 0, 0.1); color: var(--primary-color);">
+                        <i class="ph-fill ph-ticket"></i>
+                    </div>
+                    <div class="notif-content-global">
+                        <p><strong>Entrada confirmada:</strong> Tu ticket para "Indie Rock" está listo.</p>
+                        <span>Hace 5 minutos</span>
+                    </div>
+                </div>
+                <div class="notif-item-global">
+                    <div class="notif-icon-global" style="background: rgba(59, 130, 246, 0.1); color: #3b82f6;">
+                        <i class="ph-fill ph-chat-circle-dots"></i>
+                    </div>
+                    <div class="notif-content-global">
+                        <p><strong>Nuevo mensaje:</strong> Sofía Martí te ha escrito al chat.</p>
+                        <span>Hace 12 minutos</span>
+                    </div>
+                </div>
+                <div class="notif-item-global">
+                    <div class="notif-icon-global" style="background: rgba(16, 185, 129, 0.1); color: #10b981;">
+                        <i class="ph-fill ph-shield-check"></i>
+                    </div>
+                    <div class="notif-content-global">
+                        <p><strong>Seguridad:</strong> Se ha iniciado sesión desde un nuevo dispositivo.</p>
+                        <span>Ayer, 20:30</span>
+                    </div>
                 </div>
             </div>
+        `;
+        document.body.appendChild(dropdown);
+    };
+    initializeNotifications();
+
+    // ─── 3. CARGA DEL SIDEBAR (Rediseño Moderno Orange) ───────────
+
+    const loadSidebar = () => {
+        let container = document.getElementById('sidebar-container');
+        if (!container) {
+            const existingSidebar = document.querySelector('aside.sidebar');
+            if (existingSidebar) {
+                container = document.createElement('div');
+                container.id = 'sidebar-container';
+                existingSidebar.parentNode.replaceChild(container, existingSidebar);
+            } else {
+                const layout = document.querySelector('.dashboard-layout');
+                if (layout) {
+                    container = document.createElement('div');
+                    container.id = 'sidebar-container';
+                    layout.prepend(container);
+                }
+            }
+        }
+
+        if (!container) return;
+
+        const isLocked = (page) => {
+            const premiumPages = ['index.html', 'mis-eventos.html', 'estadisticas.html', 'crear-evento.html'];
+            return !isPremium && premiumPages.includes(page);
+        };
+
+        const sidebarHTML = `
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <div class="logo-icon"><i class="ph-fill ph-planet"></i></div>
+                    <h2>Eventia</h2>
+                </div>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <!-- SECCIÓN GENERAL -->
+                <h3 class="nav-title">GENERAL</h3>
+                <ul class="nav-list">
+                    <li class="nav-item ${isLocked('index.html') ? 'locked' : ''} ${currentPage === 'index.html' ? 'active' : ''}" 
+                        ${isLocked('index.html') ? 'data-tooltip="Disponible solo para usuarios Premium. Actualiza tu plan para desbloquear esta función."' : ''}>
+                        <a href="${isLocked('index.html') ? '#' : 'index.html'}">
+                            <i class="ph ph-squares-four${currentPage === 'index.html' ? '-fill' : ''}"></i> 
+                            Principal ${isLocked('index.html') ? '<i class="ph-fill ph-crown" style="font-size: 0.85rem; color: var(--primary-color); margin-left: 4px;"></i>' : ''}
+                        </a>
+                    </li>
+                    <li class="nav-item ${(currentPage === 'explorar-eventos.html' || currentPage === 'explorar-mapa.html') ? 'active' : ''}">
+                        <a href="explorar-eventos.html">
+                            <i class="ph ph-compass${(currentPage === 'explorar-eventos.html' || currentPage === 'explorar-mapa.html') ? '-fill' : ''}"></i> 
+                            Explorar Eventos
+                        </a>
+                    </li>
+                </ul>
+
+                <!-- SECCIÓN ORGANIZACIÓN -->
+                <h3 class="nav-title">ORGANIZACIÓN</h3>
+                <ul class="nav-list">
+                    <li class="nav-item ${isLocked('mis-eventos.html') ? 'locked' : ''} ${currentPage === 'mis-eventos.html' ? 'active' : ''}"
+                        ${isLocked('mis-eventos.html') ? 'data-tooltip="Disponible solo para usuarios Premium. Actualiza tu plan para desbloquear esta función."' : ''}>
+                        <a href="${isLocked('mis-eventos.html') ? '#' : 'mis-eventos.html'}">
+                            <i class="ph ph-calendar-blank${currentPage === 'mis-eventos.html' ? '-fill' : ''}"></i> 
+                            Mis Eventos ${isLocked('mis-eventos.html') ? '<i class="ph-fill ph-crown" style="font-size: 0.85rem; color: var(--primary-color); margin-left: 4px;"></i>' : ''}
+                        </a>
+                    </li>
+                    <li class="nav-item ${currentPage === 'mis-entradas.html' ? 'active' : ''}">
+                        <a href="mis-entradas.html">
+                            <i class="ph ph-ticket${currentPage === 'mis-entradas.html' ? '-fill' : ''}"></i> 
+                            Mis Entradas 
+                            <span class="badge-purple">3</span>
+                        </a>
+                    </li>
+                    <li class="nav-item ${currentPage === 'mensajes.html' ? 'active' : ''}">
+                        <a href="mensajes.html">
+                            <i class="ph ph-chat-circle-dots${currentPage === 'mensajes.html' ? '-fill' : ''}"></i> 
+                            Mensajes
+                        </a>
+                    </li>
+                    <li class="nav-item ${isLocked('estadisticas.html') ? 'locked' : ''} ${currentPage === 'estadisticas.html' ? 'active' : ''}"
+                        ${isLocked('estadisticas.html') ? 'data-tooltip="Disponible solo para usuarios Premium. Actualiza tu plan para desbloquear esta función."' : ''}>
+                        <a href="${isLocked('estadisticas.html') ? '#' : 'estadisticas.html'}">
+                            <i class="ph ph-chart-line-up${currentPage === 'estadisticas.html' ? '-fill' : ''}"></i> 
+                            Estadísticas ${isLocked('estadisticas.html') ? '<i class="ph-fill ph-crown" style="font-size: 0.85rem; color: var(--primary-color); margin-left: 4px;"></i>' : ''}
+                        </a>
+                    </li>
+                    <li class="nav-item ${currentPage === 'comunidad.html' ? 'active' : ''}">
+                        <a href="comunidad.html">
+                            <i class="ph ph-users${currentPage === 'comunidad.html' ? '-fill' : ''}"></i> 
+                            Comunidad
+                        </a>
+                    </li>
+                </ul>
+
+                <!-- SECCIÓN CONFIGURACIÓN -->
+                <h3 class="nav-title">SISTEMA</h3>
+                <ul class="nav-list">
+                    <li class="nav-item ${currentPage === 'ajustes.html' ? 'active' : ''}">
+                        <a href="ajustes.html">
+                            <i class="ph ph-gear${currentPage === 'ajustes.html' ? '-fill' : ''}"></i> 
+                            Ajustes
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="tooltip-container" ${isLocked('crear-evento.html') ? 'data-tooltip="Disponible solo para usuarios Premium. Actualiza tu plan para desbloquear esta función."' : (currentPage !== 'index.html' ? 'data-tooltip="Disponible solo en Principal"' : '')}>
+                    <button class="btn-create-event ${isLocked('crear-evento.html') ? 'locked' : ''}" 
+                            ${(currentPage !== 'index.html' && !isLocked('crear-evento.html')) ? 'disabled' : ''}>
+                        <i class="ph ph-plus-circle"></i> Crear Evento ${isLocked('crear-evento.html') ? '<i class="ph-fill ph-crown" style="font-size: 1rem; color: var(--primary-color); margin-left: 6px;"></i>' : ''}
+                    </button>
+                </div>
+                
+                <a href="#" class="logout-link" id="sidebar-logout" style="margin-top: 16px; display: flex; align-items: center; gap: 12px; padding: 10px 14px; border-radius: 12px; color: #94a3b8; font-weight: 500; font-size: 0.9rem; transition: background 0.2s;">
+                    <i class="ph ph-sign-out"></i> Cerrar Sesión
+                </a>
+            </div>
         </aside>`;
+
+        container.innerHTML = sidebarHTML;
     };
     loadSidebar();
 
-    // ─── 4. ALERTA PREMIUM REUTILIZABLE ───────────────────────────
-    const showPremiumAlert = () => {
-        if (document.getElementById('premium-alert')) return; // Previene spam de alertas
-        const alert = document.createElement('div');
-        alert.id = 'premium-alert';
-        alert.style.cssText = `
-            position: fixed; top: 32px; left: 50%; transform: translateX(-50%);
-            background: rgba(15, 23, 42, 0.9); backdrop-filter: blur(12px);
-            color: white; padding: 20px 32px; border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.4); z-index: 100000;
-            display: flex; align-items: center; gap: 16px; border: 1px solid rgba(245, 158, 11, 0.3);
-            animation: slideIntoView 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    // ─── 4. MODAL PREMIUM REUTILIZABLE ───────────────────────────
+    const showPremiumModal = () => {
+        if (document.getElementById('premium-modal-container')) return;
+
+        const modalOverlay = document.createElement('div');
+        modalOverlay.id = 'premium-modal-container';
+        modalOverlay.style.cssText = `
+            position: fixed; inset: 0; background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(8px); z-index: 1000000;
+            display: flex; align-items: center; justify-content: center; padding: 20px;
+            animation: fadeIn 0.3s ease;
         `;
-        alert.innerHTML = `
-            <div style="background: #f59e0b; color: white; width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;"><i class="ph-fill ph-crown"></i></div>
-            <div>
-                <h4 style="margin: 0; font-size: 1.1rem;">Función de Pago</h4>
-                <p style="margin: 4px 0 0; font-size: 0.9rem; opacity: 0.8;">Sube a <strong>Premium</strong> para desbloquear esta herramienta.</p>
+
+        modalOverlay.innerHTML = `
+            <div class="premium-modal glass-panel" style="max-width: 440px; width: 100%; padding: 40px; text-align: center; background: white; border-radius: 32px; box-shadow: 0 30px 60px rgba(0,0,0,0.2);">
+                <div style="width: 80px; height: 80px; background: var(--primary-color); color: white; border-radius: 24px; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; margin: 0 auto 24px; box-shadow: var(--shadow-colored);">
+                    <i class="ph-fill ph-crown"></i>
+                </div>
+                <h2 style="font-size: 1.8rem; margin-bottom: 12px; font-weight: 800; letter-spacing: -1px;">Función Premium</h2>
+                <p style="color: var(--text-muted); line-height: 1.6; margin-bottom: 32px; font-size: 1.05rem;">
+                    Esta función está disponible solo para usuarios <strong>Premium</strong>. 
+                    Únete a la élite de Eventia para desbloquear todo el potencial.
+                </p>
+                <div style="display: flex; flex-direction: column; gap: 12px;">
+                    <button id="upgrade-btn" class="btn btn-primary" style="padding: 16px; font-weight: 700; font-size: 1rem; border-radius: 16px;">
+                        Actualizar a Premium
+                    </button>
+                    <button id="close-modal-btn" class="btn btn-outline" style="padding: 14px; font-weight: 600; font-size: 0.95rem; border: none; color: var(--text-muted);">
+                        Ahora no, gracias
+                    </button>
+                </div>
             </div>
-            <button onclick="window.location='premium.html'" style="background: #f59e0b; color: white; border: none; padding: 10px 18px; border-radius: 12px; font-weight: 700; cursor: pointer; margin-left: 10px;">Mejorar</button>
         `;
-        document.body.appendChild(alert);
 
-        setTimeout(() => {
-            const el = document.getElementById('premium-alert');
-            if(el) { el.style.animation = 'slideOutOfView 0.5s ease forwards'; setTimeout(() => el.remove(), 500); }
-        }, 4000);
+        document.body.appendChild(modalOverlay);
+
+        const closeModal = () => {
+            modalOverlay.style.opacity = '0';
+            modalOverlay.style.transition = 'opacity 0.3s ease';
+            setTimeout(() => modalOverlay.remove(), 300);
+        };
+
+        document.getElementById('upgrade-btn').onclick = () => window.location.href = 'premium.html';
+        document.getElementById('close-modal-btn').onclick = closeModal;
+        modalOverlay.onclick = (e) => { if (e.target === modalOverlay) closeModal(); };
     };
-
-    // ─── 5. SISTEMA DE NOTIFICACIONES ─────────────────────────────
-    let dropdown = document.querySelector('.notif-dropdown-global');
-    if (!dropdown) {
-        dropdown = document.createElement('div');
-        dropdown.className = 'notif-dropdown-global';
-        dropdown.innerHTML = `
-            <div class="notif-header"><h3>Notificaciones</h3><span>Marcar como leído</span></div>
-            <div class="notif-list-global">
-                <div class="notif-item-global">
-                    <div class="notif-icon-global" style="background: rgba(245, 158, 11, 0.1); color: #f59e0b;"><i class="ph ph-calendar-check"></i></div>
-                    <div class="notif-content-global"><p>Tu evento <strong>"Workshop UI"</strong> ha sido aprobado.</p><span>Hace 2 horas</span></div>
-                </div>
-                <div class="notif-item-global" style="background: var(--primary-light);">
-                    <div class="notif-icon-global" style="background: var(--primary-color); color: white;"><i class="ph ph-ticket"></i></div>
-                    <div class="notif-content-global"><p>¡Nuevo ticket vendido para <strong>Summer Fest!</strong></p><span>Hace 5 horas</span></div>
-                </div>
-                <div class="notif-item-global">
-                    <div class="notif-icon-global" style="background: rgba(16, 185, 129, 0.1); color: #10b981;"><i class="ph ph-user-plus"></i></div>
-                    <div class="notif-content-global"><p><strong>Maria Lopez</strong> se ha unido a tu comunidad.</p><span>Ayer</span></div>
-                </div>
-            </div>`;
-        document.body.appendChild(dropdown);
-    }
 
     // ─── 6. DELEGACIÓN DE EVENTOS GLOBAL (Optimizada) ─────────────
     document.addEventListener('click', (e) => {
         // A. Manejo de Logout
         if (e.target.closest('#sidebar-logout')) {
             e.preventDefault();
-            if (confirm('¿Cerrar sesión?')) { localStorage.clear(); window.location.href = 'login.html'; }
+            if (confirm('¿Cerrar sesión?')) {
+                // Logout selectivo: borrar solo la sesión, mantener preferencias
+                localStorage.removeItem('is-premium');
+                // Opcional: localStorage.removeItem('eventia-welcome-seen'); // Si quieres que vuelvan a ver el splash
+                window.location.href = 'login.html';
+            }
             return;
         }
 
-        // B. Manejo de Funciones Premium en Sidebar
-        const premiumBtn = e.target.closest('.premium-feature');
-        if (premiumBtn) {
+        // B. Manejo de Funciones Premium Bloqueadas
+        const lockedItem = e.target.closest('.locked');
+        if (lockedItem) {
             e.preventDefault();
-            if (!isPremium) {
-                showPremiumAlert();
-            } else {
-                window.location.href = premiumBtn.getAttribute('data-page');
-            }
+            e.stopPropagation();
+            showPremiumModal();
             return;
         }
 
@@ -177,16 +328,18 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         // D. Apertura/Cierre de Notificaciones
-        const bellBtn = e.target.closest('.ph-bell')?.parentElement || e.target.closest('.icon-btn');
-        if (bellBtn && bellBtn.querySelector('.ph-bell')) {
+        const bellBtn = e.target.closest('.ph-bell')?.parentElement || e.target.closest('button.icon-btn');
+        if (bellBtn && (bellBtn.querySelector('.ph-bell') || bellBtn.classList.contains('ph-bell'))) {
             e.preventDefault();
             e.stopPropagation();
-            dropdown.classList.toggle('active');
-            
-            const rect = bellBtn.getBoundingClientRect();
-            dropdown.style.top = `${rect.bottom + 15}px`;
-            dropdown.style.right = `${window.innerWidth - rect.right}px`;
-        } else if (!dropdown.contains(e.target)) {
+            if (dropdown) {
+                dropdown.classList.toggle('active');
+
+                const rect = bellBtn.getBoundingClientRect();
+                dropdown.style.top = `${rect.bottom + 15}px`;
+                dropdown.style.right = `${window.innerWidth - rect.right}px`;
+            }
+        } else if (dropdown && dropdown.classList.contains('active') && !dropdown.contains(e.target)) {
             dropdown.classList.remove('active');
         }
     });

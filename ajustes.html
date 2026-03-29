@@ -13,12 +13,6 @@
     <!-- CSS -->
     <link rel="stylesheet" href="./css/styles.css">
     <link rel="stylesheet" href="./css/ajustes.css">
-    <script>
-        // --- Redirección Splash Screen ---
-        if (!localStorage.getItem('eventia-welcome-seen')) {
-            window.location.href = 'welcome.html';
-        }
-    </script>
 </head>
 <body>
 
@@ -547,12 +541,17 @@
                                     </div>
                                     <div class="input-group">
 
-                                        <label>Color de Acento</label>
+                                        <label>Color de Acento (Identidad de Marca)</label>
                                         <div class="color-picker-grid" style="display: flex; flex-wrap: wrap; gap: 12px; margin-top: 8px;">
-                                            <div class="color-option active" data-primary="#6366f1" data-light="rgba(99, 102, 241, 0.15)" data-dark="#4f46e5" style="width: 32px; height: 32px; border-radius: 50%; background: #6366f1; border: 3px solid white; box-shadow: 0 0 0 2px #6366f1; cursor: pointer; transition: all 0.2s;"></div>
+                                            <!-- Official Eventia Orange -->
+                                            <div class="color-option active" data-primary="#ff6b00" data-light="#fff7ed" data-dark="#ea580c" style="width: 32px; height: 32px; border-radius: 50%; background: #ff6b00; border: 3px solid white; box-shadow: 0 0 0 2px #ff6b00; cursor: pointer; transition: all 0.2s;"></div>
+                                            
+                                            <div class="color-option" data-primary="#6366f1" data-light="rgba(99, 102, 241, 0.15)" data-dark="#4f46e5" style="width: 32px; height: 32px; border-radius: 50%; background: #6366f1; border: 3px solid white; cursor: pointer; transition: all 0.2s;"></div>
                                             <div class="color-option" data-primary="#ec4899" data-light="rgba(236, 72, 153, 0.15)" data-dark="#db2777" style="width: 32px; height: 32px; border-radius: 50%; background: #ec4899; border: 3px solid white; cursor: pointer; transition: all 0.2s;"></div>
                                             <div class="color-option" data-primary="#22c55e" data-light="rgba(34, 197, 94, 0.15)" data-dark="#16a34a" style="width: 32px; height: 32px; border-radius: 50%; background: #22c55e; border: 3px solid white; cursor: pointer; transition: all 0.2s;"></div>
                                             <div class="color-option" data-primary="#3b82f6" data-light="rgba(59, 130, 246, 0.15)" data-dark="#2563eb" style="width: 32px; height: 32px; border-radius: 50%; background: #3b82f6; border: 3px solid white; cursor: pointer; transition: all 0.2s;"></div>
+                                            
+                                            <!-- Gold Premium -->
                                             <div class="color-option premium-only" data-primary="#f59e0b" data-light="rgba(245, 158, 11, 0.15)" data-dark="#d97706" style="width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, #f59e0b, #fbbf24); border: 3px solid white; cursor: pointer; transition: all 0.2s; position: relative; display: flex; align-items: center; justify-content: center;">
                                                 <i class="ph-fill ph-crown" style="font-size: 0.7rem; color: white;"></i>
                                             </div>
@@ -874,7 +873,9 @@
                 btn.addEventListener('click', (e) => {
                     e.preventDefault();
                     if (confirm('¿Estás seguro de que deseas cerrar sesión?')) {
-                        localStorage.clear();
+                        // Logout selectivo
+                        localStorage.removeItem('is-premium');
+                        // No borramos preferences o welcome-seen para evitar redirecciones accidentales
                         window.location.href = 'login.html';
                     }
                 });

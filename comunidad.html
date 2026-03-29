@@ -20,41 +20,128 @@
             margin-top: 24px;
         }
         .user-profile-card {
-            padding: 24px;
+            padding: 40px 32px;
             display: flex;
             flex-direction: column;
             align-items: center;
             text-align: center;
+            border-radius: 80px; /* Squircle design - more space for buttons */
+            background: white;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.03);
+            border: 1px solid rgba(0,0,0,0.05);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            width: 100%;
+            max-width: 300px;
+            margin: 0 auto;
+            position: relative;
+        }
+        .user-profile-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 40px 80px rgba(0,0,0,0.06);
+        }
+        .avatar-container {
+            position: relative;
+            margin-bottom: 24px;
         }
         .user-profile-card img {
-            width: 80px;
-            height: 80px;
+            width: 110px;
+            height: 110px;
             border-radius: 50%;
             object-fit: cover;
-            margin-bottom: 12px;
-            border: 3px solid white;
-            box-shadow: var(--shadow-sm);
+            border: 4px solid #ff6b00; /* Eventia Orange Border */
+            padding: 4px;
+            background: white;
+        }
+        .crown-badge {
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 32px;
+            height: 32px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            color: #f59e0b;
+            font-size: 1.2rem;
+            z-index: 2;
         }
         .user-profile-card h3 {
-            font-size: 1.1rem;
-            margin-bottom: 4px;
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: #1e293b;
+            margin-bottom: 6px;
+            letter-spacing: -0.5px;
         }
-        .user-profile-card p {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            margin-bottom: 16px;
+        .user-profile-card .role-text {
+            font-size: 0.95rem;
+            color: #94a3b8;
+            font-weight: 500;
+            margin-bottom: 24px;
         }
         .social-stats {
             display: flex;
-            gap: 20px;
-            margin-bottom: 20px;
+            justify-content: center;
+            gap: 32px;
+            margin-bottom: 32px;
+            width: 100%;
         }
         .social-stat {
             display: flex;
             flex-direction: column;
+            gap: 4px;
         }
-        .social-stat strong { color: var(--text-main); font-size: 1.1rem;}
-        .social-stat span { color: var(--text-light); font-size: 0.75rem;}
+        .social-stat strong { 
+            color: #1e293b; 
+            font-size: 1.4rem; 
+            font-weight: 800;
+        }
+        .social-stat span { 
+            color: #94a3b8; 
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: capitalize;
+        }
+        
+        .follow-btn {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 14px 24px; /* Reduced horizontal padding */
+            border-radius: 100px;
+            font-weight: 800;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.3s;
+            box-shadow: 0 10px 20px rgba(255, 107, 0, 0.2);
+            flex: 1;
+            white-space: nowrap;
+        }
+        .follow-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 30px rgba(255, 107, 0, 0.3);
+        }
+        .message-icon-btn {
+            width: 54px;
+            height: 54px;
+            border-radius: 50%;
+            border: 1px solid #e2e8f0;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #64748b;
+            font-size: 1.4rem;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .message-icon-btn:hover {
+            background: #f8fafc;
+            border-color: #cbd5e1;
+        }
         
         /* Estilos de Filtros */
         .filter-tags-inner { 
@@ -189,30 +276,42 @@
         function createProfileCard() {
             const isOrganizer = Math.random() > 0.5;
             const typeClass = isOrganizer ? 'organizer' : 'participant';
-            const targetUrl = isOrganizer ? 'perfil-organizador.html' : 'perfil.html';
-            const crownIcon = isOrganizer ? '<i class="ph-fill ph-crown" style="color: #f59e0b; position: absolute; margin-top: -15px; background: white; border-radius: 50%; padding: 4px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); font-size: 1.1rem;"></i>' : '';
+            const targetUrl = isOrganizer ? 'perfil-organizador.html' : 'perfil-usuario.html';
             
             const randomName = names[Math.floor(Math.random() * names.length)];
             const randomRole = isOrganizer ? orgRoles[Math.floor(Math.random() * orgRoles.length)] : partRoles[Math.floor(Math.random() * partRoles.length)];
             const randomImgId = Math.floor(Math.random() * 70);
             
-            const randomFollowers = isOrganizer ? (Math.random() * 10).toFixed(1) + "k" : Math.floor(Math.random() * 400 + 50);
+            const randomFollowers = isOrganizer ? (Math.random() * 8 + 1).toFixed(1) + "k" : Math.floor(Math.random() * 400 + 50);
             const randomEvents = isOrganizer ? Math.floor(Math.random() * 150 + 10) : Math.floor(Math.random() * 30);
             const eventLabel = isOrganizer ? 'Eventos Creados' : 'Eventos Asistidos';
 
             return `
-                <div class="user-profile-card user-profile glass-panel" data-role-type="${typeClass}" data-url="${targetUrl}" style="animation: fadeInUp 0.5s ease forwards; position: relative;">
-                    ${crownIcon}
-                    <img src="https://i.pravatar.cc/150?img=${randomImgId}" alt="${isOrganizer ? 'Organizador' : 'Participante'}" style="${isOrganizer ? 'border-color: #f59e0b;' : ''}">
-                    <h3>${randomName}</h3>
-                    <p>${randomRole}</p>
-                    <div class="social-stats">
-                        <div class="social-stat"><strong>${randomFollowers}</strong><span>Seguidores</span></div>
-                        <div class="social-stat"><strong>${randomEvents}</strong><span>${eventLabel}</span></div>
+                <div class="user-profile-card glass-panel" data-role-type="${typeClass}" style="animation: fadeInUp 0.5s ease forwards;">
+                    <div class="avatar-container" onclick="window.location.href='${targetUrl}'" style="cursor:pointer;">
+                        ${isOrganizer ? '<div class="crown-badge"><i class="ph-fill ph-crown"></i></div>' : ''}
+                        <img src="https://i.pravatar.cc/150?img=${randomImgId}" alt="${randomName}">
                     </div>
-                    <div style="display:flex; gap:10px; width:100%;">
-                        <button class="btn btn-primary" style="flex:1;" onclick="toggleFollow(this)">Seguir</button>
-                        <button class="icon-btn" onclick="window.location.href='mensajes.html'"><i class="ph ph-chat-circle"></i></button>
+                    
+                    <h3>${randomName}</h3>
+                    <p class="role-text">${randomRole}</p>
+                    
+                    <div class="social-stats">
+                        <div class="social-stat">
+                            <strong>${randomFollowers}</strong>
+                            <span>Seguidores</span>
+                        </div>
+                        <div class="social-stat">
+                            <strong>${randomEvents}</strong>
+                            <span>${eventLabel}</span>
+                        </div>
+                    </div>
+                    
+                    <div style="display:flex; gap:10px; width:90%; align-items:center; margin-top: auto;">
+                        <button class="follow-btn" onclick="toggleFollow(this); event.stopPropagation();">Seguir</button>
+                        <button class="message-icon-btn" onclick="window.location.href='mensajes.html'; event.stopPropagation();">
+                            <i class="ph ph-chat-circle"></i>
+                        </button>
                     </div>
                 </div>
             `;

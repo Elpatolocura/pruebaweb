@@ -2,12 +2,12 @@
    Variables y CSS Reset
    ========================================================================== */
    :root {
-    /* Paleta de colores Premium */
-    --primary-color: #6366f1; /* Indigo vibrante */
-    --primary-light: #e0e7ff;
-    --primary-dark: #4f46e5;
+    /* Paleta de colores Eventia Orange */
+    --primary-color: #ff6b00;
+    --primary-light: #fff7ed;
+    --primary-dark: #ea580c;
     
-    --success-color: #10b981; /* Verde esmeralda */
+    --success-color: #10b981;
     --success-light: #d1fae5;
     
     --warning-color: #f59e0b;
@@ -19,8 +19,8 @@
     --danger-color: #ef4444;
     --danger-light: #fee2e2;
 
-    --bg-color: #f8fafc; /* Gris muy claro, limpio */
-    --panel-bg: rgba(255, 255, 255, 0.85); /* Glassmorphism background */
+    --bg-color: #f8fafc;
+    --panel-bg: rgba(255, 255, 255, 0.85);
     --panel-border: rgba(255, 255, 255, 0.4);
     
     --text-main: #1e293b;
@@ -31,7 +31,7 @@
     --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
     --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.02);
     --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.02);
-    --shadow-colored: 0 10px 25px -5px rgba(99, 102, 241, 0.4);
+    --shadow-colored: 0 10px 25px -5px rgba(255, 107, 0, 0.4);
     
     --radius-sm: 8px;
     --radius-md: 16px;
@@ -202,89 +202,269 @@ button {
 /* ==========================================================================
    Sidebar
    ========================================================================== */
+/* ==========================================================================
+   Sidebar Moderno - Eventia (Dynamic Theme support)
+   ========================================================================== */
+:root {
+    --sidebar-bg: #ffffff;
+    --sidebar-active-bg: var(--primary-color);
+    --sidebar-active-text: #ffffff;
+    --sidebar-inactive-text: #64748b;
+    --sidebar-hover-bg: #f8fafc;
+    --sidebar-hover-text: var(--primary-color);
+    --sidebar-label: #94a3b8;
+    --sidebar-border: rgba(0, 0, 0, 0.05);
+    --sidebar-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+}
+
+body.dark-theme {
+    --sidebar-bg: #1e293b;
+    --sidebar-inactive-text: #94a3b8;
+    --sidebar-hover-bg: rgba(255, 255, 255, 0.03);
+    --sidebar-hover-text: var(--primary-color);
+    --sidebar-label: #64748b;
+    --sidebar-border: rgba(255, 255, 255, 0.08);
+}
+
 .sidebar {
     display: flex;
     flex-direction: column;
-    padding: 24px;
+    padding: 24px 16px;
     height: 100%;
+    background: var(--sidebar-bg);
+    border-right: 1px solid var(--sidebar-border);
+    box-shadow: var(--sidebar-shadow);
+    position: relative;
+    z-index: 100;
 }
 
 .sidebar-header .logo {
     display: flex;
     align-items: center;
     gap: 12px;
-    margin-bottom: 40px;
+    margin-bottom: 32px;
+    padding-left: 12px;
 }
 
 .logo-icon {
-    width: 40px;
-    height: 40px;
-    border-radius: 12px;
-    background: linear-gradient(135deg, var(--primary-color), var(--info-color));
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background: var(--primary-color);
     color: white;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.5rem;
-    box-shadow: var(--shadow-md);
+    font-size: 1.3rem;
+    box-shadow: var(--shadow-colored);
 }
 
 .logo h2 {
-    font-size: 1.5rem;
-    font-weight: 700;
+    font-size: 1.4rem;
+    font-weight: 800;
     color: var(--text-main);
-    letter-spacing: -0.5px;
+    letter-spacing: -1px;
 }
 
 .sidebar-nav {
     flex: 1;
     overflow-y: auto;
+    padding-right: 4px;
 }
 
+/* Custom Scrollbar for Sidebar */
+.sidebar-nav::-webkit-scrollbar { width: 4px; }
+.sidebar-nav::-webkit-scrollbar-track { background: transparent; }
+.sidebar-nav::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.05); border-radius: 10px; }
+
 .nav-title {
-    font-size: 0.75rem;
+    font-size: 0.7rem;
     text-transform: uppercase;
-    letter-spacing: 1px;
-    color: var(--text-light);
-    margin: 24px 0 12px 16px;
-    font-weight: 600;
+    letter-spacing: 1.5px;
+    color: var(--sidebar-label);
+    margin: 24px 0 12px 12px;
+    font-weight: 700;
 }
 
 .nav-list {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 4px;
+}
+
+.nav-item {
+    list-style: none;
 }
 
 .nav-item a {
     display: flex;
     align-items: center;
     gap: 12px;
-    padding: 12px 16px;
-    border-radius: var(--radius-md);
-    color: var(--text-muted);
+    padding: 10px 14px;
+    border-radius: 12px;
+    color: var(--sidebar-inactive-text);
     font-weight: 500;
-    transition: var(--transition);
+    font-size: 0.95rem;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
 }
 
 .nav-item a i {
-    font-size: 1.25rem;
+    font-size: 1.3rem;
+    transition: transform 0.2s;
 }
 
 .nav-item a:hover {
-    background-color: var(--bg-color);
-    color: var(--primary-color);
+    background-color: var(--sidebar-hover-bg);
+    color: var(--sidebar-hover-text);
+}
+
+.nav-item a:hover i {
+    transform: translateX(2px);
 }
 
 .nav-item.active a {
-    background-color: var(--primary-color);
+    background-color: var(--sidebar-active-bg);
+    color: var(--sidebar-active-text);
+    box-shadow: 0 8px 16px rgba(255, 107, 0, 0.25);
+}
+
+.nav-item.active a i {
     color: white;
-    box-shadow: 0 4px 12px rgba(var(--primary-rgb, 99, 102, 241), 0.3);
+}
+
+.nav-item .badge-purple {
+    margin-left: auto;
+    background: #f1f5f9;
+    color: #475569;
+    font-size: 0.7rem;
+    padding: 2px 8px;
+    border-radius: 8px;
 }
 
 .nav-item.active a .badge-purple {
-    background: rgba(255,255,255,0.2);
+    background: rgba(255, 255, 255, 0.2);
     color: white;
+}
+
+/* Premium Locking System */
+.nav-item.locked, .btn-create-event.locked {
+    opacity: 0.5 !important;
+    filter: grayscale(0.8);
+    cursor: not-allowed !important;
+}
+
+.nav-item.locked a, .btn-create-event.locked {
+    pointer-events: none;
+}
+
+.nav-item.locked, .btn-create-event.locked {
+    pointer-events: auto; /* Allow hover for tooltip */
+}
+
+[data-tooltip] {
+    position: relative;
+}
+
+[data-tooltip]::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: calc(100% + 15px);
+    left: 50%;
+    transform: translateX(-50%) translateY(10px);
+    background: #1e293b;
+    color: white;
+    padding: 10px 16px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    white-space: normal;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 10000;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    pointer-events: none;
+    width: 220px;
+    line-height: 1.4;
+    text-align: center;
+}
+
+[data-tooltip]:hover::after {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+}
+
+/* Footer Section & Fixed Button */
+.sidebar-footer {
+    border-top: 1px solid var(--sidebar-border);
+    padding-top: 20px;
+    margin-top: 20px;
+}
+
+.btn-create-event {
+    width: 100%;
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 14px;
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: var(--shadow-colored);
+}
+
+.btn-create-event:hover:not(:disabled):not(.locked) {
+    background: var(--primary-dark);
+    transform: translateY(-2px);
+    filter: brightness(1.1);
+}
+
+.btn-create-event:disabled {
+    background: #f1f5f9;
+    color: #94a3b8;
+    box-shadow: none;
+    cursor: not-allowed;
+    opacity: 0.8;
+}
+
+.dark-theme .btn-create-event:disabled {
+    background: rgba(255, 255, 255, 0.05);
+    color: #475569;
+}
+
+/* Tooltip simple for disabled button */
+.tooltip-container {
+    position: relative;
+    width: 100%;
+}
+
+.tooltip-container[data-tooltip]:hover:disabled::before {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 120%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #334155;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-size: 0.75rem;
+    white-space: nowrap;
+    z-index: 1000;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    animation: fadeIn 0.2s forwards;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translate(-50%, 5px); }
+    to { opacity: 1; transform: translate(-50%, 0); }
 }
 
 /* ==========================================================================

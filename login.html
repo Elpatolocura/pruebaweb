@@ -187,6 +187,20 @@
         if (savedTheme === 'dark' || (savedTheme === 'auto' && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
             document.body.classList.add('dark-theme');
         }
+
+        // Manejo de redirección según el plan
+        document.querySelector('.auth-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            // Aquí iría la validación real de login, por ahora simulamos
+            const isPremium = localStorage.getItem('is-premium') === 'true';
+            
+            // Usamos replace para que no puedan volver atrás al login fácilmente
+            if (isPremium) {
+                window.location.replace('index.html');
+            } else {
+                window.location.replace('explorar-eventos.html');
+            }
+        });
     </script>
 </body>
 </html>
